@@ -1,0 +1,23 @@
+{
+  "name": "crm.analytics",
+  "version": "0.0.1",
+  "main": "app/app.js",
+  "repository": "https://github.com/3cL1p5e7/crm.analytics.git",
+  "author": "Roman Belov <3cL1p5e7@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "dev": "node ./index.js dev",
+    "build": "NODE_ENV=prod webpack"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "css-loader": "^0.28.0",
+    "express": "^4.15.2",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "less-loader": "^4.0.3",
+    "webpack": "^2.4.1"
+  }
+}
