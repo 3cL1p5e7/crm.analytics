@@ -4,26 +4,16 @@ import { Router, Route, browserHistory } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory'
 
 import Main from './components/main';
-import { AppContainer } from 'react-hot-loader';
-import 'react-hot-loader/patch';
 
 const history = createBrowserHistory();
 
 const render = (Component) => {
   ReactDOM.render(
     <Router history={history}>
-      <AppContainer>
-          <Route path="/" component={Component} />
-      </AppContainer>
+      <Route path="/" component={Component} />
     </Router>,
     document.getElementById('react-root')
   );
 };
 
 render(Main);
-
-if (module.hot) {
-  module.hot.accept('./components/main', () => {
-    render(Main)
-  });
-}

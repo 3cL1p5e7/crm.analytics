@@ -3,6 +3,7 @@ var join = path.join;
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
+var prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
   context: join(__dirname, 'app'),
@@ -11,9 +12,7 @@ module.exports = {
       // "babel", "babel-core"
     ],
     app: [
-      './app.js',
-      `webpack-hot-middleware/client`,
-      'react-hot-loader/patch'
+      './app.js'
     ]
   },
   output: {
@@ -34,7 +33,15 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
+      {
         test: /\.less$/,
+        // loader: "style-loader!css-loader!less-loader"
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader!less-loader'
@@ -43,8 +50,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
     new ExtractTextPlugin("app.bundle.css")
   ]
