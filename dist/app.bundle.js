@@ -2690,7 +2690,7 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'render',
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'app' });
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'app' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null, 'Hello mazafaka'));
     }
   }]);
 
