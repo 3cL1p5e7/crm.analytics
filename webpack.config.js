@@ -9,12 +9,11 @@ module.exports = {
   entry: {
     vendor: ["react", "react-dom", "react-hot-loader"
       // "babel", "babel-core"
-    ], // test!
+    ],
     app: [
       './app.js',
       `webpack-hot-middleware/client`,
-      'react-hot-loader/patch',
-      'webpack/hot/dev-server'
+      'react-hot-loader/patch'
     ]
   },
   output: {
@@ -33,9 +32,6 @@ module.exports = {
         include: [path.resolve(__dirname, 'app')],
         exclude: /node_modules/,
         loader: 'babel-loader'
-        // query: {
-        //   presets: ['es2015', 'react']
-        // }
       },
       {
         test: /\.less$/,
@@ -49,12 +45,8 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    // new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
     new ExtractTextPlugin("app.bundle.css")
-    // new WriteFilePlugin({
-    //   test: /\.js$/
-    // })
   ]
 };
 

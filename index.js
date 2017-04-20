@@ -1,6 +1,7 @@
 var webpack = require('webpack'),
   webpackconfig = require('./webpack.config.js'),
   webpackcompiler = webpack(webpackconfig);
+var shell = require('shelljs');
 
 var port = 8080;
 var express = require('express');
@@ -14,6 +15,15 @@ if (process.env.NODE_ENV !== 'production') {
     publicPath: webpackconfig.output.publicPath
   }));
   app.use(require('webpack-hot-middleware')(webpackcompiler));
+
+  shell.exec('webpack --watch',
+    { silent: false },
+    (code, stdout, stderr) => {
+      if (code === 0)
+        return resolve();
+      reject(stderr);
+    }
+  );
 } else {
   console.log('PRODUCTION ENVIRONMENT');
 }
