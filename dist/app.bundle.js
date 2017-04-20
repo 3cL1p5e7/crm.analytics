@@ -2689,7 +2689,7 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'render',
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'arrr' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null, 'Hello mazafaka'));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'test' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null, 'Hello mazafaka'));
     }
   }]);
 

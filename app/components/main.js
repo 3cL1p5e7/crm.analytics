@@ -5,7 +5,7 @@ require("../rrrr.less");
 export default class Main extends Component {
   render() {
     return (
-      <div className="arrr">
+      <div className="test">
         <h1>Hello mazafaka</h1>
       </div>
     );
