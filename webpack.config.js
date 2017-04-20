@@ -23,14 +23,14 @@ module.exports = {
   module: {
     loaders: [{
         test: /\.jsx?$/,
-        use: ['babel-loader'],
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.js$/,
         include: [path.resolve(__dirname, 'app')],
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader!stylextract-loader'
       },
       {
         test: /\.css$/,
@@ -41,11 +41,14 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        // loader: "style-loader!css-loader!less-loader"
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader!less-loader'
         })
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css-loader!less-loader')
       }
     ]
   },

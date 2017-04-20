@@ -1,12 +1,16 @@
+const css = <style>
+  .app {
+    background: steelblue;
+    color: white;
+  }
+</style>
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-require("../rrrr.less");
-
 export default class Main extends Component {
   render() {
     return (
-      <div className="test">
-        <h1>Hello mazafaka</h1>
+      <div className="app">
       </div>
     );
   }

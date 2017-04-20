@@ -2673,9 +2673,10 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
+var css = __webpack_require__(95);
 
 
-__webpack_require__(95);
+
 
 var Main = function (_Component) {
   _inherits(Main, _Component);
@@ -2689,7 +2690,7 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'render',
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'test' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null, 'Hello mazafaka'));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'app' });
     }
   }]);
 
