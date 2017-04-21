@@ -3,28 +3,52 @@ var join = path.join;
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
+var prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  context: join(__dirname, 'app'),
   entry: {
-    vendor: ["acorn"], // test!
-    app: './app/app.js'
+    vendor: ["react", "react-dom", "react-hot-loader"
+      // "babel", "babel-core"
+    ],
+    app: [
+      './app.js'
+    ]
   },
   output: {
     filename: 'app.bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/'
   },
   module: {
-    loaders: [
+    loaders: [{
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.js$/,
         include: [path.resolve(__dirname, 'app')],
-        loader: 'babel-loader'
+        exclude: /node_modules/,
+        loader: 'babel-loader!stylextract-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       },
       {
         test: /\.less$/,
-        include: [path.resolve(__dirname, 'app')],
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader',
-                use: 'css-loader!less-loader' })
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader!less-loader'
+        })
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css-loader!less-loader')
       }
     ]
   },
@@ -34,7 +58,7 @@ module.exports = {
   ]
 };
 
-if (process.env.NODE_ENV === 'prod') {
+if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = module.exports.plugins.concat([
     new webpack.optimize.UglifyJsPlugin({
       output: {
@@ -46,4 +70,7 @@ if (process.env.NODE_ENV === 'prod') {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(true)
   ]);
+} else {
+  module.exports.devtool = '#source-map';
+  module.exports.watchOptions = { poll: true };
 }
