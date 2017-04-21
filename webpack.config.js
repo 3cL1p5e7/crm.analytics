@@ -29,29 +29,28 @@ module.exports = {
       {
         test: /\.js$/,
         include: [path.resolve(__dirname, 'app')],
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         loader: 'babel-loader!stylextract-loader'
       },
       {
         test: /\.css$/,
+        exclude: [/dist/],
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
         })
       },
       {
-        test: /\.less$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader!less-loader'
-        })
-      },
-      {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css-loader!less-loader')
+        loader: ExtractTextPlugin.extract('css-loader!sass-loader')
       }
     ]
   },
+  // resolve: {
+  //   alias: {
+  //     'uikit': path.resolve(__dirname, 'app/uikit/')
+  //   }
+  // },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
     new ExtractTextPlugin("app.bundle.css")

@@ -1,21 +1,18 @@
 const css = <style>
-  .app {
-    background: steelblue;
+  .calendar-desk {
+    background: green;
     color: white;
   }
 </style>
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-export default class Main extends Component {
+export default class CalendarDesk extends Component {
   render() {
     return (
-      <div className="app">
+      <div className="calendar-desk">
         <h1>Hello mazafaka</h1>
       </div>
     );
   }
-}
-Main.contextTypes = {
-  router: PropTypes.object.isRequired
 }

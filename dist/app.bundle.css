@@ -1,6 +1,21 @@
-.app {
-  background: steelblue;
-  color: white;
-}
+.modules-container {
+  display: flex;
+  flex-direction: column; }
+  .modules-container__header {
+    height: 55px;
+    background-color: red; }
+  .modules-container__modules {
+    background-color: green;
+    display: flex;
+    flex-basis: 100%; }
+.zalupa {
+  color: red; }
+
+.calendar {
+  background: red;
+  color: white; }
+.calendar-desk {
+  background: green;
+  color: white; }
 
 /*# sourceMappingURL=app.bundle.css.map*/

@@ -3,17 +3,12 @@ import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory'
 
-import Main from './components/main';
+import Modules from './modules/modules';
 
 const history = createBrowserHistory();
-
-const render = (Component) => {
-  ReactDOM.render(
-    <Router history={history}>
-      <Route path="/" component={Component} />
-    </Router>,
-    document.getElementById('react-root')
-  );
-};
-
-render(Main);
+ReactDOM.render(
+  <Router history={history}>
+    <Route path="/" component={Modules} />
+  </Router>,
+  document.getElementById('react-root')
+);
