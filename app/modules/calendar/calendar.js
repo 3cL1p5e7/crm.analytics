@@ -1,7 +1,4 @@
-const css = <style>
-  .zalupa{
-    color: red;
-  }
+<style lang="sass">
   .calendar {
     background: red;
     color: white;

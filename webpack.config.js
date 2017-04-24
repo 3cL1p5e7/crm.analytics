@@ -21,16 +21,10 @@ module.exports = {
     publicPath: '/dist/'
   },
   module: {
-    loaders: [{
+    rules: [{
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
-        include: [path.resolve(__dirname, 'app')],
-        exclude: [/node_modules/, /dist/],
-        loader: 'babel-loader!stylextract-loader'
       },
       {
         test: /\.css$/,
@@ -41,16 +35,24 @@ module.exports = {
         })
       },
       {
+        test: /\.js$/,
+        include: [path.resolve(__dirname, 'app')],
+        exclude: [/node_modules/, /dist/],
+        loader: 'babel-loader!react-vue-style-loader'
+      },
+      {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css-loader!sass-loader')
       }
     ]
   },
-  // resolve: {
-  //   alias: {
-  //     'uikit': path.resolve(__dirname, 'app/uikit/')
-  //   }
-  // },
+  resolve: {
+    modules: [
+      path.join(__dirname, 'app'),
+      path.join(__dirname, 'uikit'),
+      "node_modules"
+    ]
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
     new ExtractTextPlugin("app.bundle.css")

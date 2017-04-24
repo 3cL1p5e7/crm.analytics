@@ -3095,6 +3095,10 @@ react-router@^4.1.1:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
+react-vue-style-loader@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-vue-style-loader/-/react-vue-style-loader-0.0.5.tgz#2183a12ca4a9de9a41208d8a2d287bd6d4836f8e"
+
 react@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
@@ -3602,10 +3606,6 @@ style-loader@^0.16.1:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.16.1.tgz#50e325258d4e78421dd9680636b41e8661595d10"
   dependencies:
     loader-utils "^1.0.2"
-
-stylextract-loader@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/stylextract-loader/-/stylextract-loader-0.0.2.tgz#19cec8728e5536eced103965fab707110c9eb44d"
 
 supports-color@^2.0.0:
   version "2.0.0"
