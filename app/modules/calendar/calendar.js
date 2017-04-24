@@ -1,6 +1,7 @@
 <style lang="sass">
   .calendar {
-    background: red;
+    display: flex;
+    flex-grow: 1;
     color: white;
   }
 </style>
@@ -14,7 +15,7 @@ export default class Calendar extends Component {
   render() {
     return (
       <div className="calendar">
-        <Route path="/" component={CalendarDesk} />
+        <Route path="/" render={() => <CalendarDesk test3="dsfdsssgssd"/>} />
         <Route path="/desk" component={CalendarDesk} />
       </div>
     );

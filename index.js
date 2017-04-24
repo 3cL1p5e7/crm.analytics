@@ -6,11 +6,14 @@ var port = 8080;
 var express = require('express');
 var app = express();
 var path = require('path');
-app.use('/dist', express.static(path.join(__dirname, '/dist')));
-// app.use('/dist', express.static(path.join(__dirname, '/public')));
 
-// app.all('*', express.static(path.join(__dirname, '/public')));
+
 app.use(express.static(path.join(__dirname, '/public')));
+app.use('/dist', express.static(path.join(__dirname, '/dist')));
+app.get(/.*/, function root(req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 
 var server = app.listen(port, function() {
   var host = server.address().address;

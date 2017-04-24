@@ -3,15 +3,19 @@
   .modules-container {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     &__header {
       height: 55px;
       background: $modules_header_color;
+      flex-grow: 0;
+      flex-shrink: 0;
     }
     &__modules {
       background-color: $modules_body_color;
       display: flex;
-      flex-basis: 100%;
+      flex-grow: 1;
+      padding: 1rem;
     }
   }
 </style>

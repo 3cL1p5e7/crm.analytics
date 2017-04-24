@@ -53,7 +53,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(217);
 /* unused harmony reexport Prompt */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(218);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__Redirect__["a"]; });
+/* unused harmony reexport Redirect */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(93);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(57);
@@ -1729,9 +1729,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __webpack_require__(108);
 var history = __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory___default()();
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Router */], { history: history }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["b" /* Route */], { exact: true, path: '/', render: function render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["c" /* Redirect */], { to: '/#/' }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["b" /* Route */], { path: '/', component: __WEBPACK_IMPORTED_MODULE_4__modules_modules_js__["a" /* default */] }));
-  } })), document.getElementById('react-root'));
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Router */], { history: history }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["b" /* Route */], { path: '/', component: __WEBPACK_IMPORTED_MODULE_4__modules_modules_js__["a" /* default */] })), document.getElementById('react-root'));
 ;
 
 var _temp = function () {
@@ -1805,16 +1803,39 @@ __webpack_require__(61)([["/home/romanb/Interesting/crm.analytics/app/modules/ca
 var CalendarDesk = function (_Component) {
   _inherits(CalendarDesk, _Component);
 
-  function CalendarDesk() {
+  function CalendarDesk(props) {
     _classCallCheck(this, CalendarDesk);
 
-    return _possibleConstructorReturn(this, (CalendarDesk.__proto__ || Object.getPrototypeOf(CalendarDesk)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CalendarDesk.__proto__ || Object.getPrototypeOf(CalendarDesk)).call(this, props));
+
+    _this.state = {
+      test1: 'eeee pooookkkkk',
+      test2: 'дратути',
+      time: 'zalupa'
+    };
+    return _this;
   }
 
   _createClass(CalendarDesk, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.timerID = setInterval(function () {
+        _this2.setState({
+          time: Date.now()
+        });
+      }, 500);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.timerID);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar-desk" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", null, "Hello world"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar-desk__trololo-section" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", null, "Trololo")));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar-desk" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", null, this.state.test1), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar-desk__trololo-section" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", null, this.props.test3), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", null, this.state.test2), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", null, this.state.time)));
     }
   }]);
 
@@ -1924,7 +1945,9 @@ var Calendar = function (_Component) {
   _createClass(Calendar, [{
     key: "render",
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: "/", component: __WEBPACK_IMPORTED_MODULE_3__calendar_desk__["a" /* default */] }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: "/desk", component: __WEBPACK_IMPORTED_MODULE_3__calendar_desk__["a" /* default */] }));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "calendar" }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: "/", render: function render() {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__calendar_desk__["a" /* default */], { test3: "zalupa" });
+        } }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: "/desk", component: __WEBPACK_IMPORTED_MODULE_3__calendar_desk__["a" /* default */] }));
     }
   }]);
 
@@ -4018,7 +4041,7 @@ exports = module.exports = __webpack_require__(38)(true);
 
 
 // module
-exports.push([module.i, ".calendar-desk {\n  background: green;\n  color: white; }\n  .calendar-desk h1 {\n    padding: 100px; }\n  .calendar-desk__trololo-section {\n    color: red; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/calendar/calendar.desk.js"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,aAAa,EAAE;EACf;IACE,eAAe,EAAE;EACnB;IACE,WAAW,EAAE","file":"calendar.desk.js","sourcesContent":[".calendar-desk {\n  background: green;\n  color: white; }\n  .calendar-desk h1 {\n    padding: 100px; }\n  .calendar-desk__trololo-section {\n    color: red; }\n"],"sourceRoot":""}]);
+exports.push([module.i, ".calendar-desk {\n  flex-grow: 1;\n  background: green;\n  color: white; }\n  .calendar-desk h1 {\n    padding: 10px; }\n  .calendar-desk__trololo-section {\n    color: red; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/calendar/calendar.desk.js"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,kBAAkB;EAClB,aAAa,EAAE;EACf;IACE,cAAc,EAAE;EAClB;IACE,WAAW,EAAE","file":"calendar.desk.js","sourcesContent":[".calendar-desk {\n  flex-grow: 1;\n  background: green;\n  color: white; }\n  .calendar-desk h1 {\n    padding: 10px; }\n  .calendar-desk__trololo-section {\n    color: red; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -4032,7 +4055,7 @@ exports = module.exports = __webpack_require__(38)(true);
 
 
 // module
-exports.push([module.i, ".calendar {\n  background: red;\n  color: white; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/calendar/calendar.js"],"names":[],"mappings":"AAAA;EACE,gBAAgB;EAChB,aAAa,EAAE","file":"calendar.js","sourcesContent":[".calendar {\n  background: red;\n  color: white; }\n"],"sourceRoot":""}]);
+exports.push([module.i, ".calendar {\n  display: flex;\n  flex-grow: 1;\n  color: white; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/calendar/calendar.js"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,aAAa;EACb,aAAa,EAAE","file":"calendar.js","sourcesContent":[".calendar {\n  display: flex;\n  flex-grow: 1;\n  color: white; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -4046,7 +4069,7 @@ exports = module.exports = __webpack_require__(38)(true);
 
 
 // module
-exports.push([module.i, ".modules-container {\n  display: flex;\n  flex-direction: column; }\n  .modules-container__header {\n    height: 55px;\n    background: linear-gradient(to top, #fefcea, #FF5722); }\n  .modules-container__modules {\n    background-color: transparent;\n    display: flex;\n    flex-basis: 100%; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/modules.js"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,uBAAuB,EAAE;EACzB;IACE,aAAa;IACb,sDAAsD,EAAE;EAC1D;IACE,8BAA8B;IAC9B,cAAc;IACd,iBAAiB,EAAE","file":"modules.js","sourcesContent":[".modules-container {\n  display: flex;\n  flex-direction: column; }\n  .modules-container__header {\n    height: 55px;\n    background: linear-gradient(to top, #fefcea, #FF5722); }\n  .modules-container__modules {\n    background-color: transparent;\n    display: flex;\n    flex-basis: 100%; }\n"],"sourceRoot":""}]);
+exports.push([module.i, ".modules-container {\n  display: flex;\n  flex-direction: column;\n  height: 100%; }\n  .modules-container__header {\n    height: 55px;\n    background: linear-gradient(to top, #fefcea, #FF5722);\n    flex-grow: 0;\n    flex-shrink: 0; }\n  .modules-container__modules {\n    background-color: black;\n    display: flex;\n    flex-grow: 1;\n    padding: 1rem; }\n", "", {"version":3,"sources":["/home/romanb/Interesting/crm.analytics/app/modules/modules.js"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,uBAAuB;EACvB,aAAa,EAAE;EACf;IACE,aAAa;IACb,sDAAsD;IACtD,aAAa;IACb,eAAe,EAAE;EACnB;IACE,wBAAwB;IACxB,cAAc;IACd,aAAa;IACb,cAAc,EAAE","file":"modules.js","sourcesContent":[".modules-container {\n  display: flex;\n  flex-direction: column;\n  height: 100%; }\n  .modules-container__header {\n    height: 55px;\n    background: linear-gradient(to top, #fefcea, #FF5722);\n    flex-grow: 0;\n    flex-shrink: 0; }\n  .modules-container__modules {\n    background-color: black;\n    display: flex;\n    flex-grow: 1;\n    padding: 1rem; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -5433,7 +5456,7 @@ Redirect.contextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Redirect);
+/* unused harmony default export */ var _unused_webpack_default_export = (Redirect);
 
 /***/ }),
 /* 219 */
