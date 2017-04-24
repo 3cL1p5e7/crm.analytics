@@ -17,7 +17,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import { Link, Route, browserHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Calendar from './calendar/calendar.js';
@@ -27,6 +27,7 @@ export default class Modules extends Component {
     return (
       <div className="modules-container">
         <div className="modules-container__header">
+          <Link to="/calendar">HELLO</Link>
         </div>
         <div className="modules-container__modules">
           <Route path="/calendar" component={Calendar} />
