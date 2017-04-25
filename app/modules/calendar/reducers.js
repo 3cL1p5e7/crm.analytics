@@ -7,13 +7,13 @@ const defaultState = {
 };
 
 const reducers = {
-  [SET_DATE]: ({ date }) => {
+  [SET_DATE]: (state, { date }) => {
     return { date };
   }
 };
 
 export default function calendar(state = defaultState, action) {
   if (reducers[action.type])
-    return { ...state, ...reducers[action.type](action)};
+    return { ...state, ...reducers[action.type](state, action)};
   return state;
 }

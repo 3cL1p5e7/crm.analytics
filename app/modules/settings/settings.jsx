@@ -1,13 +1,13 @@
 <style lang="sass">
-  .calendar {
+  .settings {
     display: flex;
     flex-grow: 1;
-    color: white;
+    background-color: yellow;
 
     opacity: 0;
     transition: opacity .3s ease;
   }
-  .calendar.show {
+  .settings.show {
     opacity: 1;
   }
 </style>
@@ -17,52 +17,41 @@ import { attachRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import CalendarDesk from './calendar.desk.jsx';
-
-import * as actions from './actions';
 import * as mainActions from 'modules/main/actions';
 
-class Calendar extends Component {
+class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false
     };
   }
-  static mapState (store) {
-    return {
-      date: store.calendar.date
-    };
-  }
   static mapActions = {
-    ...actions,
     removeActive: mainActions.removeActive,
     setActive: mainActions.setActive
   }
   render() {
-    const classList = ['calendar'];
+    const classList = ['settings'];
     if (this.state.show && !this.props.hiding)
       classList.push('show');
-      
     return (
       <div className={classList.join(' ')}>
-        <Route path="/" render={() => <CalendarDesk test3="dsfdsssgssd"/>} />
-        <Route path="/desk" component={CalendarDesk} />
+        This is HacTPouku
       </div>
     );
   }
   componentDidMount() {
-    this.props.setActive('calendar');
+    this.props.setActive('settings');
     setTimeout(() => {
       this.setState({ show: true });
     }, 1);
   }
   componentWillUnmount() {
-    this.props.removeActive('calendar');
+    this.props.removeActive('settings');
   }
 }
-Calendar.contextTypes = {
+Settings.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-export default attachRedux(Calendar);
+export default attachRedux(Settings);

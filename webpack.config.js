@@ -1,7 +1,9 @@
 var path = require('path');
 var join = path.join;
 
+var SvgStore = require('webpack-svgstore-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 var webpack = require('webpack');
 var prod = process.env.NODE_ENV === 'production';
 
@@ -57,7 +59,15 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
-    new ExtractTextPlugin("app.bundle.css")
+    new ExtractTextPlugin("app.bundle.css"),
+    new SvgStore({
+      svgoOptions: {
+        plugins: [
+          { removeTitle: true }
+        ]
+      },
+      prefix: 'icon-'
+    })
   ]
 };
 
