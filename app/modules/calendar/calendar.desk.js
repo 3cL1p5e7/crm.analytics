@@ -24,14 +24,14 @@ export default class CalendarDesk extends Component {
     };
   }
   componentDidMount() {
-    this.timerID = setInterval(() => {
-      this.setState({
-        time: Date.now()
-      });
-    }, 500);
+    // this.timerID = setInterval(() => {
+    //   this.setState({
+    //     time: Date.now()
+    //   });
+    // }, 500);
   }
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    // clearInterval(this.timerID);
   }
   render() {
     return (
