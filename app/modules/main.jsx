@@ -43,16 +43,16 @@
 </style>
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, Route, browserHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Calendar from './calendar/calendar.js';
+import Calendar from './calendar/calendar.jsx';
 
-export default class Modules extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: null,
       modules: {
         calendar: {
           id: 'calendar',
@@ -70,6 +70,16 @@ export default class Modules extends Component {
           index: 2
         }
       }
+    };
+  }
+  // static contextTypes = {
+  //   router: PropTypes.object.isRequired,
+  //   active: PropTypes.string.isRequired,
+  //   setActive: PropTypes.func.isRequired
+  // }
+  static mapState(store) {
+    return {
+      active: store.main.active
     };
   }
   renderModules() {
@@ -101,33 +111,36 @@ export default class Modules extends Component {
           </div>
         </div>
         <div className="modules-container__modules">
-          <Route path="/calendar" component={Calendar}/>
+          <Route path="/calendar" render={() => 
+            <Calendar></Calendar>
+          }/>
         </div>
       </div>
     );
   }
   goToLink(key) {
     return () => {
-      this.setState({ active: key });
+      this.setActive(key);
     };
   }
   componentDidMount() {
-    console.log('mount');
-    this.setState({
-      active: this.context.router.route.location.pathname.replace('/', '')
-    });
+    // console.log('mount');
+    // this.setState({
+    //   active: this.context.router.route.location.pathname.replace('/', '')
+    // });
   }
-
-  // componentWillUpdate() {
-    
-  //   const currentRoute = this.context.router.route.location.pathname.replace('/', '');
-  //   console.log('update', currentRoute, this.state.active);
-  //   if (this.state.active !== currentRoute)
-  //     this.setState({
-  //       active: currentRoute
-  //     });
-  // }
 }
-Modules.contextTypes = {
-  router: PropTypes.object.isRequired
+Main.contextTypes = {
+  router: PropTypes.object.isRequired,
+  active: PropTypes.string.isRequired,
+  setActive: PropTypes.func.isRequired
 }
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    setActive: function (name) {
+      dispatch({ type: "SET_ACTIVE", name });
+    }
+  }
+}
+console.log(connect(Main.mapState, mapDispatchToProps));
+export default connect(Main.mapState, mapDispatchToProps)(Main);

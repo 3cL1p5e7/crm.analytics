@@ -21,11 +21,7 @@ module.exports = {
     publicPath: '/dist/'
   },
   module: {
-    rules: [{
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
+    rules: [
       {
         test: /\.css$/,
         exclude: [/dist/],
@@ -36,6 +32,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        include: [path.resolve(__dirname, 'app')],
+        exclude: [/node_modules/, /dist/],
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.jsx$/,
         include: [path.resolve(__dirname, 'app')],
         exclude: [/node_modules/, /dist/],
         loader: 'babel-loader!react-vue-style-loader'

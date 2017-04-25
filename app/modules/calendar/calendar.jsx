@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import { Router, Route, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
-import CalendarDesk from './calendar.desk';
+import CalendarDesk from './calendar.desk.jsx';
 export default class Calendar extends Component {
   render() {
     return (
@@ -19,6 +19,9 @@ export default class Calendar extends Component {
         <Route path="/desk" component={CalendarDesk} />
       </div>
     );
+  }
+  componentDidMount() {
+    console.log('mount calendar');
   }
 }
 Calendar.contextTypes = {
