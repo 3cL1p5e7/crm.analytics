@@ -3,12 +3,6 @@
     display: flex;
     flex-grow: 1;
     color: white;
-
-    opacity: 0;
-    transition: opacity .3s ease;
-  }
-  .calendar.show {
-    opacity: 1;
   }
 </style>
 
@@ -25,9 +19,6 @@ import * as mainActions from 'modules/main/actions';
 class Calendar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      show: false
-    };
   }
   static mapState (store) {
     return {
@@ -41,9 +32,6 @@ class Calendar extends Component {
   }
   render() {
     const classList = ['calendar'];
-    if (this.state.show && !this.props.hiding)
-      classList.push('show');
-      
     return (
       <div className={classList.join(' ')}>
         <Route path="/" render={() => <CalendarDesk test3="dsfdsssgssd"/>} />
@@ -53,9 +41,6 @@ class Calendar extends Component {
   }
   componentDidMount() {
     this.props.setActive('calendar');
-    setTimeout(() => {
-      this.setState({ show: true });
-    }, 1);
   }
   componentWillUnmount() {
     this.props.removeActive('calendar');

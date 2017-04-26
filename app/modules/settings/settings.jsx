@@ -3,12 +3,6 @@
     display: flex;
     flex-grow: 1;
     background-color: yellow;
-
-    opacity: 0;
-    transition: opacity .3s ease;
-  }
-  .settings.show {
-    opacity: 1;
   }
 </style>
 
@@ -22,9 +16,6 @@ import * as mainActions from 'modules/main/actions';
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      show: false
-    };
   }
   static mapActions = {
     removeActive: mainActions.removeActive,
@@ -32,8 +23,6 @@ class Settings extends Component {
   }
   render() {
     const classList = ['settings'];
-    if (this.state.show && !this.props.hiding)
-      classList.push('show');
     return (
       <div className={classList.join(' ')}>
         This is HacTPouku
@@ -42,9 +31,6 @@ class Settings extends Component {
   }
   componentDidMount() {
     this.props.setActive('settings');
-    setTimeout(() => {
-      this.setState({ show: true });
-    }, 1);
   }
   componentWillUnmount() {
     this.props.removeActive('settings');

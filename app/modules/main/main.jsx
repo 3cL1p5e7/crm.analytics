@@ -58,6 +58,11 @@
       display: flex;
       flex-grow: 1;
       padding: 1rem;
+
+      &-wrapper {
+        display: flex;
+        flex-grow: 1;
+      }
     }
   }
 </style>
@@ -71,6 +76,7 @@ import { Link, Route } from 'react-router-dom';
 
 import Calendar from 'modules/calendar/calendar.jsx';
 import Settings from 'modules/settings/settings.jsx';
+import Transition from 'plugins/transition.jsx';
 
 import * as actions from './actions';
 
@@ -112,27 +118,27 @@ class Main extends Component {
           </div>
         </div>
         <div className="modules-container__modules">
-          <Route path='/calendar' render={() =>
-            <Calendar hiding={this.state.hiding === 'calendar'}></Calendar>
-          }/>
-          <Route path='/settings' render={() => 
-            <Settings hiding={this.state.hiding === 'settings'}></Settings>
-          }/>
+          <Transition duration={1000} className="modules-container__modules-wrapper">
+            <Calendar path='/calendar'/>
+            <Settings path='/settings'/>
+          </Transition>
         </div>
       </div>
     );
   }
   goToLink(module) {
     return () => {
-      if (!this.props.active)
+      // <Route path='/calendar' component={Calendar} />
+      //   <Route path='/settings' component={Settings} />
+      // if (!this.props.active)
         this.context.router.history.push(`/${module}`);
-      else {
-        this.setState({ hiding: this.props.active });
-        setTimeout(() => {
-          this.context.router.history.push(`/${module}`);
-          this.setState({ hiding: null });
-        }, 300);
-      }
+      // else {
+      //   this.setState({ hiding: this.props.active });
+      //   setTimeout(() => {
+      //     this.context.router.history.push(`/${module}`);
+      //     this.setState({ hiding: null });
+      //   }, 300);
+      // }
     };
   }
 }
