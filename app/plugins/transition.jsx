@@ -16,7 +16,7 @@ class Transition extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: false
+      activator: false
     };
   }
   render() {
@@ -24,10 +24,22 @@ class Transition extends Component {
     console.log('render');
     return result;
   }
-  componentWillUpdate(nextProps) {
-    let newActive = null;
+  activeWatcher(target, old) {
+    if (old && target &&
+        old.props.path !== target.props.path &&
+        !this.forceUpdate) {
+      this.forceUpdate = target;
+    } else {
+      if (!old && target)
+        this.active = target;
+      else if (!target) this.active = null;
+      else if (this.forceUpdate) this.active = this.forceUpdate;
+      this.forceUpdate = null;
+    }
+  }
+  getTargetComponent(nextProps) {
+    let target = null;
     console.log('will render');
-    this.state.active;
     nextProps.children.some((child) => {
       if (!child.props.path)
         return false;
@@ -37,22 +49,17 @@ class Transition extends Component {
         strict: false
       });
       if (match) {
-        newActive = child;
+        target = child;
       }
       return match;
     });
-
-    if (this.active && newActive &&
-        this.active.props.path !== newActive.props.path &&
-        !this.forceUpdate) {
-      this.forceUpdate = newActive;
-    } else {
-      if (!this.active && newActive)
-        this.active = newActive;
-      else if (this.forceUpdate) this.active = this.forceUpdate;
-      else if (!newActive) this.active = null;
-      this.forceUpdate = null;
-    }
+    return target;
+  }
+  componentWillUpdate(nextProps) {
+    this.activeWatcher(this.getTargetComponent(nextProps), this.active);
+  }
+  componentWillMount() {
+    this.active = this.getTargetComponent(this.props);
   }
   componentDidUpdate() {
     if (!this.forceUpdate)
@@ -60,7 +67,7 @@ class Transition extends Component {
     if (this.timeout)
       clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.setState({ active: !this.state.active });
+      this.setState({ activator: !this.state.activator });
     }, this.props.duration);
   }
   componentDidMount() {
