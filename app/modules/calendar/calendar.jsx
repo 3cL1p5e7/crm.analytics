@@ -32,6 +32,7 @@ class Calendar extends Component {
   }
   render() {
     const classList = ['calendar'];
+    classList.push(this.props.className);
     return (
       <div className={classList.join(' ')}>
         <Route path="/" render={() => <CalendarDesk test3="dsfdsssgssd"/>} />

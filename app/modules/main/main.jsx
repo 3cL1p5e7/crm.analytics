@@ -65,6 +65,23 @@
       }
     }
   }
+
+  .modules-fade-enter-active {
+    opacity: 0;
+    
+  }
+  .modules-fade-enter {
+    opacity: 1;
+    transition: opacity .3s ease;
+  }
+  .modules-fade-leave-active {
+    opacity: 1;
+    
+  }
+  .modules-fade-leave {
+    opacity: 0!important;
+    transition: opacity .3s ease;
+  }
 </style>
 
 import React, { Component } from 'react';
@@ -118,8 +135,10 @@ class Main extends Component {
           </div>
         </div>
         <div className="modules-container__modules">
-          <Transition duration={1000} className="modules-container__modules-wrapper">
-            <Calendar path='/calendar'/>
+          <Transition duration={300} 
+                      className="modules-container__modules-wrapper"
+                      transitionClass="modules-fade">
+            <Calendar className="test" path='/calendar'/>
             <Settings path='/settings'/>
           </Transition>
         </div>

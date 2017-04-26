@@ -23,6 +23,7 @@ class Settings extends Component {
   }
   render() {
     const classList = ['settings'];
+    classList.push(this.props.className);
     return (
       <div className={classList.join(' ')}>
         This is HacTPouku
