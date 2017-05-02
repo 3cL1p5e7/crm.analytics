@@ -44,6 +44,11 @@
         margin: 0 10px 0 10px;
         cursor: pointer;
         z-index: 2;
+        transition: font-size .4s ease;
+
+        &--active {
+          font-size: 45px;
+        }
       }
     }
     &__modules {
@@ -52,6 +57,10 @@
       flex-grow: 1;
 
       &-wrapper {
+        > div {
+          transition: opacity .5s, transform .4s ease;
+        }
+
         display: flex;
         flex-grow: 1;
       }
@@ -136,8 +145,14 @@ class Main extends Component {
                 <use xlinkHref='#icon-back' />
               </svg>
             </div>
-            <div className="modules-container__links-item" onClick={this.goToLink('calendar')}>calendare.</div>
-            <div className="modules-container__links-item" onClick={this.goToLink('settings')}>settingse..</div>
+            <div className={
+                  'modules-container__links-item ' + (this.props.active === 'calendar' ? 'modules-container__links-item--active' : '')
+                  }
+                 onClick={this.goToLink('calendar')}>calendare.</div>
+            <div className={
+                  'modules-container__links-item ' + (this.props.active === 'settings' ? 'modules-container__links-item--active' : '')
+                 }
+                 onClick={this.goToLink('settings')}>settingse..</div>
             <div className="modules-container__links-item" onClick={this.goToLink('')}>exite...</div>
           </div>
         </div>
@@ -156,9 +171,13 @@ class Main extends Component {
   }
   goToLink(module) {
     return () => {
+      if (module === this.props.active)
+        return;
       this.setState({ toRight: this.state.modules[this.props.active] < this.state.modules[module] });
-      console.log(this.state.toRight);
       this.context.router.history.push(`/${module}`);
+      if (module.length === 0)
+        this.props.removeActive();
+      else this.props.setActive(module);
     };
   }
 }

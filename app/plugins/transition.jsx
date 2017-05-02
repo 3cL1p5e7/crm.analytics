@@ -43,7 +43,12 @@ class Transition extends Component {
     const className = [...filtered, classNameTo].join(' ');
     return React.cloneElement(element, { className });
   }
-  removeTransition(type) {
+  removeTransition(type, instantly) {
+    if (instantly) {
+      this.changeClassElement(`${this.props.transitionClass}-${type}-active`);
+      this.changeClassElement(`${this.props.transitionClass}-${type}`);
+      return;
+    }
     this.transitionTimeout = setTimeout(() => {
       this.changeClassElement(`${this.props.transitionClass}-${type}-active`);
       this.changeClassElement(`${this.props.transitionClass}-${type}`);
@@ -56,6 +61,7 @@ class Transition extends Component {
   }
   activeWatcher(target, old) {
     if (!target && old) { // exit
+      this.removeTransition('enter', true);
       this.setTransition('leave-active');
       this.forceUpdate = {
         target: null,
@@ -71,6 +77,7 @@ class Transition extends Component {
     } else if (target && old) { // switch
       if (old.props.path === target.props.path)
         return;
+      // this.removeTransition('enter', true);
       this.setTransition('leave-active');
       this.forceUpdate = {
         target,
@@ -111,12 +118,15 @@ class Transition extends Component {
   componentDidUpdate() {
     setTimeout(() => {
       if (!this.forceUpdate.enabled) {
+        this.removeTransition('leave', true);
         this.setTransition('enter');
         this.removeTransition('enter');
         return;
       }
-      if (this.active)
+      if (this.active) {
+        this.removeTransition('enter', true);
         this.setTransition('leave');
+      }
         
       if (this.timeout) {
         clearTimeout(this.timeout);
