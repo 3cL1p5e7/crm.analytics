@@ -20,7 +20,7 @@
       justify-content: center;
       transition: all .5s ease;
 
-      &-exit-btn {
+      /*&-exit-btn {
         display: flex;
         align-items: center;
 
@@ -37,6 +37,12 @@
           opacity: 1;
           z-index: 0;
         }
+      } */
+      &-wrapper {
+        display: flex;
+        .widget {
+          width: 450px;
+        }
       }
       &-item {
         display: flex;
@@ -44,10 +50,10 @@
         margin: 0 10px 0 10px;
         cursor: pointer;
         z-index: 2;
-        transition: font-size .4s ease;
-
+        width: 100px;
+        transition: width .4s ease;
         &--active {
-          font-size: 45px;
+
         }
       }
     }
@@ -98,6 +104,33 @@
   .to-the-right .modules-fade-leave {
     transform: translateX(100%);
   }
+
+
+  .items-fade-enter-active {
+    opacity: 0;
+    width: 0!important;
+  }
+
+  .items-fade-enter {
+    opacity: 1;
+    width: 100px!important;
+    transition: opacity .5s, width .4s ease;
+    &.widget {
+      width: 450px!important;
+    }
+  }
+
+  .items-fade-leave-active {
+    opacity: 1;
+  }
+  .items-fade-leave {
+    opacity: 0!important;
+    transition: opacity .5s ease;
+    &.widget {
+      width: 0!important;
+      transition: opacity .5s, width .4s ease;
+    }
+  }
 </style>
 
 import React, { Component } from 'react';
@@ -107,10 +140,9 @@ import { attachRedux } from 'store/utils';
 
 import { Link, Route } from 'react-router-dom';
 
-import Calendar from 'modules/calendar/calendar.jsx';
+import { Calendar, CalendarWidget } from 'modules/calendar/calendar.jsx';
 import Settings from 'modules/settings/settings.jsx';
 import Transition from 'plugins/transition.jsx';
-
 import * as actions from './actions';
 
 class Main extends Component {
@@ -137,22 +169,32 @@ class Main extends Component {
         <div className="modules-container__header">
           <div className="modules-container__links"
                style={{ flexGrow: this.props.active ? 1 : 0 }}>
-            <div className={
+            {/*<div className={
               'modules-container__links-exit-btn ' +
               (this.props.active ? 'modules-container__links-exit-btn--active' : '')
             }>
               <svg className='svg-icon' width="38" height="38">
                 <use xlinkHref='#icon-back' />
               </svg>
-            </div>
-            <div className={
-                  'modules-container__links-item ' + (this.props.active === 'calendar' ? 'modules-container__links-item--active' : '')
-                  }
-                 onClick={this.goToLink('calendar')}>calendare.</div>
-            <div className={
+            </div>*/}
+            <Transition duration={500}
+                        className="modules-container__links-wrapper"
+                        transitionClass="items-fade">
+              <CalendarWidget path='/calendar' className="widget" />
+              <div className={
+                'modules-container__links-item ' + (this.props.active === 'calendar' ? 'modules-container__links-item--active' : '')
+              }
+              onClick={this.goToLink('calendar')}>calendare.</div>
+            </Transition>
+            <Transition duration={500}
+                        className="modules-container__links-wrapper"
+                        transitionClass="items-fade">
+              <CalendarWidget path='/settings' className="widget" />
+              <div className={
                   'modules-container__links-item ' + (this.props.active === 'settings' ? 'modules-container__links-item--active' : '')
-                 }
-                 onClick={this.goToLink('settings')}>settingse..</div>
+                }
+                onClick={this.goToLink('settings')}>settingse..</div>
+            </Transition>
             <div className="modules-container__links-item" onClick={this.goToLink('')}>exite...</div>
           </div>
         </div>

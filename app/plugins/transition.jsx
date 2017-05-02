@@ -24,11 +24,11 @@ class Transition extends Component {
     };
   }
   render() {
-    return this.active ? <div className={this.props.className}>{ this.active }</div> : null;;
+    return this.active ? <div className={this.props.className}
+                              ref={(input) => { this.container = input; }}>{ this.active }</div> : null;
   }
   getActiveDomElement() {
-    const root = document.querySelector(`.${this.props.className}`);
-    return root ? root.children[0] : null;
+    return this.container ? this.container.children[0] : null;
   }
   changeClassElement(classNameFrom = '', classNameTo) {
     const element = this.getActiveDomElement();
@@ -77,7 +77,6 @@ class Transition extends Component {
     } else if (target && old) { // switch
       if (old.props.path === target.props.path)
         return;
-      // this.removeTransition('enter', true);
       this.setTransition('leave-active');
       this.forceUpdate = {
         target,
@@ -100,8 +99,12 @@ class Transition extends Component {
       }
       return match;
     });
+    if (!target) {
+      target = nextProps.children.find((child) => !child.props.path);
+    }
     return target;
   }
+  
   componentWillUpdate(nextProps) {
     if (this.forceUpdate.enabled) {
       this.active = this.forceUpdate.target;
@@ -139,6 +142,7 @@ class Transition extends Component {
       }, this.props.duration + 50);
     }, 1);
   }
+
   componentWillMount() {
     this.active = this.getTargetComponent(this.props);
     this.setTransition('enter-active');
@@ -147,6 +151,7 @@ class Transition extends Component {
     this.setTransition('enter');
     this.removeTransition('enter');
   }
+  
   componentWillUnmount() {
      if (this.timeout) {
       clearTimeout(this.timeout);

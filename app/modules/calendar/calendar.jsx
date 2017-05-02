@@ -12,6 +12,7 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import CalendarDesk from './calendar.desk.jsx';
+import CalendarWidget from './calendar.widget.jsx';
 
 import * as actions from './actions';
 import * as mainActions from 'modules/main/actions';
@@ -50,5 +51,5 @@ class Calendar extends Component {
 Calendar.contextTypes = {
   router: PropTypes.object.isRequired
 }
-
-export default attachRedux(Calendar);
+const reduxed = attachRedux(Calendar);
+export { reduxed as Calendar, CalendarWidget }
