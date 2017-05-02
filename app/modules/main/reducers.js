@@ -12,6 +12,8 @@ const reducers = {
     return { active: name };
   },
   [REMOVE_ACTIVE]: (state, { name }) => {
+    if (!name)
+      return { active: null };
     const active = state.active !== name ? state.active : null;
     return { active: active };
   }

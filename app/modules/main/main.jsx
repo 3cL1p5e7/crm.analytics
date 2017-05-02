@@ -13,16 +13,6 @@
       flex-direction: row;
       flex-grow: 0;
       flex-shrink: 0;
-
-      a {
-        display: flex;
-        align-items: stretch;
-        cursor: pointer;
-        z-index: 1;
-        
-        margin: 0 10px 0 10px;
-      }
-      
     }
     &__links {
       display: flex;
@@ -51,13 +41,15 @@
       &-item {
         display: flex;
         align-items: center;
+        margin: 0 10px 0 10px;
+        cursor: pointer;
+        z-index: 2;
       }
     }
     &__modules {
       background-color: $modules_body_color;
       display: flex;
       flex-grow: 1;
-      padding: 1rem;
 
       &-wrapper {
         display: flex;
@@ -68,19 +60,23 @@
 
   .modules-fade-enter-active {
     opacity: 0;
-    
+    transform: translateX(100%);
   }
+  
   .modules-fade-enter {
     opacity: 1;
-    transition: opacity .3s ease;
+    transform: translateX(0);
+    transition: opacity .5s, transform .4s ease;
   }
+
   .modules-fade-leave-active {
+    transform: translateX(0);
     opacity: 1;
-    
   }
   .modules-fade-leave {
     opacity: 0!important;
-    transition: opacity .3s ease;
+    transform: translateX(-100%);
+    transition: opacity .5s, transform .4s ease;
   }
 </style>
 
@@ -123,22 +119,16 @@ class Main extends Component {
                 <use xlinkHref='#icon-back' />
               </svg>
             </div>
-            <a onClick={this.goToLink('calendar')} style={{ textDecoration: 'none' }}>
-              <div className="modules-container__links-item">calendare.</div>
-            </a>
-            <a onClick={this.goToLink('settings')} style={{ textDecoration: 'none' }}>
-              <div className="modules-container__links-item">settingse..</div>
-            </a>
-            <a onClick={this.goToLink('')} style={{ textDecoration: 'none' }}>
-              <div className="modules-container__links-item">exite...</div>
-            </a>
+            <div className="modules-container__links-item" onClick={this.goToLink('calendar')}>calendare.</div>
+            <div className="modules-container__links-item" onClick={this.goToLink('settings')}>settingse..</div>
+            <div className="modules-container__links-item" onClick={this.goToLink('')}>exite...</div>
           </div>
         </div>
         <div className="modules-container__modules">
-          <Transition duration={300} 
+          <Transition duration={500} 
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
-            <Calendar className="test" path='/calendar'/>
+            <Calendar path='/calendar'/>
             <Settings path='/settings'/>
           </Transition>
         </div>
@@ -147,17 +137,10 @@ class Main extends Component {
   }
   goToLink(module) {
     return () => {
-      // <Route path='/calendar' component={Calendar} />
-      //   <Route path='/settings' component={Settings} />
-      // if (!this.props.active)
-        this.context.router.history.push(`/${module}`);
-      // else {
-      //   this.setState({ hiding: this.props.active });
-      //   setTimeout(() => {
-      //     this.context.router.history.push(`/${module}`);
-      //     this.setState({ hiding: null });
-      //   }, 300);
-      // }
+      if (module.length !== 0)
+        this.props.setActive(module);
+      else this.props.removeActive();
+      this.context.router.history.push(`/${module}`);
     };
   }
 }
