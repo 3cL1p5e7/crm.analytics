@@ -4,19 +4,23 @@
 import React, { Component } from 'react';
 import { attachRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
+import createFragment from 'react-addons-create-fragment';
 import PropTypes from 'prop-types';
 
 import { matchPath } from 'react-router'
 
 
 class Transition extends Component {
-  active = null
+  active = {
+    next: null,
+    previous: null
+  }
   forceUpdate = {
     target: null,
     enabled: false
   }
   timeout = null
-  transitionTimeout = null
+  transitionTimeout = []
   types = {
     'enter': 'leave',
     'enter-active': 'leave',
@@ -30,15 +34,27 @@ class Transition extends Component {
     };
   }
   render() {
-    return this.active ? <div className={this.props.className}
-                              ref={(input) => { this.container = input; }}>{ this.active }</div> : null;
+    if (!this.active.next)
+      return null;
+    if (this.props.mode === 'out-in')
+      return <div className={this.props.className}
+        ref={(input) => { this.container = input; }}>{this.active.next}</div>;
+    const children = createFragment({
+      next: this.active.next,
+      previous: this.active.previous
+    });
+    return <div className={this.props.className}
+      ref={(input) => { this.container = input; }}>{children}</div>;
   }
-  getActiveDomElement() {
-    return this.container ? this.container.children[0] : null;
+  isOutIn() {
+    return this.props.mode === 'out-in';
+  }
+  getActiveDomElement(index) {
+    return this.container ? this.container.children[index] : null;
   }
 
-  changeClassElement(classNameFrom = [], classNameTo) {
-    const element = this.getActiveDomElement();
+  changeClassElement(classNameFrom = [], classNameTo, index = 0) {
+    const element = this.getActiveDomElement(index);
     if (!element)
       return;
     classNameFrom.forEach(name => element.classList.remove(name));
@@ -51,15 +67,15 @@ class Transition extends Component {
     return React.cloneElement(element, { className });
   }
 
-  removeTransition(type) {
-    this.transitionTimeout = setTimeout(() => {
+  removeTransition(type, index = 0) {
+    this.transitionTimeout[index] = setTimeout(() => {
       this.changeClassElement([
         `${this.props.transitionClass}-${type}`,
         `${this.props.transitionClass}-${type}-active`
-      ]);
+      ], index);
     }, this.props.duration);
   }
-  setTransition(type, prop) {
+  setTransition(type, prop, index) {
     if (prop)
       return this.changeClass(prop, [
                `${this.props.transitionClass}-${this.types[type]}`,
@@ -69,7 +85,7 @@ class Transition extends Component {
     this.changeClassElement([
       `${this.props.transitionClass}-${this.types[type]}`,
       `${this.props.transitionClass}-${this.types[type]}-active`
-    ], `${this.props.transitionClass}-${type}`);
+    ], `${this.props.transitionClass}-${type}`, index);
   }
   activeWatcher(target, old) {
     if (!target && old) { // exit
@@ -79,8 +95,7 @@ class Transition extends Component {
         enabled: true
       };
     } else if (!old && target) { // enter
-      this.active = target;
-      this.active = this.setTransition('enter-active', this.active);
+      this.active.next = this.setTransition('enter-active', target);
       this.forceUpdate = {
         target: null,
         enabled: false
@@ -88,12 +103,16 @@ class Transition extends Component {
     } else if (target && old) { // switch
       if (old.props.path === target.props.path)
         return;
-      this.active = this.setTransition('leave-active', this.active);
-      // this.setTransition('leave-active');
-      this.forceUpdate = {
-        target: this.setTransition('enter-active', target),
-        enabled: true
-      };
+      if (this.isOutIn()) {
+        this.active.next = this.setTransition('leave-active', this.active.next);
+        this.forceUpdate = {
+          target: this.setTransition('enter-active', target),
+          enabled: true
+        };
+      } else {
+        this.active.previous = this.setTransition('leave-active', old);
+        this.active.next = this.setTransition('enter-active', target);
+      }
     }
   }
   getTargetComponent(nextProps) {
@@ -119,33 +138,44 @@ class Transition extends Component {
   
   componentWillUpdate(nextProps) {
     if (this.forceUpdate.enabled) {
-      this.active = this.forceUpdate.target;
-      if (this.active)
-        this.active = this.setTransition('enter-active', this.active);
+      this.active.next = this.forceUpdate.target;
+      if (this.active.next)
+        this.active.next = this.setTransition('enter-active', this.active.next);
       this.forceUpdate = {
         target: null,
         enabled: false
       };
       return;
     }
-    this.activeWatcher(this.getTargetComponent(nextProps), this.active);
+    this.activeWatcher(this.getTargetComponent(nextProps), this.active.next);
   }
   componentDidUpdate() {
     setTimeout(() => {
       if (!this.forceUpdate.enabled) {
-        this.setTransition('enter');
-        this.removeTransition('enter');
+        this.setTransition('enter', 0);
+        this.removeTransition('enter', 0);
+
+        if (!this.isOutIn()) {
+          this.setTransition('enter', null, 1);
+          this.removeTransition('enter', 1);
+        }
+
         return;
       }
-      if (this.active) {
+      if (this.active.next)
         this.setTransition('leave');
-      }
+      
         
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
-      if (this.transitionTimeout) {
-        clearTimeout(this.transitionTimeout);
+      if (this.transitionTimeout[0]) {
+        clearTimeout(this.transitionTimeout[0]);
+        this.transitionTimeout[0] = null
+      }
+      if (this.transitionTimeout[1]) {
+        clearTimeout(this.transitionTimeout[1]);
+        this.transitionTimeout[1] = null
       }
       this.timeout = setTimeout(() => {
         this.setState({ activator: !this.state.activator });
@@ -154,7 +184,7 @@ class Transition extends Component {
   }
 
   componentWillMount() {
-    this.active = this.setTransition('enter-active', this.getTargetComponent(this.props));
+    this.active.next = this.setTransition('enter-active', this.getTargetComponent(this.props));
   }
   componentDidMount() {
     this.setTransition('enter');
@@ -166,10 +196,14 @@ class Transition extends Component {
       clearTimeout(this.timeout);
       this.timeout = null;
     }
-    if (this.transitionTimeout) {
-      clearTimeout(this.transitionTimeout);
-      this.transitionTimeout = null;
-    }
+     if (this.transitionTimeout[0]) {
+       clearTimeout(this.transitionTimeout[0]);
+       this.transitionTimeout[0] = null
+     }
+     if (this.transitionTimeout[1]) {
+       clearTimeout(this.transitionTimeout[1]);
+       this.transitionTimeout[1] = null
+     }
   }
 }
 

@@ -168,7 +168,7 @@ class Main extends Component {
               </svg>
             </div>*/}
             <Transition duration={500}
-                        mode=""
+                        mode="out-in"
                         className={ 'modules-container__links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '') }
                         transitionClass="items-fade">
               <CalendarWidget path='/calendar' className="widget" />
@@ -176,6 +176,7 @@ class Main extends Component {
                    onClick={this.goToLink('calendar')}>calendare.</div>
             </Transition>
             <Transition duration={500}
+                        mode="out-in"
                         className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}
                         transitionClass="items-fade">
               <CalendarWidget path='/settings' className="widget" />
@@ -191,11 +192,14 @@ class Main extends Component {
           'modules-container__modules to-the-left' :
           'modules-container__modules to-the-right'}>
           <Transition duration={500}
+                      mode="out-in"
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
             <Calendar path='/calendar'/>
             <Settings path='/settings'/>
           </Transition>
+          {/*<Calendar path='/calendar' />
+          <Settings path='/settings' />*/}
         </div>
       </div>
     );
