@@ -32,28 +32,27 @@
         z-index: 1;
         opacity: 0;
         transition: opacity .3s ease;
-
-        &--active {
-          opacity: 1;
-          z-index: 0;
-        }
       } */
       &-wrapper {
         display: flex;
-        .widget {
-          width: 450px;
-        }
-      }
-      &-item {
-        display: flex;
-        align-items: center;
-        margin: 0 10px 0 10px;
-        cursor: pointer;
-        z-index: 2;
         width: 100px;
         transition: width .4s ease;
-        &--active {
 
+        &.active {
+          transition-delay: .5s;
+          width: 450px;
+        }
+        > .widget {
+          flex-grow: 1;
+        }
+        &-item {
+          display: flex;
+          flex-grow: 1;
+          align-items: center;
+          margin: 0 10px 0 10px;
+          cursor: pointer;
+          z-index: 2;
+          transition: width .4s ease;
         }
       }
     }
@@ -63,12 +62,12 @@
       flex-grow: 1;
 
       &-wrapper {
+        display: flex;
+        flex-grow: 1;
+
         > div {
           transition: opacity .5s, transform .4s ease;
         }
-
-        display: flex;
-        flex-grow: 1;
       }
     }
   }
@@ -106,18 +105,13 @@
   }
 
 
+
   .items-fade-enter-active {
     opacity: 0;
-    width: 0!important;
   }
-
   .items-fade-enter {
     opacity: 1;
-    width: 100px!important;
-    transition: opacity .5s, width .4s ease;
-    &.widget {
-      width: 450px!important;
-    }
+    transition: opacity .5s ease;
   }
 
   .items-fade-leave-active {
@@ -126,10 +120,6 @@
   .items-fade-leave {
     opacity: 0!important;
     transition: opacity .5s ease;
-    &.widget {
-      width: 0!important;
-      transition: opacity .5s, width .4s ease;
-    }
   }
 </style>
 
@@ -178,30 +168,29 @@ class Main extends Component {
               </svg>
             </div>*/}
             <Transition duration={500}
-                        className="modules-container__links-wrapper"
+                        mode=""
+                        className={ 'modules-container__links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '') }
                         transitionClass="items-fade">
               <CalendarWidget path='/calendar' className="widget" />
-              <div className={
-                'modules-container__links-item ' + (this.props.active === 'calendar' ? 'modules-container__links-item--active' : '')
-              }
-              onClick={this.goToLink('calendar')}>calendare.</div>
+              <div className="modules-container__links-wrapper-item"
+                   onClick={this.goToLink('calendar')}>calendare.</div>
             </Transition>
             <Transition duration={500}
-                        className="modules-container__links-wrapper"
+                        className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}
                         transitionClass="items-fade">
               <CalendarWidget path='/settings' className="widget" />
-              <div className={
-                  'modules-container__links-item ' + (this.props.active === 'settings' ? 'modules-container__links-item--active' : '')
-                }
-                onClick={this.goToLink('settings')}>settingse..</div>
+              <div className="modules-container__links-wrapper-item"
+                   onClick={this.goToLink('settings')}>settingse..</div>
             </Transition>
-            <div className="modules-container__links-item" onClick={this.goToLink('')}>exite...</div>
+            <div className="modules-container__links-wrapper">
+              <div className="modules-container__links-wrapper-item" onClick={this.goToLink('')}>exite...</div>
+            </div>
           </div>
         </div>
         <div className={this.state.toRight ?
           'modules-container__modules to-the-left' :
           'modules-container__modules to-the-right'}>
-          <Transition duration={500} 
+          <Transition duration={500}
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
             <Calendar path='/calendar'/>
