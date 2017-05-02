@@ -41,10 +41,10 @@ class Calendar extends Component {
     );
   }
   componentDidMount() {
-    // this.props.setActive('calendar');
+    this.props.setActive('calendar');
   }
   componentWillUnmount() {
-    // this.props.removeActive('calendar');
+    this.props.removeActive('calendar');
   }
 }
 Calendar.contextTypes = {

@@ -31,10 +31,10 @@ class Settings extends Component {
     );
   }
   componentDidMount() {
-    // this.props.setActive('settings');
+    this.props.setActive('settings');
   }
   componentWillUnmount() {
-    // this.props.removeActive('settings');
+    this.props.removeActive('settings');
   }
 }
 Settings.contextTypes = {

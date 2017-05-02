@@ -60,12 +60,17 @@
 
   .modules-fade-enter-active {
     opacity: 0;
+  }
+  .to-the-left .modules-fade-enter-active {
     transform: translateX(100%);
+  }
+  .to-the-right .modules-fade-enter-active {
+    transform: translateX(-100%);
   }
   
   .modules-fade-enter {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0)!important;
     transition: opacity .5s, transform .4s ease;
   }
 
@@ -75,8 +80,14 @@
   }
   .modules-fade-leave {
     opacity: 0!important;
-    transform: translateX(-100%);
     transition: opacity .5s, transform .4s ease;
+  }
+
+  .to-the-left .modules-fade-leave {
+    transform: translateX(-100%);
+  }
+  .to-the-right .modules-fade-leave {
+    transform: translateX(100%);
   }
 </style>
 
@@ -96,12 +107,18 @@ import * as actions from './actions';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modules: {
+        calendar: 0,
+        settings: 1,
+        '': 2
+      },
+      toRight: false
+    };
   }
   static mapState(store) {
     return {
-      active: store.main.active,
-      hiding: null
+      active: store.main.active
     };
   }
   static mapActions = { ...actions }
@@ -124,7 +141,9 @@ class Main extends Component {
             <div className="modules-container__links-item" onClick={this.goToLink('')}>exite...</div>
           </div>
         </div>
-        <div className="modules-container__modules">
+        <div className={this.state.toRight ?
+          'modules-container__modules to-the-left' :
+          'modules-container__modules to-the-right'}>
           <Transition duration={500} 
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
@@ -137,9 +156,8 @@ class Main extends Component {
   }
   goToLink(module) {
     return () => {
-      if (module.length !== 0)
-        this.props.setActive(module);
-      else this.props.removeActive();
+      this.setState({ toRight: this.state.modules[this.props.active] < this.state.modules[module] });
+      console.log(this.state.toRight);
       this.context.router.history.push(`/${module}`);
     };
   }
