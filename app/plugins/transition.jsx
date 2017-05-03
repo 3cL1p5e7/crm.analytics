@@ -94,7 +94,10 @@ class Transition extends Component {
   }
   activeWatcher(target, old) {
     if (!target && old) { // exit
-      this.setTransition('leave-active');
+      this.active.previous = null;
+      this.active.next = this.setTransition('leave-active',
+      this.active.next, 0);
+      this.setTransition('leave-active', null, 0);
       this.forceUpdate = {
         target: null,
         exit: true,
@@ -172,6 +175,18 @@ class Transition extends Component {
   }
   componentDidUpdate() {
     setTimeout(() => {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      if (this.transitionTimeout[0]) {
+        clearTimeout(this.transitionTimeout[0]);
+        this.transitionTimeout[0] = null
+      }
+      if (this.transitionTimeout[1]) {
+        clearTimeout(this.transitionTimeout[1]);
+        this.transitionTimeout[1] = null
+      }
+
       if (!this.forceUpdate.enabled) {
         this.setTransition('enter', 0);
         this.removeTransition('enter', 0);
@@ -185,18 +200,7 @@ class Transition extends Component {
           this.removeTransition('leave', 0, 'previous');
         }
       }
-        
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      if (this.transitionTimeout[0]) {
-        clearTimeout(this.transitionTimeout[0]);
-        this.transitionTimeout[0] = null
-      }
-      if (this.transitionTimeout[1]) {
-        clearTimeout(this.transitionTimeout[1]);
-        this.transitionTimeout[1] = null
-      }
+      
       if (this.forceUpdate.enabled)
         this.forceUpdate.released = false;
       else this.forceUpdate.released = true;

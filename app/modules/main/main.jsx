@@ -60,8 +60,10 @@
           bottom: 0;
 
           display: flex;
-          flex-grow: 1;
           align-items: center;
+          justify-content: center;
+          flex-grow: 1;
+
           margin: 0 10px 0 10px;
           cursor: pointer;
           z-index: 2;
@@ -151,7 +153,7 @@ import { attachRedux } from 'store/utils';
 import { Link, Route } from 'react-router-dom';
 
 import { Calendar, CalendarWidget } from 'modules/calendar/calendar.jsx';
-import Settings from 'modules/settings/settings.jsx';
+import { Settings, SettingsWidget } from 'modules/settings/settings.jsx';
 import Transition from 'plugins/transition.jsx';
 import * as actions from './actions';
 
@@ -200,7 +202,7 @@ class Main extends Component {
             <Transition duration={500}
                         className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}
                         transitionClass="items-fade">
-              <CalendarWidget path='/settings' className="widget" />
+              <SettingsWidget path='/settings' className="widget" />
             {/*<div className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}>*/}
               <div className="modules-container__links-wrapper-item"
                    onClick={this.goToLink('settings')}>settingse..</div>
@@ -214,14 +216,12 @@ class Main extends Component {
         <div className={this.swipeLeft ?
           'modules-container__modules to-the-left' :
           'modules-container__modules to-the-right'}>
-          <Transition duration={1500}
+          <Transition duration={500}
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
             <Calendar path='/calendar'/>
             <Settings path='/settings'/>
           </Transition>
-          {/*<Calendar path='/calendar' />
-          <Settings path='/settings' />*/}
         </div>
       </div>
     );

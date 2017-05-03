@@ -2,7 +2,7 @@ var webpack = require('webpack'),
   webpackconfig = require('./webpack.config.js'),
   webpackcompiler = webpack(webpackconfig);
 
-var port = 8080;
+var port = 8000;
 var express = require('express');
 var app = express();
 var path = require('path');

@@ -12,6 +12,7 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import * as mainActions from 'modules/main/actions';
+import SettingsWidget from './settings.widget.jsx';
 
 class Settings extends Component {
   constructor(props) {
@@ -41,4 +42,5 @@ Settings.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-export default attachRedux(Settings);
+const reduxed = attachRedux(Settings);
+export { reduxed as Settings, SettingsWidget }
