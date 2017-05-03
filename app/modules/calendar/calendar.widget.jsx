@@ -1,7 +1,7 @@
 <style lang="sass">
   .calendar-widget {
     display: flex;
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.5);
   }
 </style>
 

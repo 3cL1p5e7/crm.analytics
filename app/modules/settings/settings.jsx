@@ -34,7 +34,7 @@ class Settings extends Component {
     this.props.setActive('settings');
   }
   componentWillUnmount() {
-    // this.props.removeActive('settings');
+    this.props.removeActive('settings');
   }
 }
 Settings.contextTypes = {

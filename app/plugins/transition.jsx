@@ -17,7 +17,8 @@ class Transition extends Component {
   }
   forceUpdate = {
     target: null,
-    enabled: false
+    enabled: false,
+    released: true
   }
   timeout = null
   transitionTimeout = []
@@ -40,8 +41,8 @@ class Transition extends Component {
       return <div className={this.props.className}
         ref={(input) => { this.container = input; }}>{this.active.next}</div>;
     const children = createFragment({
-      next: this.active.next,
-      previous: this.active.previous
+      a: this.active.previous,
+      b: this.active.next
     });
     return <div className={this.props.className}
       ref={(input) => { this.container = input; }}>{children}</div>;
@@ -67,8 +68,12 @@ class Transition extends Component {
     return React.cloneElement(element, { className });
   }
 
-  removeTransition(type, index = 0) {
+  removeTransition(type, index = 0, remove = false) {
     this.transitionTimeout[index] = setTimeout(() => {
+      if (remove) {
+        this.active[remove] = null;
+        return;
+      }
       this.changeClassElement([
         `${this.props.transitionClass}-${type}`,
         `${this.props.transitionClass}-${type}-active`
@@ -92,13 +97,16 @@ class Transition extends Component {
       this.setTransition('leave-active');
       this.forceUpdate = {
         target: null,
-        enabled: true
+        exit: true,
+        enabled: true,
+        released: false
       };
     } else if (!old && target) { // enter
       this.active.next = this.setTransition('enter-active', target);
       this.forceUpdate = {
         target: null,
-        enabled: false
+        enabled: false,
+        released: true
       };
     } else if (target && old) { // switch
       if (old.props.path === target.props.path)
@@ -107,9 +115,15 @@ class Transition extends Component {
         this.active.next = this.setTransition('leave-active', this.active.next);
         this.forceUpdate = {
           target: this.setTransition('enter-active', target),
-          enabled: true
+          enabled: true,
+          released: false
         };
       } else {
+        this.forceUpdate = {
+          target: null,
+          enabled: true,
+          released: false
+        };
         this.active.previous = this.setTransition('leave-active', old);
         this.active.next = this.setTransition('enter-active', target);
       }
@@ -137,13 +151,20 @@ class Transition extends Component {
   }
   
   componentWillUpdate(nextProps) {
-    if (this.forceUpdate.enabled) {
-      this.active.next = this.forceUpdate.target;
-      if (this.active.next)
-        this.active.next = this.setTransition('enter-active', this.active.next);
+    // if (!this.forceUpdate.released)
+    //   return;
+    if (this.forceUpdate.enabled && this.forceUpdate.released) {
+      if (this.forceUpdate.exit) {
+        this.active.previous = null;
+        this.active.next = null;
+      } else if (!this.isOutIn())
+        this.active.previous = null;
+      else this.active.next = this.forceUpdate.target;
+
       this.forceUpdate = {
         target: null,
-        enabled: false
+        enabled: false,
+        released: true
       };
       return;
     }
@@ -154,17 +175,16 @@ class Transition extends Component {
       if (!this.forceUpdate.enabled) {
         this.setTransition('enter', 0);
         this.removeTransition('enter', 0);
-
+        return;
+      }
+      if (this.active.next) {
+        this.setTransition('leave', null, 0);
         if (!this.isOutIn()) {
           this.setTransition('enter', null, 1);
           this.removeTransition('enter', 1);
+          this.removeTransition('leave', 0, 'previous');
         }
-
-        return;
       }
-      if (this.active.next)
-        this.setTransition('leave');
-      
         
       if (this.timeout) {
         clearTimeout(this.timeout);
@@ -177,7 +197,11 @@ class Transition extends Component {
         clearTimeout(this.transitionTimeout[1]);
         this.transitionTimeout[1] = null
       }
+      if (this.forceUpdate.enabled)
+        this.forceUpdate.released = false;
+      else this.forceUpdate.released = true;
       this.timeout = setTimeout(() => {
+        this.forceUpdate.released = true;
         this.setState({ activator: !this.state.activator });
       }, this.props.duration + 30);
     }, 30);

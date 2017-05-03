@@ -34,18 +34,31 @@
         transition: opacity .3s ease;
       } */
       &-wrapper {
+        position: relative;
         display: flex;
         width: 100px;
         transition: width .4s ease;
 
         &.active {
-          transition-delay: .5s;
+          //transition-delay: .5s;
           width: 450px;
         }
         > .widget {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+
           flex-grow: 1;
         }
         &-item {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+
           display: flex;
           flex-grow: 1;
           align-items: center;
@@ -62,10 +75,17 @@
       flex-grow: 1;
 
       &-wrapper {
+        position: relative;
         display: flex;
         flex-grow: 1;
 
         > div {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+
           transition: opacity .5s, transform .4s ease;
         }
       }
@@ -136,6 +156,7 @@ import Transition from 'plugins/transition.jsx';
 import * as actions from './actions';
 
 class Main extends Component {
+  swipeLeft = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -143,8 +164,7 @@ class Main extends Component {
         calendar: 0,
         settings: 1,
         '': 2
-      },
-      toRight: false
+      }
     };
   }
   static mapState(store) {
@@ -167,32 +187,34 @@ class Main extends Component {
                 <use xlinkHref='#icon-back' />
               </svg>
             </div>*/}
+
             <Transition duration={500}
-                        mode="out-in"
                         className={ 'modules-container__links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '') }
                         transitionClass="items-fade">
               <CalendarWidget path='/calendar' className="widget" />
+            {/*<div className={'modules-container__links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '')}>*/}
               <div className="modules-container__links-wrapper-item"
                    onClick={this.goToLink('calendar')}>calendare.</div>
+            {/*</div>*/}
             </Transition>
             <Transition duration={500}
-                        mode="out-in"
                         className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}
                         transitionClass="items-fade">
               <CalendarWidget path='/settings' className="widget" />
+            {/*<div className={'modules-container__links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}>*/}
               <div className="modules-container__links-wrapper-item"
                    onClick={this.goToLink('settings')}>settingse..</div>
+            {/*</div>*/}
             </Transition>
             <div className="modules-container__links-wrapper">
               <div className="modules-container__links-wrapper-item" onClick={this.goToLink('')}>exite...</div>
             </div>
           </div>
         </div>
-        <div className={this.state.toRight ?
+        <div className={this.swipeLeft ?
           'modules-container__modules to-the-left' :
           'modules-container__modules to-the-right'}>
-          <Transition duration={500}
-                      mode="out-in"
+          <Transition duration={1500}
                       className="modules-container__modules-wrapper"
                       transitionClass="modules-fade">
             <Calendar path='/calendar'/>
@@ -204,11 +226,18 @@ class Main extends Component {
       </div>
     );
   }
+  // componentDidMount() {
+  //   this.props.setActive('calendar');
+  // }
+  componentWillUpdate(nextProps) {
+    if (this.props.active !== nextProps.active)
+      this.swipeLeft = this.state.modules[this.props.active] < this.state.modules[nextProps.active || ''];
+    console.log(this.swipeLeft);
+  }
   goToLink(module) {
     return () => {
       if (module === this.props.active)
         return;
-      this.setState({ toRight: this.state.modules[this.props.active] < this.state.modules[module] });
       this.context.router.history.push(`/${module}`);
       if (module.length === 0)
         this.props.removeActive();
