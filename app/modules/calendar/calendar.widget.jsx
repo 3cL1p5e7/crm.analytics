@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     
-    background: radial-gradient(circle farthest-side at center, $calendar-color, transparent);
+    background: radial-gradient(circle farthest-side at center, $calendar-widget-color, transparent);
 
     &__title {
       display: flex;
@@ -13,6 +13,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 40px;
+
+      color: $modules-header-text-color;
     }
   }
 </style>
@@ -20,6 +23,8 @@
 import React, { Component } from 'react';
 import { attachRedux } from 'store/utils';
 import PropTypes from 'prop-types';
+
+import moment from 'plugins/moment';
 
 import * as actions from './actions';
 
@@ -32,7 +37,7 @@ class CalendarWidget extends Component {
   render() {
     return (
       <div className={ `calendar-widget ${this.props.className || ''}` }>
-        <div className="calendar-widget__title">It is fucking widget</div>
+        <div className="calendar-widget__title">{moment().format('D MMMM, dddd')}</div>
       </div>
     );
   }

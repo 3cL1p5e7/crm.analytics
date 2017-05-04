@@ -1,5 +1,8 @@
-$modules_header_color: linear-gradient(to left, white, #51e257);
-$modules_body_color: transparent;
+$modules-header-color: #252525;
+// $modules-header-text-color: wheat;
+$modules-header-text-color: #1ed7d1;
 
-$calendar-color: #002780;
-$settings-color: #f44336;
+$modules-body-color: #f0f0f0;
+
+$calendar-widget-color: #4e7cad;
+$settings-widget-color: #339966;

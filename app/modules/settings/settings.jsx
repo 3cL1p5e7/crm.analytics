@@ -3,7 +3,7 @@
   .settings {
     display: flex;
     flex-grow: 1;
-    background-color: $settings-color;
+    background-color: $modules-body-color;
   }
 </style>
 

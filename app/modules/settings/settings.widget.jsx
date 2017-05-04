@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     
-    background: radial-gradient(circle farthest-side at center, $settings-color, transparent);
+    background: radial-gradient(circle farthest-side at center, $settings-widget-color, transparent);
 
     &__title {
       display: flex;
@@ -13,6 +13,8 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      color: $modules-header-text-color;
     }
   }
 </style>

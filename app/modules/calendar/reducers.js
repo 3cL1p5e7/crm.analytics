@@ -1,14 +1,19 @@
 import {
-  SET_DATE
+  SET_DATE,
+  SET_ACTIVE_MODULE
 } from './actions.js';
 
 const defaultState = {
-  date: null
+  date: null,
+  active: 'desk'
 };
 
 const reducers = {
   [SET_DATE]: (state, { date }) => {
     return { date };
+  },
+  [SET_ACTIVE_MODULE]: (state, { name }) => {
+    return { active: name };
   }
 };
 
