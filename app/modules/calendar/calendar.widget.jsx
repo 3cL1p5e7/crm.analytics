@@ -18,6 +18,12 @@
       color: $modules-header-text-color;
     }
   }
+
+  @media (max-width: $phablet) { 
+    .calendar-widget__title {
+      font-size: 26px;
+    }
+  }
 </style>
 
 import React, { Component } from 'react';

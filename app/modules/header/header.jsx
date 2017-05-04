@@ -1,64 +1,57 @@
 <style lang="sass">
   @import '~uikit/theme';
   .links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+
+    transition: all .5s ease;
+
+    &-wrapper {
+      position: relative;
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      flex-grow: 1;
+      width: 100px;
+      transition: width .4s ease;
 
-      transition: all .5s ease;
-
-      /*&-exit-btn {
-        display: flex;
-        align-items: center;
-
+      &.active {
+        width: 450px;
+      }
+      > .widget {
         position: absolute;
         left: 0;
-        width: 55px;
-        height: 55px;
-        margin-left: 10px;
-        z-index: 1;
-        opacity: 0;
-        transition: opacity .3s ease;
-      } */
-      &-wrapper {
-        position: relative;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        flex-grow: 1;
+      }
+      &-item {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
         display: flex;
-        width: 100px;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+
+        color: $modules-header-text-color;
+        margin: 0 10px 0 10px;
+        cursor: pointer;
+        z-index: 2;
         transition: width .4s ease;
-
-        &.active {
-          width: 450px;
-        }
-        > .widget {
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-
-          flex-grow: 1;
-        }
-        &-item {
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-grow: 1;
-
-          color: $modules-header-text-color;
-          margin: 0 10px 0 10px;
-          cursor: pointer;
-          z-index: 2;
-          transition: width .4s ease;
-        }
       }
     }
+  }
+
+  @media (max-width: $phablet) { 
+    .links-wrapper.active {
+      width: 190px!important;
+    }
+  }
 
   .items-fade-enter-active {
     opacity: 0;
@@ -104,15 +97,6 @@ class Header extends Component {
   render() {
     return (
       <div className="links">
-          {/*<div className={
-            'links-exit-btn ' +
-            (this.props.active ? 'links-exit-btn--active' : '')
-          }>
-            <svg className='svg-icon' width="38" height="38">
-              <use xlinkHref='#icon-back' />
-            </svg>
-          </div>*/}
-
           <Transition duration={300}
                       className={ 'links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '') }
                       transitionClass="items-fade">

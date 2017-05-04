@@ -21,8 +21,12 @@
     //   z-index: -1;
     // }
     &__board {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-grow: 1;
-      background: white;
+      
+      background: #339966;
       border: 1px solid red;
     }
   }
@@ -44,8 +48,10 @@ class CalendarDesk extends Component {
     ...actions
   }
   render() {
+    const classList = ['calendar-desk'];
+    classList.push(this.props.className);
     return (
-      <div className="calendar-desk">
+      <div className={classList.join(' ')}>
         <div className="calendar-desk__board">
         </div>
       </div>

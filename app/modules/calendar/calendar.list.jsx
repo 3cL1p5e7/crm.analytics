@@ -9,7 +9,11 @@
     color: red;
 
     &__board {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-grow: 1;
+      
       background: yellow;
       border: 1px solid green;
     }
@@ -32,8 +36,10 @@ class CalendarList extends Component {
     ...actions
   }
   render() {
+    const classList = ['calendar-list'];
+    classList.push(this.props.className);
     return (
-      <div className="calendar-list">
+      <div className={classList.join(' ')}>
         <div className="calendar-list__board">
           THIS>IS LIIIIIIIISTTTTT
         </div>
