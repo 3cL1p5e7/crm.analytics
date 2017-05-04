@@ -1,11 +1,19 @@
 <style lang="sass">
+  @import '~uikit/theme';
   .calendar-widget {
     display: flex;
     align-items: center;
     justify-content: center;
     
-    //background-color: rgba(255, 0, 0, 0.5);
-    background: linear-gradient(to right, transparent, rgba(204, 255, 0, 0.5), transparent);
+    background: radial-gradient(circle farthest-side at center, $calendar-color, transparent);
+
+    &__title {
+      display: flex;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 </style>
 
@@ -24,7 +32,7 @@ class CalendarWidget extends Component {
   render() {
     return (
       <div className={ `calendar-widget ${this.props.className || ''}` }>
-        It is widget
+        <div className="calendar-widget__title">It is fucking widget</div>
       </div>
     );
   }

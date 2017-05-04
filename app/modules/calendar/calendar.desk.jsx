@@ -1,7 +1,8 @@
 <style lang="sass">
+  @import '~uikit/theme';
   .calendar-desk {
     flex-grow: 1;
-    background: green;
+    background: $calendar-color;
     color: white;
     h1 {
       padding: 10px;
@@ -24,14 +25,8 @@ export default class CalendarDesk extends Component {
     };
   }
   componentDidMount() {
-    // this.timerID = setInterval(() => {
-    //   this.setState({
-    //     time: Date.now()
-    //   });
-    // }, 500);
   }
   componentWillUnmount() {
-    // clearInterval(this.timerID);
   }
   render() {
     return (

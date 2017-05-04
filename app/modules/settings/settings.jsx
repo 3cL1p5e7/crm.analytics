@@ -1,8 +1,9 @@
 <style lang="sass">
+  @import '~uikit/theme';
   .settings {
     display: flex;
     flex-grow: 1;
-    background-color: yellow;
+    background-color: $settings-color;
   }
 </style>
 

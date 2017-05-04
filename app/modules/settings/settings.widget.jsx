@@ -1,11 +1,19 @@
 <style lang="sass">
+  @import '~uikit/theme';
   .settings-widget {
     display: flex;
     align-items: center;
     justify-content: center;
     
-    //background-color: rgba(0, 0, 255, 0.5);
-    background: linear-gradient(to right, transparent, rgba(204, 255, 0, 0.5), transparent);
+    background: radial-gradient(circle farthest-side at center, $settings-color, transparent);
+
+    &__title {
+      display: flex;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 </style>
 
@@ -24,7 +32,7 @@ class SettingsWidget extends Component {
   render() {
     return (
       <div className={`settings-widget ${this.props.className || ''}`}>
-        It is SETTINGS! widget
+        <div className="settings-widget__title">It is fucking SETTINGS widget</div>
       </div>
     );
   }

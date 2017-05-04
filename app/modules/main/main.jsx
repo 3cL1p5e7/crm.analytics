@@ -40,7 +40,6 @@
         transition: width .4s ease;
 
         &.active {
-          //transition-delay: .5s;
           width: 450px;
         }
         > .widget {
