@@ -40,7 +40,7 @@
         bottom: 0;
         right: 0;
 
-        transition: opacity 1.3s ease;
+        transition: opacity .3s ease;
       }
     }
   }
@@ -52,7 +52,7 @@
   .calendar-fade-enter {
     will-change: opacity;
     opacity: 1!important;
-    transition: opacity 1.3s ease;
+    transition: opacity .3s ease;
   }
 
   .calendar-fade-leave-active {
@@ -61,7 +61,7 @@
   .calendar-fade-leave {
     will-change: opacity;
     opacity: 0!important;
-    transition: opacity 1.3s ease;
+    transition: opacity .3s ease;
   }
 </style>
 
@@ -112,11 +112,11 @@ class Calendar extends Component {
             <use xlinkHref='#icon-list' />
           </svg>
         </div>
-        <Transition duration={1300}
-                      className="calendar__wrapper"
-                      transitionClass="calendar-fade">
-          <CalendarList path='/calendar/list' className="booster"/>
-          <CalendarDesk path='/calendar/desk' className="booster"/>
+        <Transition duration={300}
+                    className="calendar__wrapper"
+                    name="calendar-fade">
+          <CalendarList key="list" path='/calendar/list' className="booster"/>
+          <CalendarDesk key="desk" path='/calendar/desk' className="booster"/>
         </Transition>
       </div>
     );

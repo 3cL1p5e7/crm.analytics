@@ -8,6 +8,9 @@ const defaultState = {
 };
 
 const reducers = {
+  ['ROUTER_HANDLER']: (state, { attr, value }) => {
+    return { active: name };
+  },
   [SET_ACTIVE]: (state, { name }) => {
     return { active: name };
   },

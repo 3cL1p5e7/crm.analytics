@@ -28,6 +28,7 @@ class Transition extends Component {
     'leave': 'enter',
     'leave-active': 'enter',
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,15 +38,11 @@ class Transition extends Component {
   render() {
     if (!this.active.next)
       return null;
-    if (this.props.mode === 'out-in')
+    if (this.isOutIn())
       return <div className={this.props.className}
         ref={(input) => { this.container = input; }}>{this.active.next}</div>;
-    const children = createFragment({
-      a: this.active.previous,
-      b: this.active.next
-    });
     return <div className={this.props.className}
-      ref={(input) => { this.container = input; }}>{children}</div>;
+      ref={(input) => { this.container = input; }}>{[this.active.previous, this.active.next]}</div>;
   }
   isOutIn() {
     return this.props.mode === 'out-in';
@@ -54,18 +51,27 @@ class Transition extends Component {
     return this.container ? this.container.children[index] : null;
   }
 
-  changeClassElement(classNameFrom = [], classNameTo, index = 0) {
-    const element = this.getActiveDomElement(index);
-    if (!element)
-      return;
-    classNameFrom.forEach(name => element.classList.remove(name));
-    if (classNameTo)
-      element.classList.add(classNameTo);
+  checkClass(child, name) {
+    if (!child)
+      return false;
+    const classes = (child.props.className || '').split(' ');
+    const filtered = classes.filter((el) => el.includes(`${this.props.name}-${name}`));
+    return filtered.length !== 0;
   }
-  changeClass(element, classNameFrom = [], classNameTo = '') {
-    const filtered = (element.props.className || '').split(' ').filter((el) => el.length != 0 && classNameFrom.indexOf(el) === -1);
-    const className = [...filtered, classNameTo].join(' ');
-    return React.cloneElement(element, { className });
+  changeClassElement(classNameFrom = [], classNameTo, index = 0, child) {
+    if (child) {
+      const filtered = (child.props.className || '').split(' ').filter((el) => classNameFrom.indexOf(el) === -1);
+      const className = [...filtered, classNameTo].join(' ');
+      return React.cloneElement(child, { className });
+    }
+    else {
+      const element = this.getActiveDomElement(index);
+      if (!element)
+        return;
+      classNameFrom.forEach(name => element.classList.remove(name));
+      if (classNameTo)
+        element.classList.add(classNameTo);
+    }
   }
 
   removeTransition(type, index = 0, remove = false) {
@@ -75,22 +81,22 @@ class Transition extends Component {
         return;
       }
       this.changeClassElement([
-        `${this.props.transitionClass}-${type}`,
-        `${this.props.transitionClass}-${type}-active`
+        `${this.props.name}-${type}`,
+        `${this.props.name}-${type}-active`
       ], index);
     }, this.props.duration);
   }
-  setTransition(type, prop, index) {
-    if (prop)
-      return this.changeClass(prop, [
-               `${this.props.transitionClass}-${this.types[type]}`,
-               `${this.props.transitionClass}-${this.types[type]}-active`
-             ],
-             `${this.props.transitionClass}-${type}`);
-    this.changeClassElement([
-      `${this.props.transitionClass}-${this.types[type]}`,
-      `${this.props.transitionClass}-${this.types[type]}-active`
-    ], `${this.props.transitionClass}-${type}`, index);
+  setTransition(type, child, index) {
+    // if (child)
+    //   return this.changeClass(child, [
+    //     `${this.props.name}-${this.types[type]}`,
+    //     `${this.props.name}-${this.types[type]}-active`
+    //     ],
+    //     `${this.props.name}-${type}`);
+    return this.changeClassElement([
+      `${this.props.name}-${this.types[type]}`,
+      `${this.props.name}-${this.types[type]}-active`
+    ], `${this.props.name}-${type}`, index, child);
   }
   activeWatcher(target, old) {
     if (!target && old) { // exit
@@ -112,8 +118,17 @@ class Transition extends Component {
         released: true
       };
     } else if (target && old) { // switch
-      if (old.props.path === target.props.path)
+      if (old.props.path === target.props.path) { // fast switch
+        if (!this.active.previous && this.checkClass(this.active.next, 'leave')) {
+          this.active.next = this.setTransition('enter-active', this.active.next);
+          this.forceUpdate = {
+            target: null,
+            enabled: false,
+            released: false
+          };
+        }
         return;
+      }
       if (this.isOutIn()) {
         this.active.next = this.setTransition('leave-active', this.active.next);
         this.forceUpdate = {
@@ -154,8 +169,6 @@ class Transition extends Component {
   }
   
   componentWillUpdate(nextProps) {
-    // if (!this.forceUpdate.released)
-    //   return;
     if (this.forceUpdate.enabled && this.forceUpdate.released) {
       if (this.forceUpdate.exit) {
         this.active.previous = null;

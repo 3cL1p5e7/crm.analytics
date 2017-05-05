@@ -1,7 +1,8 @@
 import { combineReducers, createStore } from 'redux';
 
 import calendar from 'modules/calendar/reducers';
-import main from 'modules/main/reducers.js';
+import settings from 'modules/settings/reducers';
+import main from 'modules/main/reducers';
 
 const store = createStore(combineReducers({
   main,

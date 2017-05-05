@@ -110,17 +110,14 @@ class Main extends Component {
           'modules-container__modules to-the-right'}>
           <Transition duration={500}
                       className="modules-container__modules-wrapper"
-                      transitionClass="modules-fade">
-            <Calendar path='/calendar' className="booster"/>
-            <Settings path='/settings' className="booster"/>
+                      name="modules-fade">
+            <Calendar key="calendar" path='/calendar' className="booster"/>
+            <Settings key="settings" path='/settings' className="booster"/>
           </Transition>
         </div>
       </div>
     );
   }
-  // componentDidMount() {
-  //   this.props.setActive('calendar');
-  // }
   componentWillUpdate(nextProps) {
     if (this.props.active !== nextProps.active)
       this.swipeLeft = this.state.modules[this.props.active] < this.state.modules[nextProps.active || ''];

@@ -98,22 +98,18 @@ class Header extends Component {
     return (
       <div className="links">
           <Transition duration={300}
-                      className={ 'links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '') }
-                      transitionClass="items-fade">
-            <CalendarWidget path='/calendar' className="widget" />
-          {/*<div className={'links-wrapper ' + (this.props.active === 'calendar' ? 'active' : '')}>*/}
-            <div className="links-wrapper-item"
+                      className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
+                      name="items-fade">
+            <CalendarWidget key="calendar" path='/calendar' className="widget" />
+            <div className="links-wrapper-item" key="item"
                   onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>
-          {/*</div>*/}
           </Transition>
           <Transition duration={300}
-                      className={'links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}
-                      transitionClass="items-fade">
-            <SettingsWidget path='/settings' className="widget" />
-          {/*<div className={'links-wrapper ' + (this.props.active === 'settings' ? 'active' : '')}>*/}
-            <div className="links-wrapper-item"
+                      className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
+                      name="items-fade">
+            <SettingsWidget key="settings" path='/settings' className="widget" />
+            <div className="links-wrapper-item" key="item"
                   onClick={this.goToLink('settings')}>settingse..</div>
-          {/*</div>*/}
           </Transition>
           <div className="links-wrapper">
             <div className="links-wrapper-item" onClick={this.goToLink('')}>exite...</div>
