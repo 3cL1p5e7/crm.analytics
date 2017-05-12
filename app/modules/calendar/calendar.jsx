@@ -66,7 +66,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -94,6 +94,22 @@ class Calendar extends Component {
     ...actions,
     removeActive: mainActions.removeActive,
     setActive: mainActions.setActive
+  }
+  static routeHandler() {
+    return {
+      '/calendar/desk/:comp': () => {
+        console.log('CALENDAR desk', arguments);
+      },
+      '/calendar/desk': () => {
+        console.log('CALENDAR ONLY desk', arguments);
+      },
+      '/calendar/list/:comp': () => {
+        console.log('CALENDAR list', arguments);
+      },
+      '/calendar/list': () => {
+        console.log('CALENDAR ONLY list', arguments);
+      }
+    };
   }
   render() {
     const classList = ['calendar'];
@@ -129,12 +145,12 @@ class Calendar extends Component {
       this.props.setActiveModule(module);
     };
   }
-  componentDidMount() {
-    this.props.setActive('calendar');
-  }
-  componentWillUnmount() {
-    this.props.removeActive('calendar');
-  }
+  // componentDidMount() {
+  //   this.props.setActive('calendar');
+  // }
+  // componentWillUnmount() {
+  //   this.props.removeActive('calendar');
+  // }
 }
 Calendar.contextTypes = {
   router: PropTypes.shape({
@@ -145,5 +161,5 @@ Calendar.contextTypes = {
     staticContext: PropTypes.object
   }).isRequired
 }
-const reduxed = attachRedux(Calendar);
+const reduxed = attachRouterRedux(Calendar);
 export { reduxed as Calendar, CalendarWidget }

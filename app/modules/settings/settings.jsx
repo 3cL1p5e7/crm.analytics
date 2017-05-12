@@ -8,7 +8,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -32,16 +32,16 @@ class Settings extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.props.setActive('settings');
-  }
-  componentWillUnmount() {
-    this.props.removeActive('settings');
-  }
+  // componentDidMount() {
+  //   this.props.setActive('settings');
+  // }
+  // componentWillUnmount() {
+  //   this.props.removeActive('settings');
+  // }
 }
 Settings.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-const reduxed = attachRedux(Settings);
+const reduxed = attachRouterRedux(Settings);
 export { reduxed as Settings, SettingsWidget }

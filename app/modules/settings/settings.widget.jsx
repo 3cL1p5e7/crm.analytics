@@ -20,7 +20,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import * as actions from './actions';
@@ -40,4 +40,4 @@ class SettingsWidget extends Component {
   }
 }
 
-export default attachRedux(SettingsWidget);
+export default attachRouterRedux(SettingsWidget);

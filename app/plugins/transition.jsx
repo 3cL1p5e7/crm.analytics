@@ -2,7 +2,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import createFragment from 'react-addons-create-fragment';
 import PropTypes from 'prop-types';
@@ -248,4 +248,4 @@ class Transition extends Component {
   }
 }
 
-export default attachRedux(Transition);
+export default attachRouterRedux(Transition);

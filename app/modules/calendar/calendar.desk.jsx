@@ -33,7 +33,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import * as actions from './actions';
@@ -61,4 +61,4 @@ class CalendarDesk extends Component {
     this.props.setActiveModule('desk');
   }
 }
-export default attachRedux(CalendarDesk);
+export default attachRouterRedux(CalendarDesk);

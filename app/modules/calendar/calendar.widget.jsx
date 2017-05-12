@@ -27,7 +27,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import moment from 'plugins/moment';
@@ -49,4 +49,4 @@ class CalendarWidget extends Component {
   }
 }
 
-export default attachRedux(CalendarWidget);
+export default attachRouterRedux(CalendarWidget);

@@ -71,7 +71,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 
 import { Link, Route } from 'react-router-dom';
 
@@ -99,6 +99,25 @@ class Main extends Component {
     };
   }
   static mapActions = { ...actions }
+  static routeHandler() {
+    return {
+      '/calendar/:comp': () => {
+        console.log('main calendar', arguments);
+        this.props.setActive('calendar');
+      },
+      '/calendar': () => {
+        console.log('main ONLY calendar', arguments);
+      },
+      '/settings': () => {
+        console.log('main settings', arguments);
+        this.props.setActive('settings');
+      },
+      '/': () => {
+        console.log('main /', arguments);
+        this.props.setActive();
+      }
+    };
+  }
   render() {
     return (
       <div className="modules-container">
@@ -133,4 +152,4 @@ Main.contextTypes = {
   }).isRequired
 }
 
-export default attachRedux(Main);
+export default attachRouterRedux(Main);

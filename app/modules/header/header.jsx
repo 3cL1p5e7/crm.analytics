@@ -71,7 +71,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -133,4 +133,4 @@ Header.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-export default attachRedux(Header);
+export default attachRouterRedux(Header);
