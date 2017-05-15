@@ -20,8 +20,7 @@ class Settings extends Component {
     super(props);
   }
   static mapActions = {
-    removeActive: mainActions.removeActive,
-    setActive: mainActions.setActive
+    removeActive: mainActions.removeActive
   }
   render() {
     const classList = ['settings'];
@@ -32,12 +31,6 @@ class Settings extends Component {
       </div>
     );
   }
-  // componentDidMount() {
-  //   this.props.setActive('settings');
-  // }
-  // componentWillUnmount() {
-  //   this.props.removeActive('settings');
-  // }
 }
 Settings.contextTypes = {
   router: PropTypes.object.isRequired

@@ -90,10 +90,6 @@ class Header extends Component {
       activeCalendar: store.calendar.active
     };
   }
-  static mapActions = {
-    removeActive: mainActions.removeActive,
-    setActive: mainActions.setActive
-  }
   render() {
     return (
       <div className="links">
@@ -123,9 +119,9 @@ class Header extends Component {
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/${module}`);
-      if (module.length === 0)
-        this.props.removeActive();
-      else this.props.setActive(module);
+      // if (module.length === 0)
+      //   this.props.removeActive();
+      // else this.props.setActive(module);
     };
   }
 }

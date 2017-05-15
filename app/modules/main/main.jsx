@@ -101,20 +101,21 @@ class Main extends Component {
   static mapActions = { ...actions }
   static routeHandler() {
     return {
-      '/calendar/:comp': () => {
-        console.log('main calendar', arguments);
-        this.props.setActive('calendar');
+      '/calendar/:comp': (location, match, dispatch) => {
+        console.log('main calendar');
+        dispatch(this.mapActions.setActive('calendar'));
       },
-      '/calendar': () => {
-        console.log('main ONLY calendar', arguments);
+      '/calendar': (location, match, dispatch) => {
+        console.log('main ONLY calendar');
+        dispatch(this.mapActions.setActive('calendar'));
       },
-      '/settings': () => {
-        console.log('main settings', arguments);
-        this.props.setActive('settings');
+      '/settings': (location, match, dispatch) => {
+        console.log('main settings');
+        dispatch(this.mapActions.setActive('settings'));
       },
-      '/': () => {
-        console.log('main /', arguments);
-        this.props.setActive();
+      '/': (location, match, dispatch) => {
+        console.log('main /');
+        dispatch(this.mapActions.setActive());
       }
     };
   }
@@ -138,18 +139,10 @@ class Main extends Component {
     );
   }
   componentWillUpdate(nextProps) {
+    const modules = this.state.modules;
     if (this.props.active !== nextProps.active)
-      this.swipeLeft = this.state.modules[this.props.active] < this.state.modules[nextProps.active || ''];
+      this.swipeLeft = modules[this.props.active] < modules[nextProps.active || ''];
   }
-}
-Main.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired
-    }).isRequired,
-    staticContext: PropTypes.object
-  }).isRequired
 }
 
 export default attachRouterRedux(Main);

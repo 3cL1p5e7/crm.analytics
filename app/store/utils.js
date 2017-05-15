@@ -5,6 +5,6 @@ import { withRouter } from 'react-router';
 export const attachRouterRedux = (targetClass) => {
   if (typeof targetClass.routeHandler === 'function')
     routes.addComponentRoutes(targetClass.name, targetClass.routeHandler());
-  console.log(connect(targetClass.mapState, targetClass.mapActions)(targetClass));
+  console.log(targetClass.name);
   return withRouter(connect(targetClass.mapState, targetClass.mapActions)(targetClass));
 };

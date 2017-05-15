@@ -57,8 +57,5 @@ class CalendarDesk extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.props.setActiveModule('desk');
-  }
 }
 export default attachRouterRedux(CalendarDesk);

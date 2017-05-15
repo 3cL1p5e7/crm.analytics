@@ -24,7 +24,18 @@ class Routes {
         ...(this._routes[key] || {}),
         [component]: routes[key]
       };
+      this.dispatchOne(key, routes[key]);
     });
+  }
+  dispatchOne(path, handler) {
+    const match = matchPath(this._history.location.pathname, {
+      path,
+      exact: true,
+      strict: false
+    });
+    if (!match)
+      return;
+    handler(this._history.location, match, store.dispatch);
   }
   dispatch(location) {
     Object.keys(this._routes).forEach(path => {
@@ -36,7 +47,7 @@ class Routes {
       if (!match)
         return;
       Object.keys(this._routes[path]).forEach(component => {
-        this._routes[path][component](location, match);
+        this._routes[path][component](location, match, store.dispatch);
       });
     });
   }

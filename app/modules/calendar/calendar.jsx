@@ -78,7 +78,6 @@ import Transition from 'plugins/transition.jsx';
 import moment from 'plugins/moment';
 
 import * as actions from './actions';
-import * as mainActions from 'modules/main/actions';
 
 class Calendar extends Component {
   constructor(props) {
@@ -91,23 +90,25 @@ class Calendar extends Component {
     };
   }
   static mapActions = {
-    ...actions,
-    removeActive: mainActions.removeActive,
-    setActive: mainActions.setActive
+    ...actions
   }
   static routeHandler() {
     return {
-      '/calendar/desk/:comp': () => {
-        console.log('CALENDAR desk', arguments);
+      '/calendar/desk/:comp': (location, match, dispatch) => {
+        console.log('CALENDAR desk');
+        dispatch(this.mapActions.setActiveModule('desk'));
       },
-      '/calendar/desk': () => {
-        console.log('CALENDAR ONLY desk', arguments);
+      '/calendar/desk': (location, match, dispatch) => {
+        console.log('CALENDAR ONLY desk');
+        dispatch(this.mapActions.setActiveModule('desk'));
       },
-      '/calendar/list/:comp': () => {
-        console.log('CALENDAR list', arguments);
+      '/calendar/list/:comp': (location, match, dispatch) => {
+        console.log('CALENDAR list');
+        dispatch(this.mapActions.setActiveModule('list'));
       },
-      '/calendar/list': () => {
-        console.log('CALENDAR ONLY list', arguments);
+      '/calendar/list': (location, match, dispatch) => {
+        console.log('CALENDAR ONLY list');
+        dispatch(this.mapActions.setActiveModule('list'));
       }
     };
   }
@@ -142,15 +143,8 @@ class Calendar extends Component {
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/calendar/${module}`);
-      this.props.setActiveModule(module);
     };
   }
-  // componentDidMount() {
-  //   this.props.setActive('calendar');
-  // }
-  // componentWillUnmount() {
-  //   this.props.removeActive('calendar');
-  // }
 }
 Calendar.contextTypes = {
   router: PropTypes.shape({

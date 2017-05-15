@@ -46,8 +46,5 @@ class CalendarList extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.props.setActiveModule('list');
-  }
 }
 export default attachRouterRedux(CalendarList);
