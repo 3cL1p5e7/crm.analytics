@@ -6,15 +6,20 @@
     height: 100%;
 
     &__header {
-      height: $header-height;
-
-      background: $modules-header-color;
-      border-bottom-left-radius: $header-height / 2;
-
       display: flex;
-      flex-direction: row;
-      flex-grow: 0;
-      flex-shrink: 0;
+
+      height: $header-height;
+      background-color: $modules-body-color;
+
+      &--wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        flex-shrink: 0;
+
+        background: $modules-header-color;
+        border-bottom-left-radius: $header-radius;
+      }
     }
     
     &__modules {
@@ -87,6 +92,7 @@ import { Home } from 'modules/home/home.jsx';
 import { Calendar } from 'modules/calendar/calendar.jsx';
 import { Settings } from 'modules/settings/settings.jsx';
 import Header from 'modules/header/header.jsx';
+import ProfileWidget from 'modules/profile/profile.widget.jsx';
 import Transition from 'plugins/transition.jsx';
 import * as actions from './actions';
 
@@ -129,8 +135,10 @@ class Main extends Component {
     return (
       <div className="modules-container">
         <div className="modules-container__header">
-          <div></div>
-          <Header active={this.props.active}/>
+          <div className="modules-container__header--wrapper">
+            <ProfileWidget/>
+            <Header active={this.props.active}/>
+          </div>
         </div>
         <div className={this.swipeLeft ?
           'modules-container__modules to-the-left' :

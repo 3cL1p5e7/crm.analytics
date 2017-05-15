@@ -1,6 +1,6 @@
 <style lang="sass">
   @import '~uikit/theme';
-  .home {
+  .profile {
     display: flex;
     flex-grow: 1;
     background-color: $modules-body-color;
@@ -12,26 +12,26 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import HomeWidget from './home.widget.jsx';
+import ProfileWidget from './home.widget.jsx';
 
-class Home extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const classList = ['home'];
+    const classList = ['profile'];
     classList.push(this.props.className);
     return (
       <div className={classList.join(' ')}>
-        HOME PAGE
-        TROLOLO
+        ProfilePAGE
+        yeah
       </div>
     );
   }
 }
-Home.contextTypes = {
+Profile.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
 const reduxed = attachRouterRedux(Home);
-export { reduxed as Home, HomeWidget }
+export { reduxed as Profile, ProfileWidget }
