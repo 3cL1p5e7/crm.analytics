@@ -129,10 +129,11 @@ class Main extends Component {
           'modules-container__modules to-the-left' :
           'modules-container__modules to-the-right'}>
           <Transition duration={500}
+                      switch={this.props.active}
                       className="modules-container__modules-wrapper"
                       name="modules-fade">
-            <Calendar key="calendar" path='/calendar' className="booster"/>
-            <Settings key="settings" path='/settings' className="booster"/>
+            <Calendar key="calendar" case="calendar" className="booster"/>
+            <Settings key="settings" case="settings" className="booster"/>
           </Transition>
         </div>
       </div>

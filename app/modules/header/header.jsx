@@ -94,18 +94,34 @@ class Header extends Component {
     return (
       <div className="links">
           <Transition duration={300}
+                      switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
                       name="items-fade">
-            <CalendarWidget key="calendar" path='/calendar' className="widget" />
+          {/*<Transition duration={300}
+            byRouter={true}
+            className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '')}
+            name="items-fade">*/}
+            {/*<CalendarWidget key="calendar" path='/calendar' className="widget" />
             <div className="links-wrapper-item" key="item"
-                  onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>
+                  onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>*/}
+            <CalendarWidget key="calendar" case="calendar" className="widget" />
+            <div className="links-wrapper-item" key="item"
+              onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>
           </Transition>
+          {/*<Transition duration={300}
+                      byRouter={true}
+                      className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
+                      name="items-fade">*/}
           <Transition duration={300}
+                      switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
                       name="items-fade">
-            <SettingsWidget key="settings" path='/settings' className="widget" />
+            <SettingsWidget key="settings" case="settings" className="widget" />
             <div className="links-wrapper-item" key="item"
-                  onClick={this.goToLink('settings')}>settingse..</div>
+              onClick={this.goToLink('settings')}>settingse..</div>
+            {/*<SettingsWidget key="settings" path='/settings' className="widget" />
+            <div className="links-wrapper-item" key="item"
+                  onClick={this.goToLink('settings')}>settingse..</div>*/}
           </Transition>
           <div className="links-wrapper">
             <div className="links-wrapper-item" onClick={this.goToLink('')}>exite...</div>

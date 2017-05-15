@@ -129,11 +129,18 @@ class Calendar extends Component {
             <use xlinkHref='#icon-list' />
           </svg>
         </div>
+        {/*<Transition duration={300}
+          byRouter={true}
+          className="calendar__wrapper"
+          name="calendar-fade">*/}
         <Transition duration={300}
+                    switch={this.props.active}
                     className="calendar__wrapper"
                     name="calendar-fade">
-          <CalendarList key="list" path='/calendar/list' className="booster"/>
-          <CalendarDesk key="desk" path='/calendar/desk' className="booster"/>
+          {/*<CalendarList key="list" path='/calendar/list' className="booster"/>
+          <CalendarDesk key="desk" path='/calendar/desk' className="booster"/>*/}
+          <CalendarList key="list" case="list" className="booster" />
+          <CalendarDesk key="desk" case="desk" className="booster" />
         </Transition>
       </div>
     );
