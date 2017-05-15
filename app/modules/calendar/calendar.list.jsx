@@ -4,8 +4,6 @@
     display: flex;
     flex-grow: 1;
 
-    padding: 10px;
-
     color: red;
 
     &__board {
@@ -21,7 +19,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import * as actions from './actions';
@@ -46,8 +44,5 @@ class CalendarList extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.props.setActiveModule('list');
-  }
 }
-export default attachRedux(CalendarList);
+export default attachRouterRedux(CalendarList);

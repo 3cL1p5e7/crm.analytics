@@ -4,8 +4,6 @@
     display: flex;
     flex-grow: 1;
 
-    padding: 10px;
-
     color: white;
     
     // &:before {
@@ -33,7 +31,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import * as actions from './actions';
@@ -57,8 +55,5 @@ class CalendarDesk extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.props.setActiveModule('desk');
-  }
 }
-export default attachRedux(CalendarDesk);
+export default attachRouterRedux(CalendarDesk);

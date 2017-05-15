@@ -3,7 +3,7 @@
   .links {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     flex-grow: 1;
 
     transition: all .5s ease;
@@ -71,11 +71,12 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
+import { HomeWidget } from 'modules/home/home.jsx';
 import { CalendarWidget } from 'modules/calendar/calendar.jsx';
 import { SettingsWidget } from 'modules/settings/settings.jsx';
 
@@ -90,30 +91,33 @@ class Header extends Component {
       activeCalendar: store.calendar.active
     };
   }
-  static mapActions = {
-    removeActive: mainActions.removeActive,
-    setActive: mainActions.setActive
-  }
   render() {
     return (
       <div className="links">
           <Transition duration={300}
-                      className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
+                      switch={this.props.active}
+                      className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
                       name="items-fade">
-            <CalendarWidget key="calendar" path='/calendar' className="widget" />
+            <HomeWidget key="home" case="home" className="widget" />
             <div className="links-wrapper-item" key="item"
-                  onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>
+              onClick={this.goToLink(``)}>Home</div>
           </Transition>
           <Transition duration={300}
+                      switch={this.props.active}
+                      className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
+                      name="items-fade">
+            <CalendarWidget key="calendar" case="calendar" className="widget" />
+            <div className="links-wrapper-item" key="item"
+              onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendar</div>
+          </Transition>
+          <Transition duration={300}
+                      switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
                       name="items-fade">
-            <SettingsWidget key="settings" path='/settings' className="widget" />
+            <SettingsWidget key="settings" case="settings" className="widget" />
             <div className="links-wrapper-item" key="item"
-                  onClick={this.goToLink('settings')}>settingse..</div>
+              onClick={this.goToLink('settings')}>settings</div>
           </Transition>
-          <div className="links-wrapper">
-            <div className="links-wrapper-item" onClick={this.goToLink('')}>exite...</div>
-          </div>
         </div>
     );
   }
@@ -123,9 +127,6 @@ class Header extends Component {
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/${module}`);
-      if (module.length === 0)
-        this.props.removeActive();
-      else this.props.setActive(module);
     };
   }
 }
@@ -133,4 +134,4 @@ Header.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-export default attachRedux(Header);
+export default attachRouterRedux(Header);

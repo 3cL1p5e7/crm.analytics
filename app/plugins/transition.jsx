@@ -2,7 +2,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import createFragment from 'react-addons-create-fragment';
 import PropTypes from 'prop-types';
@@ -38,14 +38,34 @@ class Transition extends Component {
   render() {
     if (!this.active.next)
       return null;
-    if (this.isOutIn())
+    if (this.isOutIn)
       return <div className={this.props.className}
         ref={(input) => { this.container = input; }}>{this.active.next}</div>;
     return <div className={this.props.className}
       ref={(input) => { this.container = input; }}>{[this.active.previous, this.active.next]}</div>;
   }
-  isOutIn() {
+  get isOutIn() {
     return this.props.mode === 'out-in';
+  }
+  get byRouter() {
+    return Boolean(this.props.router);
+  }
+  param(child) {
+    return child.props.case;
+  }
+  match(child, nextProps) {
+    if (this.byRouter) {
+      if (!child.props.case)
+        return false;
+      const match = matchPath(nextProps.location.pathname, {
+        path: child.props.case,
+        exact: false,
+        strict: false
+      });
+      return match;
+    } else {
+      return nextProps.switch === child.props.case;
+    }
   }
   getActiveDomElement(index) {
     return this.container ? this.container.children[index] : null;
@@ -87,12 +107,6 @@ class Transition extends Component {
     }, this.props.duration);
   }
   setTransition(type, child, index) {
-    // if (child)
-    //   return this.changeClass(child, [
-    //     `${this.props.name}-${this.types[type]}`,
-    //     `${this.props.name}-${this.types[type]}-active`
-    //     ],
-    //     `${this.props.name}-${type}`);
     return this.changeClassElement([
       `${this.props.name}-${this.types[type]}`,
       `${this.props.name}-${this.types[type]}-active`
@@ -101,8 +115,7 @@ class Transition extends Component {
   activeWatcher(target, old) {
     if (!target && old) { // exit
       this.active.previous = null;
-      this.active.next = this.setTransition('leave-active',
-      this.active.next, 0);
+      this.active.next = this.setTransition('leave-active', old, 0);
       this.setTransition('leave-active', null, 0);
       this.forceUpdate = {
         target: null,
@@ -118,9 +131,9 @@ class Transition extends Component {
         released: true
       };
     } else if (target && old) { // switch
-      if (old.props.path === target.props.path) { // fast switch
-        if (!this.active.previous && this.checkClass(this.active.next, 'leave')) {
-          this.active.next = this.setTransition('enter-active', this.active.next);
+      if (this.param(old) === this.param(target)) { // fast switch
+        if (!this.active.previous && this.checkClass(old, 'leave')) {
+          this.active.next = this.setTransition('enter-active', old);
           this.forceUpdate = {
             target: null,
             enabled: false,
@@ -129,10 +142,10 @@ class Transition extends Component {
         }
         return;
       }
-      if (this.isOutIn()) {
-        this.active.next = this.setTransition('leave-active', this.active.next);
+      if (this.isOutIn) {
+        this.active.next = this.setTransition('leave-active', old);
         this.forceUpdate = {
-          target: this.setTransition('enter-active', target),
+          target: this.setTransition('enter-active', target), // target
           enabled: true,
           released: false
         };
@@ -150,21 +163,16 @@ class Transition extends Component {
   getTargetComponent(nextProps) {
     let target = null;
     nextProps.children.some((child) => {
-      if (!child.props.path)
-        return false;
-      const match = matchPath(nextProps.location.pathname, {
-        path: child.props.path,
-        exact: false,
-        strict: false
-      });
-      if (match) {
+      const result = this.match(child, nextProps);
+      if (result)
         target = child;
-      }
-      return match;
+      return result;
     });
-    if (!target) {
-      target = nextProps.children.find((child) => !child.props.path);
-    }
+    if (!target)
+      target = nextProps.children.find((child) => {
+        const param = this.param(child);
+        return param === null || typeof param === 'undefined';
+      });
     return target;
   }
   
@@ -173,7 +181,7 @@ class Transition extends Component {
       if (this.forceUpdate.exit) {
         this.active.previous = null;
         this.active.next = null;
-      } else if (!this.isOutIn())
+      } else if (!this.isOutIn)
         this.active.previous = null;
       else this.active.next = this.forceUpdate.target;
 
@@ -207,7 +215,7 @@ class Transition extends Component {
       }
       if (this.active.next) {
         this.setTransition('leave', null, 0);
-        if (!this.isOutIn()) {
+        if (!this.isOutIn) {
           this.setTransition('enter', null, 1);
           this.removeTransition('enter', 1);
           this.removeTransition('leave', 0, 'previous');
@@ -248,4 +256,4 @@ class Transition extends Component {
   }
 }
 
-export default attachRedux(Transition);
+export default attachRouterRedux(Transition);

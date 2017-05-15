@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import { Router, Route, Redirect } from 'react-router';
-import history from 'plugins/history';
+import routes from 'plugins/history';
 import store from 'store';
 
 import Main from './modules/main/main.jsx';
@@ -13,7 +13,7 @@ require('webpack-svgstore-plugin/src/helpers/svgxhr')(__svg__);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
+    <Router history={routes.history}>
       <Route path="/" component={Main}/>
     </Router>
   </Provider>,

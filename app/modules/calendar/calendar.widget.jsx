@@ -27,7 +27,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import moment from 'plugins/moment';
@@ -43,10 +43,10 @@ class CalendarWidget extends Component {
   render() {
     return (
       <div className={ `calendar-widget ${this.props.className || ''}` }>
-        <div className="calendar-widget__title">{moment().format('D MMMM, dddd')}</div>
+        <div className="calendar-widget__title">{moment().format('D MMMM, YYYY')}</div>
       </div>
     );
   }
 }
 
-export default attachRedux(CalendarWidget);
+export default attachRouterRedux(CalendarWidget);

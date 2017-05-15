@@ -66,7 +66,7 @@
 </style>
 
 import React, { Component } from 'react';
-import { attachRedux } from 'store/utils';
+import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -78,7 +78,6 @@ import Transition from 'plugins/transition.jsx';
 import moment from 'plugins/moment';
 
 import * as actions from './actions';
-import * as mainActions from 'modules/main/actions';
 
 class Calendar extends Component {
   constructor(props) {
@@ -91,9 +90,23 @@ class Calendar extends Component {
     };
   }
   static mapActions = {
-    ...actions,
-    removeActive: mainActions.removeActive,
-    setActive: mainActions.setActive
+    ...actions
+  }
+  static routeHandler() {
+    return {
+      '/calendar/desk/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('desk'));
+      },
+      '/calendar/desk': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('desk'));
+      },
+      '/calendar/list/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('list'));
+      },
+      '/calendar/list': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('list'));
+      }
+    };
   }
   render() {
     const classList = ['calendar'];
@@ -113,10 +126,11 @@ class Calendar extends Component {
           </svg>
         </div>
         <Transition duration={300}
+                    switch={this.props.active}
                     className="calendar__wrapper"
                     name="calendar-fade">
-          <CalendarList key="list" path='/calendar/list' className="booster"/>
-          <CalendarDesk key="desk" path='/calendar/desk' className="booster"/>
+          <CalendarList key="list" case="list" className="booster" />
+          <CalendarDesk key="desk" case="desk" className="booster" />
         </Transition>
       </div>
     );
@@ -126,14 +140,7 @@ class Calendar extends Component {
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/calendar/${module}`);
-      this.props.setActiveModule(module);
     };
-  }
-  componentDidMount() {
-    this.props.setActive('calendar');
-  }
-  componentWillUnmount() {
-    this.props.removeActive('calendar');
   }
 }
 Calendar.contextTypes = {
@@ -145,5 +152,5 @@ Calendar.contextTypes = {
     staticContext: PropTypes.object
   }).isRequired
 }
-const reduxed = attachRedux(Calendar);
+const reduxed = attachRouterRedux(Calendar);
 export { reduxed as Calendar, CalendarWidget }
