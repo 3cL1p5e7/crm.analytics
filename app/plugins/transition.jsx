@@ -48,27 +48,17 @@ class Transition extends Component {
     return this.props.mode === 'out-in';
   }
   get byRouter() {
-    return Boolean(this.props.byRouter);
-  }
-  actualEntity(source) {
-    if (!source)
-      return;
-    const child = this.props.children.find(elem => elem.key === source.key);
-    if (child) {
-
-    }
-    return child;
+    return Boolean(this.props.router);
   }
   param(child) {
-    return this.byRouter ? child.props.path : child.props.case;
+    return child.props.case;
   }
   match(child, nextProps) {
-    console.log(child.key, child.props);
     if (this.byRouter) {
-      if (!child.props.path)
+      if (!child.props.case)
         return false;
       const match = matchPath(nextProps.location.pathname, {
-        path: child.props.path,
+        path: child.props.case,
         exact: false,
         strict: false
       });
@@ -88,16 +78,11 @@ class Transition extends Component {
     const filtered = classes.filter((el) => el.includes(`${this.props.name}-${name}`));
     return filtered.length !== 0;
   }
-  clone(child, payload) {
-    if (!child)
-      return;
-    return React.cloneElement(child, payload);
-  }
   changeClassElement(classNameFrom = [], classNameTo, index = 0, child) {
     if (child) {
       const filtered = (child.props.className || '').split(' ').filter((el) => classNameFrom.indexOf(el) === -1);
       const className = [...filtered, classNameTo].join(' ');
-      return this.clone(child, { className });
+      return React.cloneElement(child, { className });
     }
     else {
       const element = this.getActiveDomElement(index);
