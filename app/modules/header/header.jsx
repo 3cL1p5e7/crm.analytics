@@ -3,7 +3,7 @@
   .links {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     flex-grow: 1;
 
     transition: all .5s ease;
@@ -76,6 +76,7 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
+import { HomeWidget } from 'modules/home/home.jsx';
 import { CalendarWidget } from 'modules/calendar/calendar.jsx';
 import { SettingsWidget } from 'modules/settings/settings.jsx';
 
@@ -95,6 +96,14 @@ class Header extends Component {
       <div className="links">
           <Transition duration={300}
                       switch={this.props.active}
+                      className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
+                      name="items-fade">
+            <HomeWidget key="home" case="home" className="widget" />
+            <div className="links-wrapper-item" key="item"
+              onClick={this.goToLink(``)}>Home</div>
+          </Transition>
+          <Transition duration={300}
+                      switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
                       name="items-fade">
             <CalendarWidget key="calendar" case="calendar" className="widget" />
@@ -109,9 +118,6 @@ class Header extends Component {
             <div className="links-wrapper-item" key="item"
               onClick={this.goToLink('settings')}>settings</div>
           </Transition>
-          <div className="links-wrapper">
-            <div className="links-wrapper-item" onClick={this.goToLink('')}>exit</div>
-          </div>
         </div>
     );
   }

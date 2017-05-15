@@ -40,31 +40,37 @@
   .modules-fade-enter-active {
   }
   .to-the-left .modules-fade-enter-active {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(30%, 0, 0);
+    opacity: 0;
   }
   .to-the-right .modules-fade-enter-active {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-30%, 0, 0);
+    opacity: 0;
   }
   
   .modules-fade-enter {
     will-change: transform;
+    opacity: 1!important;
     transform: translate3d(0, 0, 0)!important;
-    transition: transform .4s ease;
+    transition: transform .4s, opacity .4s ease;
   }
 
   .modules-fade-leave-active {
     transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
   .modules-fade-leave {
     will-change: transform;
-    transition: transform .4s ease;
+    transition: transform .4s, opacity .4s ease;
   }
 
   .to-the-left .modules-fade-leave {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-30%, 0, 0);
+    opacity: 0;
   }
   .to-the-right .modules-fade-leave {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(30%, 0, 0);
+    opacity: 0;
   }
 </style>
 
@@ -75,6 +81,7 @@ import { attachRouterRedux } from 'store/utils';
 
 import { Link, Route } from 'react-router-dom';
 
+import { Home } from 'modules/home/home.jsx';
 import { Calendar } from 'modules/calendar/calendar.jsx';
 import { Settings } from 'modules/settings/settings.jsx';
 import Header from 'modules/header/header.jsx';
@@ -87,8 +94,9 @@ class Main extends Component {
     super(props);
     this.state = {
       modules: {
-        calendar: 0,
-        settings: 1,
+        home: 0,
+        calendar: 1,
+        settings: 2,
         '': 2
       }
     };
@@ -111,7 +119,7 @@ class Main extends Component {
         dispatch(this.mapActions.setActive('settings'));
       },
       '/': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive());
+        dispatch(this.mapActions.setActive('home'));
       }
     };
   }
@@ -128,6 +136,7 @@ class Main extends Component {
                       switch={this.props.active}
                       className="modules-container__modules-wrapper"
                       name="modules-fade">
+            <Home key="home" case="home" className="booster" />
             <Calendar key="calendar" case="calendar" className="booster"/>
             <Settings key="settings" case="settings" className="booster"/>
           </Transition>
