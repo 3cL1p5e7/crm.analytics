@@ -6,8 +6,10 @@
     height: 100%;
 
     &__header {
-      height: 55px;
+      height: $header-height;
+
       background: $modules-header-color;
+      border-bottom-left-radius: $header-height / 2;
 
       display: flex;
       flex-direction: row;
@@ -127,6 +129,7 @@ class Main extends Component {
     return (
       <div className="modules-container">
         <div className="modules-container__header">
+          <div></div>
           <Header active={this.props.active}/>
         </div>
         <div className={this.swipeLeft ?
