@@ -99,7 +99,7 @@ class Header extends Component {
                       name="items-fade">
             <CalendarWidget key="calendar" case="calendar" className="widget" />
             <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendare.</div>
+              onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendar</div>
           </Transition>
           <Transition duration={300}
                       switch={this.props.active}
@@ -107,10 +107,10 @@ class Header extends Component {
                       name="items-fade">
             <SettingsWidget key="settings" case="settings" className="widget" />
             <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink('settings')}>settingse..</div>
+              onClick={this.goToLink('settings')}>settings</div>
           </Transition>
           <div className="links-wrapper">
-            <div className="links-wrapper-item" onClick={this.goToLink('')}>exite...</div>
+            <div className="links-wrapper-item" onClick={this.goToLink('')}>exit</div>
           </div>
         </div>
     );
@@ -121,9 +121,6 @@ class Header extends Component {
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/${module}`);
-      // if (module.length === 0)
-      //   this.props.removeActive();
-      // else this.props.setActive(module);
     };
   }
 }

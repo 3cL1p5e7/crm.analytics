@@ -95,19 +95,15 @@ class Calendar extends Component {
   static routeHandler() {
     return {
       '/calendar/desk/:comp': (location, match, dispatch) => {
-        console.log('CALENDAR desk');
         dispatch(this.mapActions.setActiveModule('desk'));
       },
       '/calendar/desk': (location, match, dispatch) => {
-        console.log('CALENDAR ONLY desk');
         dispatch(this.mapActions.setActiveModule('desk'));
       },
       '/calendar/list/:comp': (location, match, dispatch) => {
-        console.log('CALENDAR list');
         dispatch(this.mapActions.setActiveModule('list'));
       },
       '/calendar/list': (location, match, dispatch) => {
-        console.log('CALENDAR ONLY list');
         dispatch(this.mapActions.setActiveModule('list'));
       }
     };

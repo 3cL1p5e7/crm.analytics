@@ -4,8 +4,6 @@
     display: flex;
     flex-grow: 1;
 
-    padding: 10px;
-
     color: red;
 
     &__board {

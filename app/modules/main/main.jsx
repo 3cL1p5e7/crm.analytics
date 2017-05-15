@@ -102,19 +102,15 @@ class Main extends Component {
   static routeHandler() {
     return {
       '/calendar/:comp': (location, match, dispatch) => {
-        console.log('main calendar');
         dispatch(this.mapActions.setActive('calendar'));
       },
       '/calendar': (location, match, dispatch) => {
-        console.log('main ONLY calendar');
         dispatch(this.mapActions.setActive('calendar'));
       },
       '/settings': (location, match, dispatch) => {
-        console.log('main settings');
         dispatch(this.mapActions.setActive('settings'));
       },
       '/': (location, match, dispatch) => {
-        console.log('main /');
         dispatch(this.mapActions.setActive());
       }
     };
