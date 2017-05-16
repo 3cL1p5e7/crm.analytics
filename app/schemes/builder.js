@@ -23,6 +23,8 @@ class Builder {
     if (depth > 1 || !payload)
       return;
     if (!this._classes[className]) {
+      if (window[className])
+        return window[className](payload);
       console.error(`Class with name ${className} does not exist`);
       return;
     }
@@ -31,21 +33,22 @@ class Builder {
     const fields = this._classes[className].scheme;
     Object.keys(fields).some((key) => {
       const field = fields[key];
+      
+      if (!field.type) {
+        console.error(`Field's type ${key} not defined`);
+        return true;
+      }
+      
       if (payload[key] === null || typeof payload[key] === 'undefined') {
 
         if (field.required) {
-          console.error(`Required field ${key} does not present`);
+          console.error(`Required field ${key} does not present (${className})`);
           return true;
         }
         if (!field.default || typeof field.default !== 'function') {
           instance[key] = null;
         } else instance[key] = field.default.call(null);
         return false;
-      }
-
-      if (!field.type) {
-        console.error(`Field's type ${key} not defined`);
-        return true;
       }
 
       let entityName = false;
@@ -56,20 +59,24 @@ class Builder {
           objectType = type;
         })
       });
-      if (!entityName) { // plain object 
-        instance[key] = window[field.type](payload[key]);
-      } else { // special object
-        if (objectType === 'Array' && Array.isArray(payload[key])) {
-          instance[key] = [];
-          payload[key].forEach(index => {
-            instance[key].push(this.build(entityName, payload[key][index], 1));
-          });
-        } else if (objectType === 'Object' && typeof payload[key] === 'object') {
-          instance[key] = {};
-          Object.keys(payload[key]).forEach(objKey => {
-            instance[key][objKey] = this.build(entityName, payload[key][objKey], 1);
-          });
-        }
+      if (!entityName) { // plain object
+
+        if (this.classes[field.type])
+          instance[key] = this.build(field.type, payload[key], 1);
+        else instance[key] = window[field.type](payload[key]);
+        return false;
+      }
+
+      if (objectType === 'Array' && Array.isArray(payload[key])) {
+        instance[key] = [];
+        payload[key].forEach(elem => {
+          instance[key].push(this.build(entityName, elem, 1));
+        });
+      } else if (objectType === 'Object' && typeof payload[key] === 'object') {
+        instance[key] = {};
+        Object.keys(payload[key]).forEach(objKey => {
+          instance[key][objKey] = this.build(entityName, payload[key][objKey], 1);
+        });
       }
       return false;      
     });

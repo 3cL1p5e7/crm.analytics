@@ -31,8 +31,8 @@ export const event = {
       default: () => Date.now() + 86400000 // 1 day
     },
     location: {
-      type: '{location}',
-      default: () => { return {}; }
+      type: 'location',
+      default: () => null
     },
     participants: {
       type: '{user}',

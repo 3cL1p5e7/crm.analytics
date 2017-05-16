@@ -48,7 +48,7 @@ export const group = {
       default: () => null
     },
     subscribers: {
-      type: 'Array',
+      type: '[String]',
       default: () => { return []; }
     }
   }

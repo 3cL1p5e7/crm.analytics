@@ -107,6 +107,16 @@ class ProfileWidget extends Component {
               name: 'russian rap is shit',
               subscribers: ['777', '555']
             }
+          },
+          events: {
+            'hello world': {
+              id: 'eee pooookkkk',
+              title: 'Insomnium',
+              location: {
+                id: 'test',
+                title: 'MOSCOOOOWOWWWW'
+              }
+            }
           }
         });
     };
