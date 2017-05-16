@@ -70,10 +70,12 @@ class ProfileWidget extends Component {
       avatar: store.profile.user.avatar
     };
   }
+  static mapActions = { ...actions }
   render() {
     return (
       <div className={`profile-widget ${this.props.className || ''}`}>
-        <div className="profile-widget__icon">
+        <div className="profile-widget__icon"
+             onClick={this.iconClick()}>
           <svg className="profile-widget__icon--svg">
           {
             this.props.logged ? (<g>
@@ -90,6 +92,24 @@ class ProfileWidget extends Component {
         </div>
       </div>
     );
+  }
+  iconClick() {
+    return () => {
+      if (!this.state.loaded)
+        this.props.login({
+          id: '777',
+          firstname: 'Boss',
+          lastname: 'Big Russian',
+          avatar: 'https://www.2do2go.ru/uploads/c799d11d6748abff308c893ea2f12bf5.jpg',
+          groups: {
+            '666': {
+              id: '666',
+              name: 'russian rap is shit',
+              subscribers: ['777', '555']
+            }
+          }
+        });
+    };
   }
   componentDidMount() {
     if (this.image) {

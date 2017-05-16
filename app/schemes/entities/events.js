@@ -19,7 +19,7 @@ export const event = {
       default: () => '#00CC99'
     },
     avatar: {
-      type: 'Url',
+      type: 'String',
       default: () => null
     },
     from: {

@@ -59,12 +59,16 @@ class Builder {
       if (!entityName) { // plain object 
         instance[key] = window[field.type](payload[key]);
       } else { // special object
-        if (objectType === 'Array') {
-          instance[key] = this.build(entityName, payload[key], 1);
-          if (instance[key])
-            instance[key] = Object.values(instance[key]);
-        } else if (objectType === 'Object') {
-          instance[key] = this.build(entityName, payload[key], 1);
+        if (objectType === 'Array' && Array.isArray(payload[key])) {
+          instance[key] = [];
+          payload[key].forEach(index => {
+            instance[key].push(this.build(entityName, payload[key][index], 1));
+          });
+        } else if (objectType === 'Object' && typeof payload[key] === 'object') {
+          instance[key] = {};
+          Object.keys(payload[key]).forEach(objKey => {
+            instance[key][objKey] = this.build(entityName, payload[key][objKey], 1);
+          });
         }
       }
       return false;      

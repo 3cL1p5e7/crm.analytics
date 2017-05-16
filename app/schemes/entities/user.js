@@ -14,7 +14,7 @@ export const user = {
       default: () => ''
     },
     avatar: {
-      type: 'Url',
+      type: 'String',
       default: () => null
     },
     friends: {
@@ -44,12 +44,12 @@ export const group = {
       default: () => ''
     },
     avatar: {
-      type: 'Url',
+      type: 'String',
       default: () => null
     },
     subscribers: {
-      type: '{user}',
-      default: () => { return {}; }
+      type: 'Array',
+      default: () => { return []; }
     }
   }
 };

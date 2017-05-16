@@ -95,7 +95,6 @@ import Header from 'modules/header/header.jsx';
 import ProfileWidget from 'modules/profile/profile.widget.jsx';
 import Transition from 'plugins/transition.jsx';
 
-import Builder from 'schemes/builder';
 import * as actions from './actions';
 
 class Main extends Component {
@@ -158,9 +157,6 @@ class Main extends Component {
     );
   }
   componentWillUpdate(nextProps) {
-    const test = new Builder();
-    const res = test.build('user', { id: 'test', firstname: 'hui' });
-    console.log(res);
     const modules = this.state.modules;
     if (this.props.active !== nextProps.active)
       this.swipeLeft = modules[this.props.active] < modules[nextProps.active || ''];
