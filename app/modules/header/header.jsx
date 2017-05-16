@@ -100,7 +100,7 @@ class Header extends Component {
                       name="items-fade">
             <HomeWidget key="home" case="home" className="widget" />
             <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink(``)}>Home</div>
+              onClick={this.goToLink(``)}>home</div>
           </Transition>
           <Transition duration={300}
                       switch={this.props.active}
