@@ -13,7 +13,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 40px;
+      font-size: 30px;
 
       color: $modules-header-text-color;
     }
@@ -21,7 +21,7 @@
 
   @media (max-width: $phablet) { 
     .calendar-widget__title {
-      font-size: 26px;
+      font-size: 20px;
     }
   }
 </style>

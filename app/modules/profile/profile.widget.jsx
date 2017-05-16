@@ -13,7 +13,7 @@
 
   .profile-widget {
     display: flex;
-
+    
     overflow: hidden;
 
     border-bottom-left-radius: $header-radius;

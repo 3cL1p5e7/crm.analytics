@@ -39,9 +39,9 @@ class Transition extends Component {
     if (!this.active.next)
       return null;
     if (this.isOutIn)
-      return <div className={this.props.className}
+      return <div className={this.props.className} onClick={this.props.onClick}
         ref={(input) => { this.container = input; }}>{this.active.next}</div>;
-    return <div className={this.props.className}
+    return <div className={this.props.className} onClick={this.props.onClick}
       ref={(input) => { this.container = input; }}>{[this.active.previous, this.active.next]}</div>;
   }
   get isOutIn() {

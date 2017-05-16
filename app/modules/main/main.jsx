@@ -19,6 +19,10 @@
 
         background: $modules-header-color;
         border-bottom-left-radius: $header-radius;
+        
+        .header-profile-widget {
+          flex-grow: 3;
+        }
       }
     }
     
@@ -137,7 +141,7 @@ class Main extends Component {
       <div className="modules-container">
         <div className="modules-container__header">
           <div className="modules-container__header--wrapper">
-            <ProfileWidget/>
+            <ProfileWidget className="header-profile-widget"/>
             <Header active={this.props.active}/>
           </div>
         </div>

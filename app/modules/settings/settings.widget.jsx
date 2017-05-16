@@ -13,6 +13,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 20px;
 
       color: $modules-header-text-color;
     }
@@ -34,7 +35,7 @@ class SettingsWidget extends Component {
   render() {
     return (
       <div className={`settings-widget ${this.props.className || ''}`}>
-        <div className="settings-widget__title">It is fucking SETTINGS widget</div>
+        <div className="settings-widget__title">settings</div>
       </div>
     );
   }

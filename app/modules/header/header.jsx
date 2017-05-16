@@ -12,6 +12,7 @@
       position: relative;
       display: flex;
       width: 100px;
+      cursor: pointer;
       transition: width .4s ease;
 
       &.active {
@@ -40,7 +41,7 @@
 
         color: $modules-header-text-color;
         margin: 0 10px 0 10px;
-        cursor: pointer;
+        
         z-index: 2;
         transition: width .4s ease;
       }
@@ -49,7 +50,10 @@
 
   @media (max-width: $phablet) { 
     .links-wrapper.active {
-      width: 190px!important;
+      width: 150px!important;
+    }
+    .links-wrapper {
+      width: 65px;
     }
   }
 
@@ -97,26 +101,26 @@ class Header extends Component {
           <Transition duration={300}
                       switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
-                      name="items-fade">
+                      name="items-fade"
+                      onClick={this.goToLink(``)}>
             <HomeWidget key="home" case="home" className="widget" />
-            <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink(``)}>home</div>
+            <div className="links-wrapper-item" key="item">home</div>
           </Transition>
           <Transition duration={300}
                       switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
-                      name="items-fade">
+                      name="items-fade"
+                      onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>
             <CalendarWidget key="calendar" case="calendar" className="widget" />
-            <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>calendar</div>
+            <div className="links-wrapper-item" key="item">calendar</div>
           </Transition>
           <Transition duration={300}
                       switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
-                      name="items-fade">
+                      name="items-fade"
+                      onClick={this.goToLink('settings')}>
             <SettingsWidget key="settings" case="settings" className="widget" />
-            <div className="links-wrapper-item" key="item"
-              onClick={this.goToLink('settings')}>settings</div>
+            <div className="links-wrapper-item" key="item">settings</div>
           </Transition>
         </div>
     );

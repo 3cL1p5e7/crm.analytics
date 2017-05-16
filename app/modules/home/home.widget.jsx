@@ -8,11 +8,12 @@
     background: radial-gradient(circle farthest-side at center, $home-widget-color, transparent);
 
     &__title {
-    display: flex;
+      display: flex;
 
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 20px;
 
       color: $modules-header-text-color;
     }
@@ -34,7 +35,7 @@ class HomeWidget extends Component {
   render() {
     return (
       <div className={`home-widget ${this.props.className || ''}`}>
-        <div className="home-widget__title">HOME</div>
+        <div className="home-widget__title">home</div>
       </div>
     );
   }

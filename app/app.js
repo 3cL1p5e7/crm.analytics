@@ -14,7 +14,12 @@ require('webpack-svgstore-plugin/src/helpers/svgxhr')(__svg__);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={routes.history}>
-      <Route path="/" component={Main}/>
+      <div>
+        <Route path="/" render={() => (
+          <Redirect to="/home" />
+        )}/>
+        <Route path="/home" component={Main}/>
+      </div>
     </Router>
   </Provider>,
   document.getElementById('react-root')
