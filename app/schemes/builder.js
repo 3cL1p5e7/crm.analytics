@@ -24,7 +24,7 @@ class Builder {
       return;
     if (!this._classes[className]) {
       if (window[className])
-        return window[className](payload);
+        return new window[className](payload);
       console.error(`Class with name ${className} does not exist`);
       return;
     }
@@ -63,7 +63,7 @@ class Builder {
 
         if (this.classes[field.type])
           instance[key] = this.build(field.type, payload[key], 1);
-        else instance[key] = window[field.type](payload[key]);
+        else instance[key] = new window[field.type](payload[key]);
         return false;
       }
 

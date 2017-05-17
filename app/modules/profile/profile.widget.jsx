@@ -56,6 +56,7 @@ import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
 import * as actions from './actions';
+import * as eventActions from '../events/actions';
 
 class ProfileWidget extends Component {
   constructor(props) {
@@ -67,10 +68,11 @@ class ProfileWidget extends Component {
   static mapState(store) {
     return {
       logged: store.profile.logged,
-      avatar: store.profile.user.avatar
+      userid: store.profile.user ? store.profile.user.id : null,
+      avatar: store.profile.user ? store.profile.user.avatar : null
     };
   }
-  static mapActions = { ...actions }
+  static mapActions = { ...actions, ...eventActions }
   render() {
     return (
       <div className={`profile-widget ${this.props.className || ''}`}>
@@ -78,15 +80,19 @@ class ProfileWidget extends Component {
              onClick={this.iconClick()}>
           <svg className="profile-widget__icon--svg">
           {
-            this.props.logged ? (<g>
-                                    { !this.state.loaded ? <use xlinkHref="#icon-hydro" className="icon-hydro--loading"/> : null }
-                                    <image xlinkHref={this.props.avatar}
-                                          className="icon-avatar"
-                                          preserveAspectRatio="xMidYMid slice"
-                                          height="55" width="55"
-                                          ref={(image) => { this.image = image; }}/>
-                                </g>) :
-                                (<use xlinkHref="#icon-hydro" className="icon-hydro"/>)
+            this.props.logged ? (
+              <g>
+                {!this.state.loaded && this.props.avatar ?
+                  <use xlinkHref="#icon-hydro" className="icon-hydro--loading"/> : 
+                  null
+                }
+                <image xlinkHref={this.props.avatar}
+                      className="icon-avatar"
+                      preserveAspectRatio="xMidYMid slice"
+                      height="55" width="55"
+                      ref={(image) => { this.image = image; }}/>
+              </g>) :
+              <use xlinkHref="#icon-hydro" className="icon-hydro"/>
           }
           </svg>
         </div>
@@ -95,30 +101,91 @@ class ProfileWidget extends Component {
   }
   iconClick() {
     return () => {
-      if (!this.state.loaded)
+      if (!this.state.loaded) {
         this.props.login({
-          id: '777',
+          id: 'boss',
           firstname: 'Boss',
           lastname: 'Big Russian',
           avatar: 'https://www.2do2go.ru/uploads/c799d11d6748abff308c893ea2f12bf5.jpg',
-          groups: {
-            '666': {
-              id: '666',
-              name: 'russian rap is shit',
-              subscribers: ['777', '555']
-            }
-          },
-          events: {
-            'hello world': {
-              id: 'eee pooookkkk',
-              title: 'Insomnium',
-              location: {
-                id: 'test',
-                title: 'MOSCOOOOWOWWWW'
-              }
+          groups: ['666', '667', '554'],
+          events: ['hello', 'trip', 'paris', 'berlin', 'spain'],
+          friends: {
+            'ks': {
+              id: 'ks',
+              firstname: 'Ksenya'
+            },
+            'rm': {
+              id: 'rm',
+              firstname: 'Roman'
+            },
+            'vl': {
+              id: 'vl',
+              firstname: 'Valera'
+            },
+            'an': {
+              id: 'an',
+              firstname: 'Andrey'
+            },
+            'rt': {
+              id: 'rt',
+              firstname: 'Rita'
+            },
+            'al': {
+              id: 'al',
+              firstname: 'Alexandra'
             }
           }
         });
+        setTimeout(() => {
+          this.props.setEvents({
+            events: {
+              'hello': {
+                id: 'hello',
+                title: 'Hello world'
+              },
+              'trip': {
+                id: 'trip',
+                title: 'EuropeTrip',
+                description: 'Trip on the Europe... EEEE POOOKKK',
+                from: new Date('07-15-2017'),
+                to: new Date('07-30-2017'),
+                children: ['paris', 'berlin', 'barcelona'],
+                participants: ['boss', 'ks', 'rm', 'vl', 'an', 'rt', 'al']
+              },
+              'paris': {
+                id: 'paris',
+                title: 'FRANCE - Paris',
+                description: 'Niggas. Third station. Paris',
+                from: new Date('07-28-2017'),
+                to: new Date('07-30-2017'),
+                parent: 'trip',
+                participants: ['ks', 'rm', 'vl', 'an', 'rt', 'al']
+                // location
+              },
+              'berlin': {
+                id: 'berlin',
+                title: 'GERMANY - Berlin',
+                description: 'Second station. Berlin',
+                from: new Date('07-15-2017'),
+                to: new Date('07-18-2017'),
+                parent: 'trip',
+                participants: ['ks', 'rm', 'vl', 'an', 'rt', 'al']
+                // location
+              },
+              'barcelona': {
+                id: 'barcelona',
+                title: 'Beautiful country - Spain ',
+                description: 'Aim of the tour',
+                from: new Date('07-18-2017'),
+                to: new Date('07-28-2017'),
+                parent: 'trip',
+                participants: ['ks', 'rm', 'vl', 'an', 'rt', 'al']
+                // location
+              },
+            }
+          });
+        }, 500);
+      }
     };
   }
   componentDidMount() {

@@ -131,7 +131,7 @@ class Main extends Component {
       '/settings': (location, match, dispatch) => {
         dispatch(this.mapActions.setActive('settings'));
       },
-      '/': (location, match, dispatch) => {
+      '/home': (location, match, dispatch) => {
         dispatch(this.mapActions.setActive('home'));
       }
     };

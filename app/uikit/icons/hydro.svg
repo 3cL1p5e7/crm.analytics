@@ -1,7 +1,7 @@
 <svg>
   <g>
-    <circle r="23" transform="translate(27, 27)" fill="none" stroke="#1ed7d1" stroke-width="1"></circle>
-    <circle r="8" transform="translate(27, 27)" fill="#1ed7d1"></circle>
-    <circle r="4" transform="translate(27, 5)" fill="#1ed7d1"></circle>
+    <circle r="18" transform="translate(27 27)" fill="none" stroke="#1ed7d1"></circle>
+    <circle r="7" transform="translate(27 27)" fill="#1ed7d1">
+    </circle><circle r="3" transform="translate(27 9)" fill="#1ed7d1"></circle>
   </g>
 </svg>

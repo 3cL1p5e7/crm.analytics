@@ -10,7 +10,7 @@ export const event = {
       required: true,
       default: () => ''
     },
-    name: {
+    description: {
       type: 'String',
       default: () => ''
     },
@@ -35,16 +35,16 @@ export const event = {
       default: () => null
     },
     participants: {
-      type: '{user}',
-      default: () => { return {}; }
+      type: '[String]',
+      default: () => { return []; }
     },
     parent: {
       type: 'String',
       default: () => null
     },
     children: {
-      type: '{event}',
-      default: () => { return {}; }
+      type: '[String]',
+      default: () => { return []; }
     }
   }
 };

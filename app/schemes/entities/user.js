@@ -22,13 +22,13 @@ export const user = {
       default: () => { return {}; }
     },
     groups: {
-      type: '{group}',
-      default: () => { return {}; }
+      type: '[String]',
+      default: () => { return []; }
     },
     events: {
-      type: '{event}',
-      default: () => { return {}; }
-    }
+      type: '[String]',
+      default: () => { return []; }
+    },
   }
 };
 

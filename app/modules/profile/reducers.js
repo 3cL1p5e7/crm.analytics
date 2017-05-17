@@ -2,8 +2,6 @@ import {
   LOG_IN,
   LOG_OFF
 } from './actions.js';
-import Builder from 'schemes/builder';
-const schemeBuilder = new Builder();
 
 const defaultState = {
   logged: false,
@@ -11,12 +9,10 @@ const defaultState = {
 };
 
 const reducers = {
-  [LOG_IN]: (state, { payload }) => {
-    const user = schemeBuilder.build('user', payload);
-    console.log(user);
+  [LOG_IN]: (state, { user }) => {
     return {
       logged: true,
-      user: user
+      user
     };
   },
   [LOG_OFF]: (state) => {

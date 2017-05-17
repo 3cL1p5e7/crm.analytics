@@ -7,3 +7,12 @@ export const attachRouterRedux = (targetClass) => {
     routes.addComponentRoutes(targetClass.name, targetClass.routeHandler());
   return withRouter(connect(targetClass.mapState, targetClass.mapActions)(targetClass));
 };
+
+export const omit = (obj, omitKey) => {
+  return Object.keys(obj).reduce((result, key) => {
+    if (key !== omitKey) {
+      result[key] = obj[key];
+    }
+    return result;
+  }, {});
+}
