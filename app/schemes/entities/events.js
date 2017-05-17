@@ -24,15 +24,19 @@ export const event = {
     },
     from: {
       type: 'Date',
-      default: () => Date.now()
+      default: () => new Date(Date.now())
     },
     to: {
       type: 'Date',
-      default: () => Date.now() + 86400000 // 1 day
+      default: () => new Date(Date.now() + 86400000) // +1 day
     },
     location: {
       type: 'location',
       default: () => null
+    },
+    master: {
+      type: 'String',
+      required: true
     },
     participants: {
       type: '[String]',

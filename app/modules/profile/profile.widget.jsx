@@ -19,6 +19,9 @@
     border-bottom-left-radius: $header-radius;
 
     &__icon {
+      position: relative;
+      z-index: 1;
+      
       border-top-right-radius: $header-radius;
       overflow: hidden;
 
@@ -48,6 +51,30 @@
         }
       }
     }
+
+    &__stats {
+      position: relative;
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      margin: 10px 0 10px -5px;
+      z-index: 0;
+
+      & div {
+        border-radius: 0 2px 2px 0;
+        min-width: 10px;
+        height: 15px;
+      }
+      
+      &--my {
+        background-color: red;
+      }
+      &--their {
+        background-color: yellow;
+      }
+    }
   }
 </style>
 
@@ -69,7 +96,8 @@ class ProfileWidget extends Component {
     return {
       logged: store.profile.logged,
       userid: store.profile.user ? store.profile.user.id : null,
-      avatar: store.profile.user ? store.profile.user.avatar : null
+      avatar: store.profile.user ? store.profile.user.avatar : null,
+      mas: store.events.events.serd ? store.events.events.serd.master : 'hui'
     };
   }
   static mapActions = { ...actions, ...eventActions }
@@ -96,6 +124,10 @@ class ProfileWidget extends Component {
           }
           </svg>
         </div>
+        <div className="profile-widget__stats">
+          <div className="profile-widget__stats--my"></div>
+          <div className="profile-widget__stats--their">{this.props.mas}</div>
+        </div>
       </div>
     );
   }
@@ -108,7 +140,7 @@ class ProfileWidget extends Component {
           lastname: 'Big Russian',
           avatar: 'https://www.2do2go.ru/uploads/c799d11d6748abff308c893ea2f12bf5.jpg',
           groups: ['666', '667', '554'],
-          events: ['hello', 'trip', 'paris', 'berlin', 'spain'],
+          events: ['serd', 'trip', 'paris', 'berlin', 'spain'],
           friends: {
             'ks': {
               id: 'ks',
@@ -139,12 +171,21 @@ class ProfileWidget extends Component {
         setTimeout(() => {
           this.props.setEvents({
             events: {
+              'serd': {
+                id: 'serd',
+                master: 'boss',
+                title: 'Travel to Serd',
+                from: new Date('07-06-2017'),
+                to: new Date('07-12-2017')
+              },
               'hello': {
                 id: 'hello',
+                master: 'ks',
                 title: 'Hello world'
               },
               'trip': {
                 id: 'trip',
+                master: 'boss',
                 title: 'EuropeTrip',
                 description: 'Trip on the Europe... EEEE POOOKKK',
                 from: new Date('07-15-2017'),
@@ -154,6 +195,7 @@ class ProfileWidget extends Component {
               },
               'paris': {
                 id: 'paris',
+                master: 'and',
                 title: 'FRANCE - Paris',
                 description: 'Niggas. Third station. Paris',
                 from: new Date('07-28-2017'),
@@ -164,6 +206,7 @@ class ProfileWidget extends Component {
               },
               'berlin': {
                 id: 'berlin',
+                master: 'boss',
                 title: 'GERMANY - Berlin',
                 description: 'Second station. Berlin',
                 from: new Date('07-15-2017'),
@@ -174,6 +217,7 @@ class ProfileWidget extends Component {
               },
               'barcelona': {
                 id: 'barcelona',
+                master: 'boss',
                 title: 'Beautiful country - Spain ',
                 description: 'Aim of the tour',
                 from: new Date('07-18-2017'),
