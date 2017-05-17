@@ -1,3 +1,4 @@
+import { attachReducers } from 'store/utils';
 import {
   SET_EVENTS,
   ADD_EVENT,
@@ -39,8 +40,4 @@ const reducers = {
   },
 };
 
-export default function events(state = defaultState, action) {
-  if (reducers[action.type])
-    return { ...state, ...reducers[action.type](state, action) };
-  return state;
-}
+export default attachReducers(reducers, defaultState);

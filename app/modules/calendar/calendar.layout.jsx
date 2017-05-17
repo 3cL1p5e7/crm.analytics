@@ -1,6 +1,6 @@
 <style lang="sass">
   @import '~uikit/theme';
-  .calendar-desk {
+  .calendar-layout {
     display: flex;
     flex-grow: 1;
 
@@ -36,7 +36,7 @@ import PropTypes from 'prop-types';
 
 import * as actions from './actions';
 
-class CalendarDesk extends Component {
+class CalendarLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,14 +46,14 @@ class CalendarDesk extends Component {
     ...actions
   }
   render() {
-    const classList = ['calendar-desk'];
+    const classList = ['calendar-layout'];
     classList.push(this.props.className);
     return (
       <div className={classList.join(' ')}>
-        <div className="calendar-desk__board">
+        <div className="calendar-layout__board">
         </div>
       </div>
     );
   }
 }
-export default attachRouterRedux(CalendarDesk);
+export default attachRouterRedux(CalendarLayout);

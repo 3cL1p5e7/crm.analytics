@@ -1,3 +1,4 @@
+import { attachReducers } from 'store/utils';
 import {
   SET_ACTIVE,
   REMOVE_ACTIVE
@@ -22,8 +23,4 @@ const reducers = {
   }
 };
 
-export default function main(state = defaultState, action) {
-  if (reducers[action.type])
-    return { ...state, ...reducers[action.type](state, action) };
-  return state;
-}
+export default attachReducers(reducers, defaultState);

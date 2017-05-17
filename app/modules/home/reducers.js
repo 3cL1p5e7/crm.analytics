@@ -1,3 +1,4 @@
+import { attachReducers } from 'store/utils';
 import {
   SET_ACTIVE_HOME
 } from './actions.js';
@@ -12,8 +13,4 @@ const reducers = {
   }
 };
 
-export default function home(state = defaultState, action) {
-  if (reducers[action.type])
-    return { ...state, ...reducers[action.type](state, action) };
-  return state;
-}
+export default attachReducers(reducers, defaultState);

@@ -1,3 +1,4 @@
+import { attachReducers } from 'store/utils';
 import {
   LOG_IN,
   LOG_OFF
@@ -23,8 +24,4 @@ const reducers = {
   },
 };
 
-export default function profile(state = defaultState, action) {
-  if (reducers[action.type])
-    return { ...state, ...reducers[action.type](state, action) };
-  return state;
-}
+export default attachReducers(reducers, defaultState);

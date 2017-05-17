@@ -40,10 +40,10 @@ class CalendarSubheader extends Component {
   render() {
     return (
       <div className="calendar-subheader">
-        <svg className={`calendar-subheader-icon ${this.props.active === 'desk' ? 'icon-activated' : ''}`}
+        <svg className={`calendar-subheader-icon ${this.props.active === 'layout' ? 'icon-activated' : ''}`}
           width="38" height="38"
-          onClick={this.goToLink('desk')}>
-          <use xlinkHref={`#icon-desk-${moment().format('E')}`} />
+          onClick={this.goToLink('layout')}>
+          <use xlinkHref={`#icon-layout-${moment().format('E')}`} />
         </svg>
         <svg className={`calendar-subheader-icon ${this.props.active === 'list' ? 'icon-activated' : ''}`}
           width="38" height="38"

@@ -49,7 +49,7 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import CalendarDesk from './calendar.desk.jsx';
+import CalendarLayout from './calendar.layout.jsx';
 import CalendarList from './calendar.list.jsx';
 import Transition from 'plugins/transition.jsx';
 
@@ -70,11 +70,11 @@ class Calendar extends Component {
   }
   static routeHandler() {
     return {
-      '/calendar/desk/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('desk'));
+      '/calendar/layout/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveCalendar('layout'));
       },
-      '/calendar/desk': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('desk'));
+      '/calendar/layout': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveCalendar('layout'));
       },
       '/calendar/list/:comp': (location, match, dispatch) => {
         dispatch(this.mapActions.setActiveCalendar('list'));
@@ -94,7 +94,7 @@ class Calendar extends Component {
                     className="calendar__wrapper"
                     name="calendar-fade">
           <CalendarList key="list" case="list" className="booster" />
-          <CalendarDesk key="desk" case="desk" className="booster" />
+          <CalendarLayout key="layout" case="layout" className="booster" />
         </Transition>
       </div>
     );

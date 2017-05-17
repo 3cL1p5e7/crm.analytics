@@ -1,3 +1,4 @@
+import { attachReducers } from 'store/utils';
 import {
   SET_DATE,
   SET_ACTIVE_CALENDAR
@@ -5,7 +6,7 @@ import {
 
 const defaultState = {
   date: null,
-  active: 'desk'
+  active: 'layout'
 };
 
 const reducers = {
@@ -17,8 +18,4 @@ const reducers = {
   }
 };
 
-export default function calendar(state = defaultState, action) {
-  if (reducers[action.type])
-    return { ...state, ...reducers[action.type](state, action)};
-  return state;
-}
+export default attachReducers(reducers, defaultState);
