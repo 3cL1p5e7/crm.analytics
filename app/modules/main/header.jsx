@@ -41,7 +41,7 @@
 
         color: $modules-header-text-color;
         margin: 0 10px 0 10px;
-        
+
         z-index: 2;
         transition: width .4s ease;
       }
@@ -98,31 +98,31 @@ class Header extends Component {
   render() {
     return (
       <div className="links">
-          <Transition duration={300}
-                      switch={this.props.active}
-                      className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
-                      name="items-fade"
-                      onClick={this.goToLink(`home`)}>
-            <HomeWidget key="home" case="home" className="widget" />
-            <div className="links-wrapper-item" key="item">home</div>
-          </Transition>
-          <Transition duration={300}
-                      switch={this.props.active}
-                      className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '') }
-                      name="items-fade"
-                      onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>
-            <CalendarWidget key="calendar" case="calendar" className="widget" />
-            <div className="links-wrapper-item" key="item">calendar</div>
-          </Transition>
-          <Transition duration={300}
-                      switch={this.props.active}
-                      className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
-                      name="items-fade"
-                      onClick={this.goToLink('settings')}>
-            <SettingsWidget key="settings" case="settings" className="widget" />
-            <div className="links-wrapper-item" key="item">settings</div>
-          </Transition>
-        </div>
+        <Transition duration={300}
+          switch={this.props.active}
+          className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
+          name="items-fade"
+          onClick={this.goToLink(`home`)}>
+          <HomeWidget key="home" case="home" className="widget" />
+          <div className="links-wrapper-item" key="item">home</div>
+        </Transition>
+        <Transition duration={300}
+          switch={this.props.active}
+          className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '')}
+          name="items-fade"
+          onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>
+          <CalendarWidget key="calendar" case="calendar" className="widget" />
+          <div className="links-wrapper-item" key="item">calendar</div>
+        </Transition>
+        <Transition duration={300}
+          switch={this.props.active}
+          className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
+          name="items-fade"
+          onClick={this.goToLink('settings')}>
+          <SettingsWidget key="settings" case="settings" className="widget" />
+          <div className="links-wrapper-item" key="item">settings</div>
+        </Transition>
+      </div>
     );
   }
 

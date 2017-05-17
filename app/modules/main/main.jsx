@@ -25,7 +25,12 @@
         }
       }
     }
-    
+
+    &__subheader {
+      display: flex;
+    }
+
+
     &__modules {
       display: flex;
       flex-grow: 1;
@@ -95,7 +100,8 @@ import { Link, Route } from 'react-router-dom';
 import { Home } from 'modules/home/home.jsx';
 import { Calendar } from 'modules/calendar/calendar.jsx';
 import { Settings } from 'modules/settings/settings.jsx';
-import Header from 'modules/header/header.jsx';
+import Header from './header.jsx';
+import Subheader from './subheader.jsx';
 import ProfileWidget from 'modules/profile/profile.widget.jsx';
 import Transition from 'plugins/transition.jsx';
 
@@ -144,6 +150,9 @@ class Main extends Component {
             <ProfileWidget className="header-profile-widget"/>
             <Header active={this.props.active}/>
           </div>
+        </div>
+        <div className="modules-container__subheader">
+          <Subheader active={this.props.active} />
         </div>
         <div className={this.swipeLeft ?
           'modules-container__modules to-the-left' :

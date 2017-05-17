@@ -52,28 +52,15 @@
       }
     }
 
-    &__stats {
+    &__info {
       position: relative;
       
       display: flex;
       flex-direction: column;
       justify-content: space-around;
 
-      margin: 10px 0 10px -5px;
+      margin: 10px 0 10px 0;
       z-index: 0;
-
-      & div {
-        border-radius: 0 2px 2px 0;
-        min-width: 10px;
-        height: 15px;
-      }
-      
-      &--my {
-        background-color: red;
-      }
-      &--their {
-        background-color: yellow;
-      }
     }
   }
 </style>
@@ -96,8 +83,7 @@ class ProfileWidget extends Component {
     return {
       logged: store.profile.logged,
       userid: store.profile.user ? store.profile.user.id : null,
-      avatar: store.profile.user ? store.profile.user.avatar : null,
-      mas: store.events.events.serd ? store.events.events.serd.master : 'hui'
+      avatar: store.profile.user ? store.profile.user.avatar : null
     };
   }
   static mapActions = { ...actions, ...eventActions }
@@ -125,8 +111,8 @@ class ProfileWidget extends Component {
           </svg>
         </div>
         <div className="profile-widget__stats">
-          <div className="profile-widget__stats--my"></div>
-          <div className="profile-widget__stats--their">{this.props.mas}</div>
+          <div></div>
+          <div></div>
         </div>
       </div>
     );

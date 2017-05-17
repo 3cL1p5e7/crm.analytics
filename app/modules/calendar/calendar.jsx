@@ -8,27 +8,6 @@
     color: white;
     background: $modules-body-color;
 
-    &__options {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-
-      height: 80px;
-
-      &-icon {
-        margin: 0 10px 0 10px;
-        cursor: pointer;
-
-        fill: black;
-        transition: fill .3s ease;
-        &.icon-activated {
-          fill: $modules-header-text-color
-        }
-
-      }
-    }
-
     &__wrapper {
       position: relative;
       flex-grow: 1;
@@ -73,9 +52,8 @@ import PropTypes from 'prop-types';
 import CalendarDesk from './calendar.desk.jsx';
 import CalendarList from './calendar.list.jsx';
 import CalendarWidget from './calendar.widget.jsx';
+import CalendarSubheader from './calendar.subheader.jsx';
 import Transition from 'plugins/transition.jsx';
-
-import moment from 'plugins/moment';
 
 import * as actions from './actions';
 
@@ -113,18 +91,6 @@ class Calendar extends Component {
     classList.push(this.props.className);
     return (
       <div className={classList.join(' ')}>
-        <div className="calendar__options">
-          <svg className={`calendar__options-icon ${this.props.active === 'desk' ? 'icon-activated' : ''}`}
-               width="38" height="38"
-               onClick={this.goToLink('desk')}>
-            <use xlinkHref={`#icon-desk-${moment().format('E')}`} />
-          </svg>
-          <svg className={`calendar__options-icon ${this.props.active === 'list' ? 'icon-activated' : ''}`}
-               width="38" height="38"
-               onClick={this.goToLink('list')}>
-            <use xlinkHref='#icon-list' />
-          </svg>
-        </div>
         <Transition duration={300}
                     switch={this.props.active}
                     className="calendar__wrapper"
@@ -134,13 +100,6 @@ class Calendar extends Component {
         </Transition>
       </div>
     );
-  }
-  goToLink(module) {
-    return () => {
-      if (module === this.props.active)
-        return;
-      this.context.router.history.push(`/calendar/${module}`);
-    };
   }
 }
 Calendar.contextTypes = {
@@ -153,4 +112,4 @@ Calendar.contextTypes = {
   }).isRequired
 }
 const reduxed = attachRouterRedux(Calendar);
-export { reduxed as Calendar, CalendarWidget }
+export { reduxed as Calendar, CalendarWidget, CalendarSubheader }
