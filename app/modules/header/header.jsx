@@ -102,7 +102,7 @@ class Header extends Component {
                       switch={this.props.active}
                       className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
                       name="items-fade"
-                      onClick={this.goToLink(``)}>
+                      onClick={this.goToLink(`home`)}>
             <HomeWidget key="home" case="home" className="widget" />
             <div className="links-wrapper-item" key="item">home</div>
           </Transition>
