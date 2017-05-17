@@ -16,7 +16,7 @@ ReactDOM.render(
     <Router history={routes.history}>
         <Route path="/" render={() => (
           <div>
-            <Redirect push from="/" to="/home/dash" />
+            { routes.history.location.pathname === '/' ? <Redirect to="/home/dash" /> : null }
             <Main/>
           </div>
         )}/>

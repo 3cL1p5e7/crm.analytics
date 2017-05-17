@@ -32,7 +32,7 @@ import PropTypes from 'prop-types';
 
 import moment from 'plugins/moment';
 
-import * as actions from './actions';
+import * as actions from '../actions';
 
 class CalendarWidget extends Component {
   constructor(props) {

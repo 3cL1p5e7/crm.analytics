@@ -51,8 +51,6 @@ import PropTypes from 'prop-types';
 
 import CalendarDesk from './calendar.desk.jsx';
 import CalendarList from './calendar.list.jsx';
-import CalendarWidget from './calendar.widget.jsx';
-import CalendarSubheader from './calendar.subheader.jsx';
 import Transition from 'plugins/transition.jsx';
 
 import * as actions from './actions';
@@ -73,16 +71,16 @@ class Calendar extends Component {
   static routeHandler() {
     return {
       '/calendar/desk/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('desk'));
+        dispatch(this.mapActions.setActiveCalendar('desk'));
       },
       '/calendar/desk': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('desk'));
+        dispatch(this.mapActions.setActiveCalendar('desk'));
       },
       '/calendar/list/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('list'));
+        dispatch(this.mapActions.setActiveCalendar('list'));
       },
       '/calendar/list': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('list'));
+        dispatch(this.mapActions.setActiveCalendar('list'));
       }
     };
   }
@@ -111,5 +109,4 @@ Calendar.contextTypes = {
     staticContext: PropTypes.object
   }).isRequired
 }
-const reduxed = attachRouterRedux(Calendar);
-export { reduxed as Calendar, CalendarWidget, CalendarSubheader }
+export default attachRouterRedux(Calendar);

@@ -23,9 +23,6 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import HomeWidget from './home.widget.jsx';
-import HomeSubheader from './home.subheader.jsx';
-
 import * as actions from './actions';
 
 class Home extends Component {
@@ -38,16 +35,16 @@ class Home extends Component {
   static routeHandler() {
     return {
       '/home/dash/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('dash'));
+        dispatch(this.mapActions.setActiveHome('dash'));
       },
       '/home/dash': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('dash'));
+        dispatch(this.mapActions.setActiveHome('dash'));
       },
       '/home/feed/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('feed'));
+        dispatch(this.mapActions.setActiveHome('feed'));
       },
       '/home/feed': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveModule('feed'));
+        dispatch(this.mapActions.setActiveHome('feed'));
       }
     };
   }
@@ -67,5 +64,4 @@ Home.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-const reduxed = attachRouterRedux(Home);
-export { reduxed as Home, HomeWidget, HomeSubheader }
+export default attachRouterRedux(Home);

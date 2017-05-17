@@ -98,12 +98,12 @@ import { attachRouterRedux } from 'store/utils';
 
 import { Link, Route } from 'react-router-dom';
 
-import { Home } from 'modules/home/home.jsx';
-import { Calendar } from 'modules/calendar/calendar.jsx';
-import { Settings } from 'modules/settings/settings.jsx';
+import Home from 'modules/home/home.jsx';
+import Calendar from 'modules/calendar/calendar.jsx';
+import Settings from 'modules/settings/settings.jsx';
 import Header from './header.jsx';
-import Subheader from './subheader.jsx';
-import ProfileWidget from 'modules/profile/profile.widget.jsx';
+import Subheader from './header.sub.jsx';
+import { ProfileWidget } from 'modules/profile/extensions';
 import Transition from 'plugins/transition.jsx';
 
 import * as actions from './actions';
@@ -129,6 +129,12 @@ class Main extends Component {
   static mapActions = { ...actions }
   static routeHandler() {
     return {
+      '/home': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActive('home'));
+      },
+      '/home/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActive('home'));
+      },
       '/calendar/:comp': (location, match, dispatch) => {
         dispatch(this.mapActions.setActive('calendar'));
       },
@@ -137,12 +143,6 @@ class Main extends Component {
       },
       '/settings': (location, match, dispatch) => {
         dispatch(this.mapActions.setActive('settings'));
-      },
-      '/home': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('home'));
-      },
-      '/home/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('home'));
       }
     };
   }

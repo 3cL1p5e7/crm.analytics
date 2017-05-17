@@ -1,5 +1,5 @@
 import {
-  SET_ACTIVE_MODULE
+  SET_ACTIVE_HOME
 } from './actions.js';
 
 const defaultState = {
@@ -7,7 +7,7 @@ const defaultState = {
 };
 
 const reducers = {
-  [SET_ACTIVE_MODULE]: (state, { name }) => {
+  [SET_ACTIVE_HOME]: (state, { name }) => {
     return { active: name };
   }
 };

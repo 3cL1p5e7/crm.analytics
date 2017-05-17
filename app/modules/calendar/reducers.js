@@ -1,6 +1,6 @@
 import {
   SET_DATE,
-  SET_ACTIVE_MODULE
+  SET_ACTIVE_CALENDAR
 } from './actions.js';
 
 const defaultState = {
@@ -12,7 +12,7 @@ const reducers = {
   [SET_DATE]: (state, { date }) => {
     return { date };
   },
-  [SET_ACTIVE_MODULE]: (state, { name }) => {
+  [SET_ACTIVE_CALENDAR]: (state, { name }) => {
     return { active: name };
   }
 };

@@ -1,5 +1,5 @@
 
-export const SET_ACTIVE_MODULE = 'SET_ACTIVE_MODULE';
-export const setActiveModule = (name) => {
-  return { type: SET_ACTIVE_MODULE, name };
+export const SET_ACTIVE_HOME = 'SET_ACTIVE_HOME';
+export const setActiveHome = (name) => {
+  return { type: SET_ACTIVE_HOME, name };
 }

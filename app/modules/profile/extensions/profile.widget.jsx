@@ -69,8 +69,8 @@ import React, { Component } from 'react';
 import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
-import * as actions from './actions';
-import * as eventActions from '../events/actions';
+import * as actions from '../actions';
+import * as eventActions from '../../events/actions';
 
 class ProfileWidget extends Component {
   constructor(props) {

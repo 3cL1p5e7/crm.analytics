@@ -80,9 +80,9 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
-import { HomeWidget } from 'modules/home/home.jsx';
-import { CalendarWidget } from 'modules/calendar/calendar.jsx';
-import { SettingsWidget } from 'modules/settings/settings.jsx';
+import { HomeWidget } from 'modules/home/extensions';
+import { CalendarWidget } from 'modules/calendar/extensions';
+import { SettingsWidget } from 'modules/settings/extensions';
 
 import * as mainActions from 'modules/main/actions';
 
@@ -92,7 +92,8 @@ class Header extends Component {
   }
   static mapState(store) {
     return {
-      activeCalendar: store.calendar.active
+      activeCalendar: store.calendar.active,
+      activeHome: store.home.active
     };
   }
   render() {
@@ -102,7 +103,7 @@ class Header extends Component {
           switch={this.props.active}
           className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
           name="items-fade"
-          onClick={this.goToLink(`home`)}>
+          onClick={this.goToLink(`home/${this.props.activeHome}`)}>
           <HomeWidget key="home" case="home" className="widget" />
           <div className="links-wrapper-item" key="item">home</div>
         </Transition>
@@ -128,6 +129,7 @@ class Header extends Component {
 
   goToLink(module) {
     return () => {
+      console.log(this.props);
       if (module === this.props.active)
         return;
       this.context.router.history.push(`/${module}`);

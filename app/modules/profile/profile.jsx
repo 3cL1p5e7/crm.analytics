@@ -12,7 +12,7 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import ProfileWidget from './home.widget.jsx';
+
 
 class Profile extends Component {
   constructor(props) {

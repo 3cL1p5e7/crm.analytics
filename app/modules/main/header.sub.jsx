@@ -15,8 +15,8 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
-import { CalendarSubheader } from 'modules/calendar/calendar.jsx';
-import { HomeSubheader } from 'modules/home/home.jsx';
+import { CalendarSubheader } from 'modules/calendar/extensions';
+import { HomeSubheader } from 'modules/home/extensions';
 
 class Subheader extends Component {
   constructor(props) {
