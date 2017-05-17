@@ -34,17 +34,14 @@ class Home extends Component {
   }
   static routeHandler() {
     return {
-      '/home/dash/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveHome('dash'));
-      },
-      '/home/dash': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveHome('dash'));
-      },
-      '/home/feed/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveHome('feed'));
-      },
-      '/home/feed': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveHome('feed'));
+      routeName: 'home',
+      routes: {
+        '/dash': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveHome('dash'));
+        },
+        '/feed': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveHome('feed'));
+        }
       }
     };
   }

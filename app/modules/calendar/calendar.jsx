@@ -70,17 +70,14 @@ class Calendar extends Component {
   }
   static routeHandler() {
     return {
-      '/calendar/layout/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('layout'));
-      },
-      '/calendar/layout': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('layout'));
-      },
-      '/calendar/list/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('list'));
-      },
-      '/calendar/list': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveCalendar('list'));
+      routeName: 'calendar',
+      routes: {
+        '/layout': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveCalendar('layout'));
+        },
+        '/list': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveCalendar('list'));
+        }
       }
     };
   }

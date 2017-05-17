@@ -14,23 +14,30 @@ class Routes {
   get routes() {
     return this._routes;
   }
-  addComponentRoutes(component, routes) {
-    if (!routes)
+  buildPath(root, subpath) {
+    if (root)
+      return `/${root + subpath}`;
+    return subpath;
+  }
+  addComponentRoutes(component, router) {
+    if (!router || !router.routes)
       return;
-    Object.keys(routes).forEach(key => {
-      if (typeof routes[key] !== 'function')
+    Object.keys(router.routes).forEach(key => {
+      if (typeof router.routes[key] !== 'function')
         return;
-      this._routes[key] = { 
-        ...(this._routes[key] || {}),
-        [component]: routes[key]
+      const buildedPath = this.buildPath(router.routeName, key);
+      this._routes[buildedPath] = { 
+        ...(this._routes[buildedPath] || {}),
+        [router.routeName]: router.routes[key]
       };
-      this.dispatchOne(key, routes[key]);
+      this.dispatchOne(key, router.routeName, router.routes[key]);
     });
   }
-  dispatchOne(path, handler) {
+  dispatchOne(path, routeName, handler) {
+    const _path = this.buildPath(routeName, path);
     const match = matchPath(this._history.location.pathname, {
-      path,
-      exact: true,
+      path: _path,
+      // exact: true,
       strict: false
     });
     if (!match)
@@ -38,18 +45,21 @@ class Routes {
     handler(this._history.location, match, store.dispatch);
   }
   dispatch(location) {
+    let matched = false;
     Object.keys(this._routes).forEach(path => {
       const match = matchPath(location.pathname, {
-        path,
-        exact: true,
+        path: path,
+        // exact: true,
         strict: false
       });
       if (!match)
         return;
-      Object.keys(this._routes[path]).forEach(component => {
-        this._routes[path][component](location, match, store.dispatch);
+      matched = true;
+      Object.keys(this._routes[path]).forEach(routeName => {
+        this._routes[path][routeName](location, match, store.dispatch);
       });
     });
+    if (!matched) this._history.goBack();
   }
 };
 const history = createHashHistory();

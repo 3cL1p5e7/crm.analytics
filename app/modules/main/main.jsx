@@ -129,20 +129,19 @@ class Main extends Component {
   static mapActions = { ...actions }
   static routeHandler() {
     return {
-      '/home': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('home'));
-      },
-      '/home/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('home'));
-      },
-      '/calendar/:comp': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('calendar'));
-      },
-      '/calendar': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('calendar'));
-      },
-      '/settings': (location, match, dispatch) => {
-        dispatch(this.mapActions.setActive('settings'));
+      routeName: '',
+      routes: {
+        '/home': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActive('home'));
+        },
+        '/calendar': (location, match, dispatch, only) => {
+          // only
+          console.log('only', match.isExact);
+          dispatch(this.mapActions.setActive('calendar'));
+        },
+        '/settings': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActive('settings'));
+        }
       }
     };
   }
