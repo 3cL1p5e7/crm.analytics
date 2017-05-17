@@ -24,10 +24,32 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import HomeWidget from './home.widget.jsx';
+import HomeSubheader from './home.subheader.jsx';
+
+import * as actions from './actions';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+  }
+  static mapActions = {
+    ...actions
+  }
+  static routeHandler() {
+    return {
+      '/home/dash/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('dash'));
+      },
+      '/home/dash': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('dash'));
+      },
+      '/home/feed/:comp': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('feed'));
+      },
+      '/home/feed': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActiveModule('feed'));
+      }
+    };
   }
   render() {
     const classList = ['home'];
@@ -46,4 +68,4 @@ Home.contextTypes = {
 }
 
 const reduxed = attachRouterRedux(Home);
-export { reduxed as Home, HomeWidget }
+export { reduxed as Home, HomeWidget, HomeSubheader }

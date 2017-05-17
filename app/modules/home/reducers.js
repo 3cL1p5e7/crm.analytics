@@ -1,13 +1,15 @@
-// import {
-// } from './actions.js';
+import {
+  SET_ACTIVE_MODULE
+} from './actions.js';
 
 const defaultState = {
+  active: 'dash'
 };
 
 const reducers = {
-  // [SET_PARAM]: (state, { name, value }) => {
-  //   return { params: { ...state.params, [name]: value } };
-  // }
+  [SET_ACTIVE_MODULE]: (state, { name }) => {
+    return { active: name };
+  }
 };
 
 export default function home(state = defaultState, action) {

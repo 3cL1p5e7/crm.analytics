@@ -1,8 +1,11 @@
 <style lang="sass">
   @import '~uikit/theme';
   .subheader {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+
     height: 80px;
-    background: yellow;
   }
 </style>
 
@@ -13,8 +16,7 @@ import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
 import { CalendarSubheader } from 'modules/calendar/calendar.jsx';
-
-import * as mainActions from 'modules/main/actions';
+import { HomeSubheader } from 'modules/home/home.jsx';
 
 class Subheader extends Component {
   constructor(props) {
@@ -27,17 +29,10 @@ class Subheader extends Component {
   render() {
     return (
       <div className="subheader">
-        <CalendarSubheader/>
+        { this.props.active === 'home' ? <HomeSubheader/> : null }
+        { this.props.active === 'calendar' ? <CalendarSubheader/> : null }
       </div>
     );
-  }
-
-  goToLink(module) {
-    return () => {
-      if (module === this.props.active)
-        return;
-      this.context.router.history.push(`/${module}`);
-    };
   }
 }
 Subheader.contextTypes = {

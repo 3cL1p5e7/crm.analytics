@@ -28,6 +28,7 @@
 
     &__subheader {
       display: flex;
+      background-color: $modules-body-color;
     }
 
 
@@ -138,6 +139,9 @@ class Main extends Component {
         dispatch(this.mapActions.setActive('settings'));
       },
       '/home': (location, match, dispatch) => {
+        dispatch(this.mapActions.setActive('home'));
+      },
+      '/home/:comp': (location, match, dispatch) => {
         dispatch(this.mapActions.setActive('home'));
       }
     };

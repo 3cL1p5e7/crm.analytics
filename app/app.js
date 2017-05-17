@@ -16,7 +16,7 @@ ReactDOM.render(
     <Router history={routes.history}>
         <Route path="/" render={() => (
           <div>
-            <Redirect to="/home" />
+            <Redirect push from="/" to="/home/dash" />
             <Main/>
           </div>
         )}/>

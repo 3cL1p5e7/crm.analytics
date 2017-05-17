@@ -6,8 +6,6 @@
       align-items: center;
       justify-content: center;
 
-      height: 80px;
-
       &-icon {
         margin: 0 10px 0 10px;
         cursor: pointer;
@@ -30,25 +28,24 @@ import Transition from 'plugins/transition.jsx';
 
 import moment from 'plugins/moment';
 
-import * as mainActions from 'modules/main/actions';
-
 class CalendarSubheader extends Component {
   constructor(props) {
     super(props);
   }
   static mapState(store) {
     return {
+      active: store.calendar.active
     };
   }
   render() {
     return (
-      <div className="calendar__subheader">
-        <svg className={`calendar__subheader-icon ${this.props.active === 'desk' ? 'icon-activated' : ''}`}
+      <div className="calendar-subheader">
+        <svg className={`calendar-subheader-icon ${this.props.active === 'desk' ? 'icon-activated' : ''}`}
           width="38" height="38"
           onClick={this.goToLink('desk')}>
           <use xlinkHref={`#icon-desk-${moment().format('E')}`} />
         </svg>
-        <svg className={`calendar__subheader-icon ${this.props.active === 'list' ? 'icon-activated' : ''}`}
+        <svg className={`calendar-subheader-icon ${this.props.active === 'list' ? 'icon-activated' : ''}`}
           width="38" height="38"
           onClick={this.goToLink('list')}>
           <use xlinkHref='#icon-list' />
