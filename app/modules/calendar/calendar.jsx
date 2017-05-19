@@ -82,10 +82,8 @@ class Calendar extends Component {
     };
   }
   render() {
-    const classList = ['calendar'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`calendar ${this.props.className || ''}`}>
         <Transition duration={300}
                     switch={this.props.active}
                     className="calendar__wrapper"

@@ -113,6 +113,8 @@ class Transition extends Component {
     ], `${this.props.name}-${type}`, index, child);
   }
   activeWatcher(target, old) {
+    if (target && target.key === 'right')
+        debugger;
     if (!target && old) { // exit
       this.active.previous = null;
       this.active.next = this.setTransition('leave-active', old, 0);
@@ -160,16 +162,23 @@ class Transition extends Component {
       }
     }
   }
+
+  getChildren(children) {
+    if (!children)
+      return [];
+    return Array.isArray(children) ? children : [children];
+  }
+
   getTargetComponent(nextProps) {
     let target = null;
-    nextProps.children.some((child) => {
+    this.getChildren(nextProps.children).some((child) => {
       const result = this.match(child, nextProps);
       if (result)
         target = child;
       return result;
     });
     if (!target)
-      target = nextProps.children.find((child) => {
+      target = this.getChildren(nextProps.children).find((child) => {
         const param = this.param(child);
         return param === null || typeof param === 'undefined';
       });

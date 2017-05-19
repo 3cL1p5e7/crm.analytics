@@ -9,7 +9,6 @@ export const setEvents = (payload) => {
   Object.keys(payload.events).forEach(event => {
     events[event] = schemeBuilder.build('event', payload.events[event]);
   });
-  console.log(events);
   return { type: SET_EVENTS, events };
 }
 

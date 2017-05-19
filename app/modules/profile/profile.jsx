@@ -19,10 +19,8 @@ class Profile extends Component {
     super(props);
   }
   render() {
-    const classList = ['profile'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`profile ${this.props.className || ''}`}>
         ProfilePAGE
         yeah
       </div>

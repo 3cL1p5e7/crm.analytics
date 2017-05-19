@@ -34,10 +34,8 @@ class CalendarList extends Component {
     ...actions
   }
   render() {
-    const classList = ['calendar-list'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`calendar-list ${this.props.className || ''}`}>
         <div className="calendar-list__board">
           THIS>IS LIIIIIIIISTTTTT
         </div>

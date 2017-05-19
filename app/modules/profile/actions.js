@@ -9,7 +9,6 @@ export const register = (payload) => {
 export const LOG_IN = 'LOG_IN';
 export const login = (user) => {
   const _user = schemeBuilder.build('user', user);
-  console.log(user);
   return { type: LOG_IN, user: _user };
 }
 

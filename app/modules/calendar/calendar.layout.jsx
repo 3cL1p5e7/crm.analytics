@@ -46,10 +46,8 @@ class CalendarLayout extends Component {
     ...actions
   }
   render() {
-    const classList = ['calendar-layout'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`calendar-layout ${this.props.className || ''}`}>
         <div className="calendar-layout__board">
         </div>
       </div>

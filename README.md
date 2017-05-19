@@ -2,6 +2,28 @@
 CRM analytics "Hello world"
 
 Component "Transition":
+
+Attention!
+For correct working need to pass "className" prop to main container of component. Example:
+```
+...
+
+class Component1 extends Component {
+  ...
+  render() {
+    return (
+      <div className={`your-custom-current-class ${this.props.className || ''}`}>
+        This is Component1's text
+      </div>
+    );
+  }
+  ...
+}
+
+...
+
+```
+
 Default example
 ```
 // CSS transition handler

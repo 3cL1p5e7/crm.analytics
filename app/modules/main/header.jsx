@@ -129,10 +129,12 @@ class Header extends Component {
 
   goToLink(module) {
     return () => {
-      console.log(this.props);
       if (module === this.props.active)
         return;
-      this.context.router.history.push(`/${module}`);
+      this.context.router.history.push({
+        pathname: `/${module}`,
+        search: '?side=left'
+      });
     };
   }
 }

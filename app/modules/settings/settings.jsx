@@ -22,10 +22,8 @@ class Settings extends Component {
     removeActive: mainActions.removeActive
   }
   render() {
-    const classList = ['settings'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`settings ${this.props.className || ''}`}>
         This is HacTPouku
       </div>
     );

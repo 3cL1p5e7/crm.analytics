@@ -46,10 +46,8 @@ class Home extends Component {
     };
   }
   render() {
-    const classList = ['home'];
-    classList.push(this.props.className);
     return (
-      <div className={classList.join(' ')}>
+      <div className={`home ${this.props.className || ''}`}>
         <div className="home__options"></div>
         <div className="home__primary-row"></div>
         <div className="home__secondary-row"></div>
