@@ -2,6 +2,7 @@
 CRM analytics "Hello world"
 
 Component "Transition":
+Use this for transition group of single element
 
 Default example
 ```
@@ -73,7 +74,7 @@ With router example. React-router is required.
 </Transition>
 ```
 
-Attention!
+<b>Attention!</b>
 For correct working need to pass "className" prop to main container of component. Example:
 ```
 ...

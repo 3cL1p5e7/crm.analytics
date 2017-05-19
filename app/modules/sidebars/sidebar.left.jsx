@@ -24,9 +24,14 @@ class SidebarLeft extends Component {
   }
   static routeHandler() {
     return {
-      routeParam: { side: 'left' },
-      handler: (location, match, dispatch) => {
-        dispatch(this.mapActions.setActiveSidebar(match.value));
+      routeParam: 'side',
+      handlers: {
+        left: (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveSidebar(match.value));
+        }
+      },
+      deactivator: (dispatch) => {
+        dispatch(this.mapActions.setActiveSidebar(null));
       }
     };
   }

@@ -28,10 +28,6 @@
 
         background: $modules-header-color;
         border-bottom-left-radius: $header-radius;
-        
-        .header-profile-widget {
-          flex-grow: 3;
-        }
       }
     }
 
@@ -74,12 +70,11 @@
         left: 0;
         width: $sidebar-left-width;
 
-        .sidebar-left-fade-enter-active {
-          transform: translate3d(60%, 0, 0);
+        .sidebar-fade-enter-active {
+          transform: translate3d(-60%, 0, 0);
           opacity: 0;
-          background: green;
         }
-        .sidebar-left-fade-leave {
+        .sidebar-fade-leave {
           transform: translate3d(-60%, 0, 0);
           opacity: 0;
         }
@@ -88,12 +83,11 @@
         right: 0;
         width: $sidebar-right-width;
 
-        .sidebar-right-fade-enter-active {
-          transform: translate3d(-60%, 0, 0);
+        .sidebar-fade-enter-active {
+          transform: translate3d(60%, 0, 0);
           opacity: 0;
-          background: red;
         }
-        .sidebar-right-fade-leave {
+        .sidebar-fade-leave {
           transform: translate3d(60%, 0, 0);
           opacity: 0;
         }
@@ -102,37 +96,38 @@
     }
   }
 
-  .sidebar-left-fade-enter {
+  .sidebar-fade-enter {
     will-change: transform;
     opacity: 1!important;
     transform: translate3d(0, 0, 0)!important;
     transition: transform .4s, opacity .4s ease;
   }
 
-  .sidebar-left-fade-leave-active {
+  .sidebar-fade-leave-active {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-  .sidebar-left-fade-leave {
+  .sidebar-fade-leave {
     will-change: transform;
     transition: transform .4s, opacity .4s ease;
   }
 
-  .sidebar-right-fade-enter {
+  .sidebar-fade-enter {
     will-change: transform;
     opacity: 1!important;
     transform: translate3d(0, 0, 0)!important;
     transition: transform .4s, opacity .4s ease;
   }
 
-  .sidebar-right-fade-leave-active {
+  .sidebar-fade-leave-active {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-  .sidebar-right-fade-leave {
+  .sidebar-fade-leave {
     will-change: transform;
     transition: transform .4s, opacity .4s ease;
   }
+
 
 
   .to-the-left .modules-fade-enter-active {
@@ -187,7 +182,6 @@ import Settings from 'modules/settings/settings.jsx';
 import SidebarLeft from 'modules/sidebars/sidebar.left.jsx';
 import SidebarRight from 'modules/sidebars/sidebar.right.jsx';
 
-import { ProfileWidget } from 'modules/profile/extensions';
 import Transition from 'plugins/transition.jsx';
 
 import * as actions from './actions';
@@ -220,13 +214,13 @@ class Main extends Component {
           dispatch(this.mapActions.setActive('home'));
         },
         '/calendar': (location, match, dispatch, only) => {
-          // only
-          console.log('only', match.isExact, location);
           dispatch(this.mapActions.setActive('calendar'));
         },
         '/settings': (location, match, dispatch) => {
           dispatch(this.mapActions.setActive('settings'));
         }
+      },
+      deactivator: (dispatch) => {
       }
     };
   }
@@ -235,7 +229,6 @@ class Main extends Component {
       <div className="modules-container">
         <div className="modules-container__header">
           <div className="modules-container__header--wrapper">
-            <ProfileWidget className="header-profile-widget"/>
             <Header active={this.props.active}/>
           </div>
         </div>
@@ -255,13 +248,13 @@ class Main extends Component {
         <Transition duration={500}
                     switch={this.props.activeSidebar}
                     className="modules-container__sidebar modules-container__sidebar-left"
-                    name="sidebar-left-fade">
+                    name="sidebar-fade">
           <SidebarLeft key="left" case="left"/>
         </Transition>
         <Transition duration={500}
                     switch={this.props.activeSidebar}
                     className="modules-container__sidebar modules-container__sidebar-right"
-                    name="sidebar-right-fade">
+                    name="sidebar-fade">
           <SidebarRight key="right" case="right"/>
         </Transition>
       </div>

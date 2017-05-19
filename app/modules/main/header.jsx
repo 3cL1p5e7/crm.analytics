@@ -103,7 +103,7 @@ class Header extends Component {
           switch={this.props.active}
           className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
           name="items-fade"
-          onClick={this.goToLink(`home/${this.props.activeHome}`)}>
+          onClick={this.goToModule(`home/${this.props.activeHome}`)}>
           <HomeWidget key="home" case="home" className="widget" />
           <div className="links-wrapper-item" key="item">home</div>
         </Transition>
@@ -111,7 +111,7 @@ class Header extends Component {
           switch={this.props.active}
           className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '')}
           name="items-fade"
-          onClick={this.goToLink(`calendar/${this.props.activeCalendar}`)}>
+          onClick={this.goToModule(`calendar/${this.props.activeCalendar}`)}>
           <CalendarWidget key="calendar" case="calendar" className="widget" />
           <div className="links-wrapper-item" key="item">calendar</div>
         </Transition>
@@ -119,23 +119,35 @@ class Header extends Component {
           switch={this.props.active}
           className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
           name="items-fade"
-          onClick={this.goToLink('settings')}>
+          onClick={this.goToModule('settings')}>
           <SettingsWidget key="settings" case="settings" className="widget" />
           <div className="links-wrapper-item" key="item">settings</div>
         </Transition>
+        <div className="links-wrapper"
+             onClick={this.goToLink(this.context.router.history.location.pathname, 'side=right')}>
+          <div className="links-wrapper-item">Sign in</div>
+        </div>
       </div>
     );
   }
 
-  goToLink(module) {
+  goToModule(module, search) {
     return () => {
-      if (module === this.props.active)
+      if (module === this.props.active && !search)
         return;
       this.context.router.history.push({
         pathname: `/${module}`,
-        search: '?side=left'
+        search: search ? `?${search}` : ''
       });
     };
+  }
+  goToLink(pathname, search) {
+    return () => {
+      this.context.router.history.push({
+        pathname,
+        search: search ? `?${search}` : ''
+      });
+    }
   }
 }
 Header.contextTypes = {

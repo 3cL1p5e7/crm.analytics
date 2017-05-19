@@ -3,12 +3,54 @@ import { matchPath } from 'react-router'
 import { getParamByName } from 'store/utils'
 import store from 'store';
 
+class Stack {
+  stac = null;
+  max = 10;
+  default = null;
+  _deacts = {};
+
+  constructor(max, def) {
+    this.stac = new Array();
+    if (max && typeof max === 'number')
+      this.max = Math.round(max);
+    this.default = def;
+  }
+
+  get last() {
+    const element = this.stac[this.stac.length - 1];
+    return typeof element !== 'undefined' && element !== null ?
+            element : Object.assign({}, this.default);
+  }
+
+  pop() {
+    this.stac.pop();
+    while(this.stac.length > this.max) {
+      this.stac.pop();
+    }
+    return this.stac;
+  }
+
+  push(item) {
+    if (this.stac.length > this.max)
+      this.pop();
+    if (this.stac.length === this.max)
+      this.stac = this.stac.slice(1);
+    this.stac.push(item);
+    return this.stac;
+  }
+}
+
 class Routes {
   _routes = {}
   _params = {}
   _history = null
+  stack = null;
+  _default = { routes: [], 'params': [] };
+  _deacts = {}
+
   constructor(history) {
     this._history = history;
+    this.stack = new Stack(2, { routes: [], 'params': [] });
   }
   get history() {
     return this._history;
@@ -24,8 +66,17 @@ class Routes {
       return `/${root + subpath}`;
     return subpath;
   }
-  _dispatchParam(key, value, handlers) {
+  _execute(handlers, match, extra) {
+    handlers.forEach(handler => {
+      handler(this._history.location, match, store.dispatch, extra);
+    });
+    return match;
+  }
+  _dispatchParam(key, value, handlers, nomatch) {
     const location = this._history.location;
+    if (nomatch)
+      return this._execute(handlers, nomatch);
+
     const match = {
       key,
       value,
@@ -34,77 +85,136 @@ class Routes {
     };
     match.isMatch = match.result === value;
     if (match.isMatch)
-      handlers.forEach(handler => {
-        handler(this._history.location, match, store.dispatch);
-      });
+      this._execute(handlers, match);
+    return match;
   }
-  _dispatchRoute(path, routeName, handlers) {
-    const _path = this._buildPath(routeName, path);
-    const match = matchPath(this._history.location.pathname, {
+  _dispatchRoute(pathname, _path, handlers, nomatch) {
+    if (nomatch)
+      return this._execute(handlers, nomatch);
+    const match = matchPath(pathname, {
       path: _path,
-      // exact: true,
       strict: false
     });
     if (!match)
-      return;
-    handlers.forEach(handler => {
-      handler(this._history.location, match, store.dispatch);
-    });
+      return { isMatch: false };
+    this._execute(handlers, match)
+    return { ...match, isMatch: true };
   }
-
   addComponentRoutes(component, router) {
-    console.warn(router.routeName, router.routeParam);
     if (!router)
       return;
-    if (router.routeParam && typeof router.handler === 'function') {
-      Object.keys(router.routeParam).forEach(key => {
-        const value = router.routeParam[key];
-        const existParams = (this._params[key] || {});
-        this._params[key] = {
-          ...existParams,
-          [value]: [
-            ...(existParams[value] || []),
-            router.handler
-          ]
+    const deactivators = { routes: [], 'params': [] };
+
+    const { routeParam, routeName,
+            handlers, routes,
+            deactivator } = router;
+    this._deacts[component] = deactivator;
+
+    if (routeParam && handlers) {
+      const exist = this._params[routeParam] || {};
+
+      this._params[routeParam] = {
+        ...exist
+      };
+      Object.keys(handlers).forEach(value => {
+        this._params[routeParam][value] = {
+          component,
+          handler: handlers[value]
         };
-        this._dispatchParam(key, value, [router.handler]);
+
+        const match = this._dispatchParam(routeParam, value, [handlers[value]]);
+        if(match.isMatch)
+          deactivators.params.push(component);
       });
     }
-    if (!router.routes)
-      return;
-    Object.keys(router.routes).forEach(key => {
-      if (typeof router.routes[key] !== 'function')
-        return;
-      const handler = router.routes[key];
-      const buildedPath = this._buildPath(router.routeName, key);
-      this._routes[buildedPath] = { 
-        ...(this._routes[buildedPath] || {}),
-        [router.routeName]: handler
-      };
-      this._dispatchRoute(key, router.routeName, [handler]);
+    if ((routeName || routeName === '') && routes) {
+      Object.keys(routes).forEach(route => {
+        const _route = this._buildPath(routeName, route);
+
+        const exist = this._routes[_route] || {};
+        this._routes[_route] = {
+          ...exist,
+          [component]: routes[route] // handler
+        };
+        const match = this._dispatchRoute(this._history.location.pathname, _route, [routes[route]]);
+        if (match.isMatch)
+          deactivators.routes.push(component);
+      });
+    }
+
+    this.stack.push({
+      routes: [...this.stack.last.routes, ...deactivators.routes],
+      params: [...this.stack.last.params, ...deactivators.params]
     });
   }
   dispatch(location) {
     let matched = false;
+
+    const deactivators = { routes: [], 'params': [] };
+
+    let activators = [];
+    let actComps = [];
     Object.keys(this._params).forEach(key => {
+      const locValue = getParamByName(key, location.pathname + location.search);
+
       Object.keys(this._params[key]).forEach(value => {
-        this._dispatchParam(key, value, this._params[key][value]);
+        if (value === locValue) {
+          activators.push({
+            match: { isMatch: true, value },
+            handler: this._params[key][value].handler,
+            component: this._params[key][value].component
+          });
+          actComps.push(this._params[key][value].component);
+        }
       });
     });
-    Object.keys(this._routes).forEach(path => {
+    const { params } = this.stack.last;
+    params.forEach(comp => {
+      if (!actComps.includes(comp) && typeof this._deacts[comp] === 'function')
+        this._deacts[comp](store.dispatch);
+    });
+
+    activators.forEach(act => {
+      this._dispatchParam(null, null, [act.handler], act.match);
+      deactivators.params.push(act.component);
+    });
+    matched = activators.length > 0;
+
+    activators = [];
+    actComps = [];
+    Object.keys(this._routes).forEach(route => {
       const match = matchPath(location.pathname, {
-        path: path,
-        // exact: true,
+        path: route,
         strict: false
       });
       if (!match)
         return;
-      matched = true;
-      Object.keys(this._routes[path]).forEach(routeName => {
-        const handler = this._routes[path][routeName];
-        handler(location, match, store.dispatch);
+      Object.keys(this._routes[route]).forEach(comp => {
+        activators.push({
+          match: { ...match, isMatch: true },
+          handler: this._routes[route][comp],
+          component: comp
+        });
+        actComps.push(comp);
       });
     });
+    const { routes } = this.stack.last;
+    routes.forEach(comp => {
+      if (!actComps.includes(comp) && typeof this._deacts[comp] === 'function')
+        this._deacts[comp](store.dispatch);
+    });
+
+    activators.forEach(act => {
+      this._dispatchRoute(null, null, [act.handler], act.match);
+      deactivators.routes.push(act.component);
+    });
+
+    this.stack.push({
+      routes: deactivators.routes,
+      params: deactivators.params
+    });
+
+    matched = matched || activators.length > 0;
     if (!matched) this._history.goBack();
   }
 };

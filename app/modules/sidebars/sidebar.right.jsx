@@ -24,10 +24,14 @@ class SidebarRight extends Component {
   }
   static routeHandler() {
     return {
-      routeParam: { side: 'right' },
-      handler: (location, match, dispatch) => {
-        console.log('АУЕ ПРАВЫЕ', location, match);
-        dispatch(this.mapActions.setActiveSidebar(match.value));
+      routeParam: 'side',
+      handlers: {
+        right: (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveSidebar(match.value));
+        }
+      },
+      deactivator: (dispatch) => {
+        dispatch(this.mapActions.setActiveSidebar(null));
       }
     };
   }

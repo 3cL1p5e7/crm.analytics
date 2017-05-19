@@ -113,8 +113,6 @@ class Transition extends Component {
     ], `${this.props.name}-${type}`, index, child);
   }
   activeWatcher(target, old) {
-    if (target && target.key === 'right')
-        debugger;
     if (!target && old) { // exit
       this.active.previous = null;
       this.active.next = this.setTransition('leave-active', old, 0);
