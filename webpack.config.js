@@ -19,7 +19,7 @@ module.exports = {
   },
   output: {
     filename: 'app.bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: join(__dirname, 'dist'),
     publicPath: '/dist/'
   },
   module: {
@@ -34,13 +34,13 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, 'app')],
+        include: [join(__dirname, 'app')],
         exclude: [/node_modules/, /dist/],
         loader: 'babel-loader'
       },
       {
         test: /\.jsx$/,
-        include: [path.resolve(__dirname, 'app')],
+        include: [join(__dirname, 'app')],
         exclude: [/node_modules/, /dist/],
         loader: 'babel-loader!react-vue-style-loader'
       },
@@ -52,8 +52,8 @@ module.exports = {
   },
   resolve: {
     modules: [
-      path.join(__dirname, 'app'),
-      path.join(__dirname, 'uikit'),
+      join(__dirname, 'app'),
+      join(__dirname, 'uikit'),
       "node_modules"
     ]
   },

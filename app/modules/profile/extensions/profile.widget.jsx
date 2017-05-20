@@ -1,16 +1,6 @@
 <style lang="sass">
   @import '~uikit/theme';
 
-  @-webkit-keyframes hydro {
-    0%   { transform: rotate(45deg); }
-    10% { transform: rotate(405deg); }
-    100% { transform: rotate(405deg); }
-  }
-  @-webkit-keyframes hydro-loading {
-    0%   { transform: rotate(45deg); }
-    100% { transform: rotate(405deg); }
-  }
-
   .profile-widget {
     display: flex;
     
@@ -22,7 +12,6 @@
       position: relative;
       z-index: 1;
       
-      border-top-right-radius: $header-radius;
       overflow: hidden;
 
       &:hover {
@@ -32,24 +21,11 @@
         height: $header-height;
 
         fill: $modules-header-text-color;
-
-        .icon-hydro {
-          transform-origin: 27px 27px;
-          transform: rotate(45deg);
-          
-          animation: hydro 10s infinite;
-          animation-timing-function: ease;
-          animation-delay: 3s;
-          animation-fill-mode: forwards;
-          &--loading {
-            transform-origin: 27px 27px;
-            transform: rotate(45deg);
-
-            animation: hydro-loading 1s infinite;
-            animation-timing-function: linear;
-          }
-        }
       }
+    }
+
+    &__sign-in {
+      color: $modules-header-text-color;
     }
 
     &__info {
@@ -90,26 +66,22 @@ class ProfileWidget extends Component {
   render() {
     return (
       <div className={`profile-widget ${this.props.className || ''}`}>
-        <div className="profile-widget__icon"
-             onClick={this.iconClick()}>
-          <svg className="profile-widget__icon--svg">
-          {
-            this.props.logged ? (
-              <g>
-                {!this.state.loaded && this.props.avatar ?
-                  <use xlinkHref="#icon-hydro" className="icon-hydro--loading"/> : 
-                  null
-                }
-                <image xlinkHref={this.props.avatar}
-                      className="icon-avatar"
-                      preserveAspectRatio="xMidYMid slice"
-                      height="55" width="55"
-                      ref={(image) => { this.image = image; }}/>
-              </g>) :
-              <use xlinkHref="#icon-hydro" className="icon-hydro"/>
-          }
-          </svg>
-        </div>
+        { this.props.logged ? 
+            (<div className="profile-widget__icon"
+                onClick={this.iconClick()}>
+              <svg className="profile-widget__icon--svg">
+                <g>
+                  <image xlinkHref={this.props.avatar}
+                        className="icon-avatar"
+                        preserveAspectRatio="xMidYMid slice"
+                        height="55" width="55"
+                        ref={(image) => { this.image = image; }}/>
+                </g>
+              </svg>
+            </div>) :
+
+            (<div className="profile-widget__sign-in">sign in</div>) 
+        }
         <div className="profile-widget__stats">
           <div></div>
           <div></div>
