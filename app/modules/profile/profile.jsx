@@ -1,10 +1,5 @@
 <style lang="sass">
   @import '~uikit/theme';
-  .profile {
-    display: flex;
-    flex-grow: 1;
-    background-color: $modules-body-color;
-  }
 </style>
 
 import React, { Component } from 'react';
@@ -12,24 +7,40 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-
+import * as actions from './actions';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
   }
+  static mapActions = { ...actions }
+  static mapState = (store) => {
+    return {
+      logged: store.profile.logged
+    };
+  }
+  static routeHandler() {
+    return {
+      routeParam: 'sign',
+      handlers: {
+        'in': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveProfileModule(match.value));
+        },
+        'up': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveProfileModule(match.value));
+        }
+      },
+      deactivator: (dispatch) => {
+        dispatch(this.mapActions.setActiveProfileModule(null));
+      }
+    };
+  }
   render() {
-    return (
-      <div className={`profile ${this.props.className || ''}`}>
-        ProfilePAGE
-        yeah
-      </div>
-    );
+    return null;
   }
 }
 Profile.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-const reduxed = attachRouterRedux(Home);
-export { reduxed as Profile, ProfileWidget }
+export default attachRouterRedux(Profile);

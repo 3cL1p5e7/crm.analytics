@@ -84,6 +84,8 @@ import { HomeWidget } from 'modules/home/extensions';
 import { CalendarWidget } from 'modules/calendar/extensions';
 import { SettingsWidget } from 'modules/settings/extensions';
 
+import { ProfileWidget } from 'modules/profile/extensions';
+
 import * as mainActions from 'modules/main/actions';
 
 class Header extends Component {
@@ -124,8 +126,8 @@ class Header extends Component {
           <div className="links-wrapper-item" key="item">settings</div>
         </Transition>
         <div className="links-wrapper"
-             onClick={this.goToLink(this.context.router.history.location.pathname, 'side=right')}>
-          <div className="links-wrapper-item">Sign in</div>
+             onClick={this.goToParams('side=right&sign=in')}>
+          <ProfileWidget className="links-wrapper-item widget" />
         </div>
       </div>
     );
@@ -141,10 +143,10 @@ class Header extends Component {
       });
     };
   }
-  goToLink(pathname, search) {
+  goToParams(search) {
     return () => {
       this.context.router.history.push({
-        pathname,
+        pathname: this.context.router.history.location.pathname,
         search: search ? `?${search}` : ''
       });
     }

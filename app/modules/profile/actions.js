@@ -16,3 +16,8 @@ export const LOG_OFF = 'LOG_OFF';
 export const logoff = (payload) => {
   return { type: LOG_OFF, payload };
 }
+
+export const SET_ACTIVE_EXTENSION = 'SET_ACTIVE_EXTENSION';
+export const setActiveProfileModule = (payload) => {
+  return { type: SET_ACTIVE_EXTENSION, payload };
+}

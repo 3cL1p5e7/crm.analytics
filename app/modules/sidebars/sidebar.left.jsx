@@ -4,6 +4,9 @@
     display: flex;
     justify-content: center;
     flex-grow: 1;
+    z-index: 3;
+
+    width: $sidebar-left-width;
 
     background-color: yellow;
   }
