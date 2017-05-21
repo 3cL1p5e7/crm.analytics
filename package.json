@@ -25,6 +25,7 @@
     "moment": "^2.18.1",
     "node-sass": "^4.5.2",
     "prop-types": "^15.5.8",
+    "query-string": "^4.3.4",
     "react": "^15.5.4",
     "react-addons-create-fragment": "^15.5.3",
     "react-dom": "^15.5.4",

@@ -10,22 +10,21 @@
 
     background: $modules-header-color;
 
-    .close-btn {
-      position: absolute;
-      left: 0;
-      margin: 15px 0 0 0;
-      cursor: pointer;
-      &:hover {
-        svg {
-          fill: grey;
-        }
-      }
-
-      svg {
-        fill: white;
-        transition: fill .3s ease;
-      }
-    }
+    // .close-btn {
+    //   position: absolute;
+    //   left: 0;
+    //   margin: 15px 0 0 0;
+    //   cursor: pointer;
+    //   &:hover {
+    //     svg {
+    //       fill: grey;
+    //     }
+    //   }
+    //   svg {
+    //     fill: white;
+    //     transition: fill .3s ease;
+    //   }
+    // }
 
     .sidebar-right-content {
       display: flex;
@@ -41,7 +40,7 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
-import { ProfileSignin } from 'modules/profile/extensions';
+import { ProfileSign } from 'modules/profile/extensions';
 
 
 import * as mainActions from 'modules/main/actions';
@@ -65,31 +64,23 @@ class SidebarRight extends Component {
   }
   static mapState(store) {
     return {
-      activeProfile: store.profile.active
+      activeForm: store.profile.activeForm
     };
   }
   static mapActions = { ...mainActions }
   render() {
     return (
       <div className={`sidebar-right ${this.props.className || ''}`}>
-        <div className="close-btn">
+        { /*<div className="close-btn">
           <svg width="30" height="30" onClick={this.back()}>
             <use xlinkHref="#icon-back"/>
           </svg>
-        </div>
+        </div> */}
         <div className="sidebar-right-content">
-          { this.props.activeProfile === 'in' ? <ProfileSignin/> : null }
+          { this.props.activeForm ? <ProfileSign/> : null }
         </div>
       </div>
     );
-  }
-  back() {
-    return () => {
-      this.context.router.history.push({
-        pathname: this.context.router.history.location.pathname,
-        search: ''
-      });
-    };
   }
 }
 SidebarRight.contextTypes = {

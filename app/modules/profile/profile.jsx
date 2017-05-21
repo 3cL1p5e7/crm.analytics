@@ -24,14 +24,17 @@ class Profile extends Component {
       routeParam: 'sign',
       handlers: {
         'in': (location, match, dispatch) => {
-          dispatch(this.mapActions.setActiveProfileModule(match.value));
+          dispatch(this.mapActions.setActiveProfileForm(match.value));
         },
         'up': (location, match, dispatch) => {
-          dispatch(this.mapActions.setActiveProfileModule(match.value));
+          dispatch(this.mapActions.setActiveProfileForm(match.value));
+        },
+        'forgot': (location, match, dispatch) => {
+          dispatch(this.mapActions.setActiveProfileForm(match.value));
         }
       },
       deactivator: (dispatch) => {
-        dispatch(this.mapActions.setActiveProfileModule(null));
+        dispatch(this.mapActions.setActiveProfileForm(null));
       }
     };
   }

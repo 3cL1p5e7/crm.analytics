@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import routes from 'plugins/history';
 import { withRouter } from 'react-router';
+import queryString from 'query-string';
 
 export const attachRouterRedux = (targetClass) => {
   if (typeof targetClass.routeHandler === 'function')
@@ -33,4 +34,10 @@ export const getParamByName = (name, url) => {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+export const changeParam = (search, name, value) => {
+  const parsed = queryString.parse(search);
+  parsed[name] = value;
+  return queryString.stringify(parsed);
 }

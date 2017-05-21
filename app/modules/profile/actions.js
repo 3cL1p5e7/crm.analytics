@@ -17,7 +17,7 @@ export const logoff = (payload) => {
   return { type: LOG_OFF, payload };
 }
 
-export const SET_ACTIVE_EXTENSION = 'SET_ACTIVE_EXTENSION';
-export const setActiveProfileModule = (payload) => {
-  return { type: SET_ACTIVE_EXTENSION, payload };
+export const SET_ACTIVE_FORM = 'SET_ACTIVE_EXTENSION';
+export const setActiveProfileForm = (payload) => {
+  return { type: SET_ACTIVE_FORM, payload };
 }

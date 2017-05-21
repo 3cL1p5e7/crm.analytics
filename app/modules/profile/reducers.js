@@ -2,12 +2,12 @@ import { attachReducers } from 'store/utils';
 import {
   LOG_IN,
   LOG_OFF,
-  SET_ACTIVE_EXTENSION
+  SET_ACTIVE_FORM
 } from './actions.js';
 
 const defaultState = {
   logged: false,
-  active: null,
+  activeForm: null,
   user: {}
 };
 
@@ -24,9 +24,9 @@ const reducers = {
       user: {}
     };
   },
-  [SET_ACTIVE_EXTENSION]: (state, { payload }) => {
+  [SET_ACTIVE_FORM]: (state, { payload }) => {
     return {
-      active: payload
+      activeForm: payload
     };
   }
 };

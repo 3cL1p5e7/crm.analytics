@@ -125,8 +125,7 @@ class Header extends Component {
           <SettingsWidget key="settings" case="settings" className="widget" />
           <div className="links-wrapper-item" key="item">settings</div>
         </Transition>
-        <div className="links-wrapper"
-             onClick={this.goToParams('side=right&sign=in')}>
+        <div className="links-wrapper">
           <ProfileWidget className="links-wrapper-item widget" />
         </div>
       </div>
@@ -142,14 +141,6 @@ class Header extends Component {
         search: search ? `?${search}` : ''
       });
     };
-  }
-  goToParams(search) {
-    return () => {
-      this.context.router.history.push({
-        pathname: this.context.router.history.location.pathname,
-        search: search ? `?${search}` : ''
-      });
-    }
   }
 }
 Header.contextTypes = {

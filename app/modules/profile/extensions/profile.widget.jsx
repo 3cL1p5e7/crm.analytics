@@ -65,7 +65,8 @@ class ProfileWidget extends Component {
   static mapActions = { ...actions, ...eventActions }
   render() {
     return (
-      <div className={`profile-widget ${this.props.className || ''}`}>
+      <div className={`profile-widget ${this.props.className || ''}`}
+           onClick={this.widgetClick()}>
         { this.props.logged ? 
             (<div className="profile-widget__icon"
                 onClick={this.iconClick()}>
@@ -83,8 +84,6 @@ class ProfileWidget extends Component {
             (<div className="profile-widget__sign-in">sign in</div>) 
         }
         <div className="profile-widget__stats">
-          <div></div>
-          <div></div>
         </div>
       </div>
     );
@@ -190,11 +189,27 @@ class ProfileWidget extends Component {
       }
     };
   }
+  widgetClick() {
+    return () => {
+      if (!this.props.logged)
+        this.goToParams('side=right&sign=in');
+    };
+  }
+  goToParams(search) {
+    this.context.router.history.push({
+      pathname: this.context.router.history.location.pathname,
+      search: search ? `?${search}` : ''
+    });
+  }
   componentDidMount() {
     if (this.image) {
       this.image.addEventListener('load', () => this.setState({ loaded: true }));
     }
   }
+}
+
+ProfileWidget.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default attachRouterRedux(ProfileWidget);

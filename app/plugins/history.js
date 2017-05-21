@@ -1,6 +1,6 @@
 import createHashHistory from 'history/createHashHistory';
 import { matchPath } from 'react-router'
-import { getParamByName } from 'store/utils'
+import { getParamByName, changeParam } from 'store/utils'
 import store from 'store';
 
 class Stack {
@@ -50,6 +50,12 @@ class Routes {
 
   constructor(history) {
     this._history = history;
+    this._history.pushSearch = function (name, value) {
+      this.push({
+        pathname: this.location.pathname,
+        search: changeParam(this.location.search, name, value)
+      });
+    };
     this.stack = new Stack(2, { routes: [], 'params': [] });
   }
   get history() {

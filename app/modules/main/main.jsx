@@ -111,7 +111,7 @@
     will-change: transform;
     opacity: 1!important;
     transform: translate3d(0, 0, 0)!important;
-    transition: transform .4s, opacity .4s ease;
+    transition: transform .3s, opacity .3s ease;
   }
   .sidebar-fade-leave-active {
     transform: translate3d(0, 0, 0);
@@ -119,7 +119,7 @@
   }
   .sidebar-fade-leave {
     will-change: transform;
-    transition: transform .4s, opacity .4s ease;
+    transition: transform .3s, opacity .3s ease;
   }
 
 
@@ -194,6 +194,7 @@ class Main extends Component {
         '': 2
       }
     };
+    this.clearSearch = this.clearSearch.bind(this);
   }
   static mapState(store) {
     return {
@@ -245,14 +246,14 @@ class Main extends Component {
             </Transition>
           </div>
         </div>
-        { this.props.activeSidebar ? <div className="substrate"></div> : null }
-        <Transition duration={500}
+        { this.props.activeSidebar ? <div className="substrate" onClick={ this.clearSearch }></div> : null }
+        <Transition duration={300}
                     switch={this.props.activeSidebar}
                     className="modules-container__sidebar modules-container__sidebar-left"
                     name="sidebar-fade">
           <SidebarLeft key="left" case="left"/>
         </Transition>
-        <Transition duration={500}
+        <Transition duration={300}
                     switch={this.props.activeSidebar}
                     className="modules-container__sidebar modules-container__sidebar-right"
                     name="sidebar-fade">
@@ -262,11 +263,20 @@ class Main extends Component {
       </div>
     );
   }
+  clearSearch() {
+    this.context.router.history.push({
+      pathname: this.context.router.history.location.pathname,
+      search: ''
+    });
+  }
   componentWillUpdate(nextProps) {
     const modules = this.state.modules;
     if (this.props.active !== nextProps.active)
       this.swipeLeft = modules[this.props.active] < modules[nextProps.active || ''];
   }
+}
+Main.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default attachRouterRedux(Main);
