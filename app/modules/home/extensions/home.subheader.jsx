@@ -29,8 +29,6 @@ import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
 
-import moment from 'plugins/moment';
-
 class HomeSubheader extends Component {
   constructor(props) {
     super(props);

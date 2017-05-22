@@ -26,8 +26,6 @@ import PropTypes from 'prop-types';
 
 import Transition from 'plugins/transition.jsx';
 
-import moment from 'plugins/moment';
-
 class CalendarSubheader extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +41,7 @@ class CalendarSubheader extends Component {
         <svg className={`calendar-subheader-icon ${this.props.active === 'layout' ? 'icon-activated' : ''}`}
           width="38" height="38"
           onClick={this.goToLink('layout')}>
-          <use xlinkHref={`#icon-layout-${moment().format('E')}`} />
+          <use xlinkHref={`#icon-layout-${this.localization.moment().format('E')}`} />
         </svg>
         <svg className={`calendar-subheader-icon ${this.props.active === 'list' ? 'icon-activated' : ''}`}
           width="38" height="38"

@@ -21,7 +21,7 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      transition: filter .3s ease;
+      //transition: filter .3s ease;
     }
     & > div {
       position: relative;

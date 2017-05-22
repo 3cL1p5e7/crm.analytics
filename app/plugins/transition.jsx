@@ -96,14 +96,16 @@ class Transition extends Component {
 
   removeTransition(type, index = 0, remove = false) {
     this.transitionTimeout[index] = setTimeout(() => {
-      if (remove) {
-        this.active[remove] = null;
-        return;
-      }
-      this.changeClassElement([
-        `${this.props.name}-${type}`,
-        `${this.props.name}-${type}-active`
-      ], index);
+      requestAnimationFrame(() => {
+        if (remove) {
+          this.active[remove] = null;
+          return;
+        }
+        this.changeClassElement([
+          `${this.props.name}-${type}`,
+          `${this.props.name}-${type}-active`
+        ], index);
+      });
     }, this.props.duration);
   }
   setTransition(type, child, index) {
@@ -203,39 +205,43 @@ class Transition extends Component {
   }
   componentDidUpdate() {
     setTimeout(() => {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      if (this.transitionTimeout[0]) {
-        clearTimeout(this.transitionTimeout[0]);
-        this.transitionTimeout[0] = null
-      }
-      if (this.transitionTimeout[1]) {
-        clearTimeout(this.transitionTimeout[1]);
-        this.transitionTimeout[1] = null
-      }
-
-      if (!this.forceUpdate.enabled) {
-        this.setTransition('enter', 0);
-        this.removeTransition('enter', 0);
-        return;
-      }
-      if (this.active.next) {
-        this.setTransition('leave', null, 0);
-        if (!this.isOutIn) {
-          this.setTransition('enter', null, 1);
-          this.removeTransition('enter', 1);
-          this.removeTransition('leave', 0, 'previous');
+      requestAnimationFrame(() => {
+        if (this.timeout) {
+          clearTimeout(this.timeout);
         }
-      }
-      
-      if (this.forceUpdate.enabled)
-        this.forceUpdate.released = false;
-      else this.forceUpdate.released = true;
-      this.timeout = setTimeout(() => {
-        this.forceUpdate.released = true;
-        this.setState({ activator: !this.state.activator });
-      }, this.props.duration + 30);
+        if (this.transitionTimeout[0]) {
+          clearTimeout(this.transitionTimeout[0]);
+          this.transitionTimeout[0] = null
+        }
+        if (this.transitionTimeout[1]) {
+          clearTimeout(this.transitionTimeout[1]);
+          this.transitionTimeout[1] = null
+        }
+
+        if (!this.forceUpdate.enabled) {
+          this.setTransition('enter', 0);
+          this.removeTransition('enter', 0);
+          return;
+        }
+        if (this.active.next) {
+          this.setTransition('leave', null, 0);
+          if (!this.isOutIn) {
+            this.setTransition('enter', null, 1);
+            this.removeTransition('enter', 1);
+            this.removeTransition('leave', 0, 'previous');
+          }
+        }
+        
+        if (this.forceUpdate.enabled)
+          this.forceUpdate.released = false;
+        else this.forceUpdate.released = true;
+        this.timeout = setTimeout(() => {
+          requestAnimationFrame(() => {
+            this.forceUpdate.released = true;
+            this.setState({ activator: !this.state.activator });
+          });
+        }, this.props.duration + 30);
+      });
     }, 30);
   }
 

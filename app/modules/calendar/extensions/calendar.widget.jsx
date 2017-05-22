@@ -30,8 +30,6 @@ import React, { Component } from 'react';
 import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
-import moment from 'plugins/moment';
-
 import * as actions from '../actions';
 
 class CalendarWidget extends Component {
@@ -43,7 +41,7 @@ class CalendarWidget extends Component {
   render() {
     return (
       <div className={ `calendar-widget ${this.props.className || ''}` }>
-        <div className="calendar-widget__title">{moment().format('D MMMM, YYYY')}</div>
+        <div className="calendar-widget__title">{this.localization.moment().format('D MMMM, YYYY')}</div>
       </div>
     );
   }
