@@ -43,6 +43,26 @@
       flex-direction: column;
       align-items: center;
 
+      &-main-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        margin-bottom: 8px;
+      }
+      &-social-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        
+        &--vk {
+          margin-right: 8px;
+        }
+        &--fb {
+
+        }
+      }
+
       &--confirm {
         cursor: pointer;
         font-size: 20px;
@@ -80,6 +100,7 @@ import PropTypes from 'prop-types';
 import * as actions from '../actions';
 
 import { ProfileSignin, ProfileSignup, ProfileForgot } from './';
+import { VkControl, FbControl } from 'uikit/controls';
 import Transition from 'plugins/transition.jsx';
 
 import { changeParam } from 'store/utils';
@@ -120,18 +141,24 @@ class ProfileSign extends Component {
           <ProfileForgot key="forgot" case="forgot"/>
         </Transition>
         <div className="profile-sign__footer">
-          <Transition duration={300}
-                      switch={this.props.activeForm}
-                      className="sign-wrapper"
-                      mode="out-in"
-                      name="sign-fade">
-            <SubmitButton className="profile-sign__footer--confirm"
-                          text="Sign in" key="signin" case="in"/>
-            <SubmitButton className="profile-sign__footer--confirm"
-                          text="Sign up" key="signup" case="up"/>
-            <SubmitButton className="profile-sign__footer--confirm"
-                          text="Submit" key="forgot" case="forgot"/>
-          </Transition>
+          <div className="profile-sign__footer-main-row">
+            <Transition duration={300}
+                        switch={this.props.activeForm}
+                        className="sign-wrapper"
+                        mode="out-in"
+                        name="sign-fade">
+              <SubmitButton className="profile-sign__footer--confirm"
+                            text="Sign in" key="signin" case="in"/>
+              <SubmitButton className="profile-sign__footer--confirm"
+                            text="Sign up" key="signup" case="up"/>
+              <SubmitButton className="profile-sign__footer--confirm"
+                            text="Submit" key="forgot" case="forgot"/>
+            </Transition>
+          </div>
+          <div className="profile-sign__footer-social-row">
+            <VkControl className="profile-sign__footer-social-row--vk" onClick={this.social('vk')}/>
+            <FbControl className="profile-sign__footer-social-row--fb" onClick={this.social('fb')}/>
+          </div>
         </div>
       </div>
     );
@@ -139,6 +166,11 @@ class ProfileSign extends Component {
   switch(value) {
     return () => {
       this.context.router.history.pushSearch('sign', value);
+    };
+  }
+  social(name) {
+    return () => {
+      console.log(name);
     };
   }
 }
