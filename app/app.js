@@ -20,10 +20,13 @@ ReactDOM.render(
     <Router history={routes.history}>
         <Route path="/" render={() => (
           <div>
-            { routes.history.location.pathname === '/' ? <Redirect to="/home/dash" /> : null }
+            { 
+              routes.history.location.pathname === '/' ? <Redirect to="/home/dash" /> : null
+            }
             <Main/>
           </div>
         )}/>
+        
     </Router>
   </Provider>,
   document.getElementById('react-root')

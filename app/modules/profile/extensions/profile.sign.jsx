@@ -58,8 +58,8 @@
         &--vk {
           margin-right: 8px;
         }
-        &--fb {
-
+        &--google {
+          margin-right: 8px;
         }
       }
 
@@ -90,6 +90,9 @@
     opacity: 0!important;
     transition: opacity .3s ease;
   }
+  .test {
+    display: none;
+  }
 </style>
 
 import React, { Component } from 'react';
@@ -100,10 +103,11 @@ import PropTypes from 'prop-types';
 import * as actions from '../actions';
 
 import { ProfileSignin, ProfileSignup, ProfileForgot } from './';
-import { VkControl, FbControl } from 'uikit/controls';
+import { VkControl, FbControl, GoogleControl } from 'uikit/controls';
 import Transition from 'plugins/transition.jsx';
 
 import { changeParam } from 'store/utils';
+import auth from 'plugins/social.auth.js';
 
 class ProfileSign extends Component {
   constructor(props) {
@@ -157,6 +161,7 @@ class ProfileSign extends Component {
           </div>
           <div className="profile-sign__footer-social-row">
             <VkControl className="profile-sign__footer-social-row--vk" onClick={this.social('vk')}/>
+            <GoogleControl className="profile-sign__footer-social-row--google" onClick={this.social('google')}/>
             <FbControl className="profile-sign__footer-social-row--fb" onClick={this.social('fb')}/>
           </div>
         </div>
@@ -170,7 +175,16 @@ class ProfileSign extends Component {
   }
   social(name) {
     return () => {
-      console.log(name);
+      auth.open(name).then(() => {
+        console.log('ЕЕЕ РОООКККК');
+        auth.api.profile().then(res => {
+          console.log('profile', res);
+          return auth.api.friends(res.id);
+        }).then(res => {
+          console.log('users', res);
+          this.context.router.history.clear()
+        });
+      });
     };
   }
 }

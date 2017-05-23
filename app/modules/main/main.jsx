@@ -264,10 +264,7 @@ class Main extends Component {
     );
   }
   clearSearch() {
-    this.context.router.history.push({
-      pathname: this.context.router.history.location.pathname,
-      search: ''
-    });
+    this.context.router.history.clear();
   }
   componentWillUpdate(nextProps) {
     const modules = this.state.modules;

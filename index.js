@@ -10,9 +10,12 @@ var path = require('path');
 
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/dist', express.static(path.join(__dirname, '/dist')));
-// app.get(/.*/, function root(req, res) {
-//   res.sendFile(__dirname + '/public/index.html');
-// });
+app.use('/auth', function root(req, res) {
+  res.sendFile(path.join(__dirname, '/public/empty.html'));
+});
+app.get(function root(req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 
 var server = app.listen(port, function() {

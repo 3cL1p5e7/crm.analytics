@@ -56,6 +56,12 @@ class Routes {
         search: changeParam(this.location.search, name, value)
       });
     };
+    this._history.clear = function () {
+      this.push({
+        pathname: this.location.pathname,
+        search: ''
+      });
+    };
     this.stack = new Stack(2, { routes: [], 'params': [] });
   }
   get history() {
