@@ -107,7 +107,7 @@ import { VkControl, FbControl, GoogleControl } from 'uikit/controls';
 import Transition from 'plugins/transition.jsx';
 
 import { changeParam } from 'store/utils';
-import auth from 'plugins/social.auth.js';
+import auth from 'plugins/auth.js';
 
 class ProfileSign extends Component {
   constructor(props) {
@@ -175,11 +175,11 @@ class ProfileSign extends Component {
   }
   social(name) {
     return () => {
-      auth.open(name).then(() => {
+      auth.auth(name).then(() => {
         console.log('ЕЕЕ РОООКККК');
-        auth.api.profile().then(res => {
+        auth.info().then(res => {
           console.log('profile', res);
-          return auth.api.friends(res.id);
+          return auth.friends(res.id);
         }).then(res => {
           console.log('users', res);
           this.context.router.history.clear()
