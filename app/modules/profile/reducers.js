@@ -3,7 +3,8 @@ import {
   LOG_IN,
   LOG_OFF,
   SET_ACTIVE_FORM,
-  SET_FRIENDS
+  SET_FRIENDS,
+  SET_PROFILE_EVENTS
 } from './actions.js';
 
 const defaultState = {
@@ -35,6 +36,14 @@ const reducers = {
       user: {
         ...state.user,
         friends
+      }
+    };
+  },
+  [SET_PROFILE_EVENTS](state, { events }) {
+    return {
+      user: {
+        ...state.user,
+        events
       }
     };
   }

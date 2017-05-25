@@ -28,3 +28,12 @@ export const setFriends = (friends, mapKey) => {
                 .getAdditional('user', 'friends', friends, mapKey);
   return { type: SET_FRIENDS, friends: _friends };
 }
+
+export const SET_PROFILE_EVENTS = 'SET_PROFILE_EVENTS';
+export const setProfileEvents = (events, mapKey) => {
+  if (!events)
+    return;
+  const _events = schemeBuilder
+    .getAdditional('user', 'events', events, mapKey);
+  return { type: SET_PROFILE_EVENTS, events: _events };
+}

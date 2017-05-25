@@ -73,7 +73,7 @@ class ProfileWidget extends Component {
               <svg className="profile-widget__icon--svg">
                 <defs>
                   <clipPath id="circle">
-                    <circle cx="0" cy="0" r="27" />
+                    <circle cx="27" cy="27" r="27" />
                   </clipPath>
                 </defs>
                 <g>
@@ -81,7 +81,7 @@ class ProfileWidget extends Component {
                         className="icon-avatar"
                         preserveAspectRatio="xMidYMid slice"
                         height="55" width="55"
-                        clip-path="url(#circle)"
+                        clipPath="url(#circle)"
                         ref={(image) => { this.image = image; }}/>
                 </g>
               </svg>

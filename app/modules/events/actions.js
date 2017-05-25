@@ -2,14 +2,12 @@ import Builder from 'schemes/builder';
 const schemeBuilder = new Builder();
 
 export const SET_EVENTS = 'SET_EVENTS';
-export const setEvents = (payload) => {
-  if (!payload.events)
+export const setEvents = (events, mapKey) => {
+  if (!events)
     return;
-  const events = {};
-  Object.keys(payload.events).forEach(event => {
-    events[event] = schemeBuilder.build('event', payload.events[event]);
-  });
-  return { type: SET_EVENTS, events };
+  const _events = schemeBuilder
+    .getAdditional('user', 'events', events, mapKey);
+  return { type: SET_EVENTS, events: _events };
 }
 
 export const ADD_EVENT = 'ADD_EVENT';

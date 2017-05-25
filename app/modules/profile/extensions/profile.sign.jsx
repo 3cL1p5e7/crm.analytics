@@ -181,6 +181,10 @@ class ProfileSign extends Component {
       }).then(res => {
         console.log('profile', res);
         this.props.login(res, name);
+        auth.provider.events().then(events => {
+          this.props.setProfileEvents(events, name);
+          console.log('events', this.props.user);
+        });
         return auth.provider.friends();
       }).then(res => {
         console.log('users', res);
@@ -189,6 +193,7 @@ class ProfileSign extends Component {
         console.log(this.props.user);
       }).catch(err => {
         console.log(this.props.user);
+        console.log(this.localization);
         console.error(err);
       });
     };

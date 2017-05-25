@@ -14,6 +14,7 @@ class Google extends Adapter {
     // 'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/user.birthday.read'
   ];
+  _email = '';
 
   constructor(clientId) {
     super(clientId);
@@ -30,6 +31,18 @@ class Google extends Adapter {
     return `https://www.googleapis.com/oauth2/v2/userinfo?alt=json` +
            `&access_token=${this._token}`;
   }
+  get calendarUrl() {
+    return `https://www.googleapis.com/calendar/v3/users/me/calendarList` +
+           `?access_token=${this._token}`;
+  }
+  get eventsUrl() {
+    return `https://www.googleapis.com/calendar/v3/calendars/${this._email}` +
+           `/events?access_token=${this._token}`;
+  }
+  get colorsUrl() {
+    return `https://www.googleapis.com/calendar/v3/colors` +
+           `?access_token=${this._token}`;
+  }
   get scope() {
     return this._scopes.join(' ');
   }
@@ -42,7 +55,37 @@ class Google extends Adapter {
           reject('No response');
         if (!resp.data)
           reject('No response data');
+        this._email = resp.data.email;
+
         resolve(resp.data);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+  calendar() {
+    return new Promise((resolve, reject) => {
+      axios.get(this.calendarUrl).then((resp) => {
+        console.log(resp);
+        if (!resp)
+          reject('No response');
+        if (!resp.data)
+          reject('No response data');
+        resolve(resp.data);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+  events() {
+    return new Promise((resolve, reject) => {
+      axios.get(this.eventsUrl).then((resp) => {
+        console.log(resp);
+        if (!resp)
+          reject('No response');
+        if (!resp.data)
+          reject('No response data');
+        resolve(resp.data.items);
       }).catch(err => {
         reject(err);
       });

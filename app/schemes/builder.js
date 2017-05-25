@@ -1,4 +1,5 @@
 import entities from './entities';
+
 class Builder {
   _classes = {}
   tools = {
@@ -109,8 +110,18 @@ class Builder {
           mapped[key] = payload[key];
           return;
         }
-
-        mapped[key] = payload[field.map[mapKey]];
+        let slice = payload;
+        const seq = field.map[mapKey].split('.');
+        seq.some(item => {
+          if (!slice[item]) {
+            if (!field.default || typeof field.default !== 'function') {
+              slice = null;
+            } else slice = field.default.call(null);
+            return true;
+          }
+          slice = slice[item];
+        });
+        mapped[key] = slice;
       });
     } else {
       mapped = { ...payload };

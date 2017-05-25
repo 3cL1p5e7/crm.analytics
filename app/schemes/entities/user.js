@@ -84,7 +84,7 @@ export const user = {
       default: () => { return []; }
     },
     events: {
-      type: '[String]',
+      type: '[event]',
       default: () => { return []; }
     },
   }
