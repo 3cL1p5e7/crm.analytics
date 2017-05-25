@@ -2,7 +2,8 @@ import { attachReducers } from 'store/utils';
 import {
   LOG_IN,
   LOG_OFF,
-  SET_ACTIVE_FORM
+  SET_ACTIVE_FORM,
+  SET_FRIENDS
 } from './actions.js';
 
 const defaultState = {
@@ -27,6 +28,14 @@ const reducers = {
   [SET_ACTIVE_FORM]: (state, { payload }) => {
     return {
       activeForm: payload
+    };
+  },
+  [SET_FRIENDS](state, { friends }) {
+    return {
+      user: {
+        ...state.user,
+        friends
+      }
     };
   }
 };

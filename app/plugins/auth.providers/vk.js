@@ -1,3 +1,4 @@
+import jsonp from 'jsonp';
 import Adapter from './adapter.js';
 
 class Vk extends Adapter {
@@ -9,10 +10,6 @@ class Vk extends Adapter {
     'friends',
     'offline'
   ];
-  _authMask = `https://oauth.vk.com/authorize?` +
-              `client_id={clientId}&` +
-              `redirect_uri={redirectUrl}&response_type=token` +
-              `&scope={scope}`;
   
   _userOptions = {
     fields: [
@@ -32,20 +29,31 @@ class Vk extends Adapter {
 
   constructor(clientId) {
     super(clientId);
-    this._build(this._authMask, this);
   }
 
+  get authUrl() {
+    return `https://oauth.vk.com/authorize?` +
+           `client_id=${this.clientId}&` +
+           `redirect_uri=${this.redirectUrl}&response_type=token` +
+           `&scope=${this.scope}`;
+  }
+  get infoUrl() {
+    return `https://api.vk.com/method/users.get?v=5.64` +
+           `&access_token=${this._token}` +
+           `&fields=${this._userOptions.fields.join(',')}`;
+  }
+  get friendsUrl() {
+    return `https://api.vk.com/method/friends.get?v=5.64` +
+           `&access_token=${this._token}` +
+           `&fields=${this._userOptions.fields.join(',')},online,relation`;
+  }
   get scope() {
     return this._scopes.join(',');
   }
 
   info() {
-    const url = `https://api.vk.com/method/users.get?v=5.64` +
-                `&access_token=${this._token}` +
-                `&fields=${this._userOptions.fields.join(',')}`
     return new Promise((resolve, reject) => {
-      jsonp(url,
-        {},
+      jsonp(this.infoUrl, {},
         (err, data) => {
           if (err)
             reject(err);
@@ -55,20 +63,17 @@ class Vk extends Adapter {
         });
     });
   }
-
   friends() {
-    const url = `https://api.vk.com/method/friends.get?v=5.64` +
-                `&access_token=${this._token}` +
-                `&fields=${this._userOptions.fields.join(',')},online,relation`;
     return new Promise((resolve, reject) => {
-      jsonp(url,
-        {},
+      jsonp(this.friendsUrl, {},
         (err, data) => {
           if (err)
             reject(err);
           if (!data.response)
             reject('No response');
-          resolve(data.response);
+          if (!data.response.items)
+            reject('No items');
+          resolve(data.response.items);
         });
     });
   }

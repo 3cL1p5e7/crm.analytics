@@ -117,7 +117,8 @@ class ProfileSign extends Component {
   }
   static mapState(store) {
     return {
-      activeForm: store.profile.activeForm
+      activeForm: store.profile.activeForm,
+      user: store.profile.user,
     };
   }
   static mapActions = { ...actions }
@@ -176,14 +177,19 @@ class ProfileSign extends Component {
   social(name) {
     return () => {
       auth.auth(name).then(() => {
-        console.log('ЕЕЕ РОООКККК');
-        auth.info().then(res => {
-          console.log('profile', res);
-          return auth.friends(res.id);
-        }).then(res => {
-          console.log('users', res);
-          this.context.router.history.clear()
-        });
+        return auth.provider.info();
+      }).then(res => {
+        console.log('profile', res);
+        this.props.login(res, name);
+        return auth.provider.friends();
+      }).then(res => {
+        console.log('users', res);
+        this.props.setFriends(res, name);
+        this.context.router.history.clear()
+        console.log(this.props.user);
+      }).catch(err => {
+        console.log(this.props.user);
+        console.error(err);
       });
     };
   }

@@ -6,7 +6,6 @@ class Adapter {
   }
   _clientId = null;
   _redirectUrl = `${window.location.origin}/auth`;
-  _authUrl = '';
   _tokenKey = 'access_token';
   _token = null;
 
@@ -22,19 +21,10 @@ class Adapter {
   get redirectUrl() {
     return this._redirectUrl;
   }
-  get authUrl() {
-    return this._authUrl;
-  }
-
-  _build(mask, target) {
-    this._authUrl = mask.replace(this._options.escape, (match, dec) => {
-      if (typeof target[dec] === 'undefined' || target[dec] === null)
-        throw `Parameter ${dec} is not defined. Check your auth mask`;
-      return target[dec] + '';
-    });
-  }
 
   auth() {
+    if (!this.authUrl)
+      return new Promise(reject => reject('No auth Url'));
     const params = {
       target: '_blank',
       width: 400,
@@ -57,7 +47,7 @@ class Adapter {
           reject('No received token');
         resolve();
       };
-      window.open(this._authUrl, 'auth', paramStr.join(','));
+      window.open(this.authUrl, 'auth', paramStr.join(','));
     });
   }
 

@@ -9,16 +9,17 @@ class Facebook extends Adapter {
     'friends',
     'offline'
   ];
-  _authMask = `https://oauth.vk.com/authorize?` +
-  `client_id={clientId}&` +
-  `redirect_uri={redirectUrl}&response_type=token` +
-  `&scope={scope}`;
 
   constructor(clientId) {
     super(clientId);
-    this._build(this._authMask, this);
   }
 
+  get authUrl() {
+    return `https://oauth.vk.com/authorize?` +
+           `client_id=${this.clientId}&` +
+           `redirect_uri=${this.redirectUrl}&response_type=token` +
+           `&scope=${this.scope}`;
+  }
   get scope() {
     return this._scopes.join(',');
   }

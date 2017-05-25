@@ -7,8 +7,8 @@ export const register = (payload) => {
 }
 
 export const LOG_IN = 'LOG_IN';
-export const login = (user) => {
-  const _user = schemeBuilder.build('user', user);
+export const login = (user, mapKey) => {
+  const _user = schemeBuilder.parse('user', user, mapKey);
   return { type: LOG_IN, user: _user };
 }
 
@@ -20,4 +20,11 @@ export const logoff = (payload) => {
 export const SET_ACTIVE_FORM = 'SET_ACTIVE_EXTENSION';
 export const setActiveProfileForm = (payload) => {
   return { type: SET_ACTIVE_FORM, payload };
+}
+
+export const SET_FRIENDS = 'SET_FRIENDS';
+export const setFriends = (friends, mapKey) => {
+  const _friends = schemeBuilder
+                .getAdditional('user', 'friends', friends, mapKey);
+  return { type: SET_FRIENDS, friends: _friends };
 }

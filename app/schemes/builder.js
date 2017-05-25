@@ -15,16 +15,55 @@ class Builder {
     return this._classes;
   }
 
+  _getFieldInfo(field) {
+    let entityName = false;
+    let objectType = false;
+    Object.keys(this.tools.escapes).some(type => {
+      field.type.replace(this.tools.escapes[type], (match, dec) => {
+        entityName = dec;
+        objectType = type;
+      })
+    });
+    return { entityName, objectType };
+  }
+
+  _buildData(field, mapKey, payload) {
+    const { entityName, objectType } = this._getFieldInfo(field);
+    let result = null;
+
+    if (!entityName) { // plain object
+      if (this.classes[field.type])
+        result = this.parse(field.type, payload, mapKey, 1);
+      else result = field.type == 'Date' ?
+                      new window[field.type](payload) : window[field.type](payload);
+      return result;
+    }
+
+    if (objectType === 'Array' && Array.isArray(payload)) {
+      result = [];
+      payload.forEach(elem => {
+        result.push(this.parse(entityName, elem, mapKey, 1));
+      });
+    } else if (objectType === 'Object' && typeof payload === 'object') {
+      result = {};
+      Object.keys(payload).forEach(objKey => {
+        result[objKey] = this.parse(entityName, payload[objKey], mapKey, 1);
+      });
+    }
+    return result;
+  }
+
   addClasses(classes) {
     this._classes = { ...this._classes, ...classes };
   }
 
-  build(className, payload, depth = 0) {
+  build(className, payload, mapKey, depth = 0) {
     if (depth > 1 || !payload)
       return;
     if (!this._classes[className]) {
       if (window[className])
-        return new window[className](payload);
+        return className === 'Date' ?
+                new window[className](payload) : window[className](payload);
       console.error(`Class with name ${className} does not exist`);
       return;
     }
@@ -40,7 +79,6 @@ class Builder {
       }
       
       if (payload[key] === null || typeof payload[key] === 'undefined') {
-
         if (field.required) {
           console.error(`Required field ${key} does not present (${className})`);
           return true;
@@ -50,37 +88,47 @@ class Builder {
         } else instance[key] = field.default.call(null);
         return false;
       }
-
-      let entityName = false;
-      let objectType = false;
-      Object.keys(this.tools.escapes).some(type => {
-        field.type.replace(this.tools.escapes[type], (match, dec) => {
-          entityName = dec;
-          objectType = type;
-        })
-      });
-      if (!entityName) { // plain object
-
-        if (this.classes[field.type])
-          instance[key] = this.build(field.type, payload[key], 1);
-        else instance[key] = new window[field.type](payload[key]);
-        return false;
-      }
-
-      if (objectType === 'Array' && Array.isArray(payload[key])) {
-        instance[key] = [];
-        payload[key].forEach(elem => {
-          instance[key].push(this.build(entityName, elem, 1));
-        });
-      } else if (objectType === 'Object' && typeof payload[key] === 'object') {
-        instance[key] = {};
-        Object.keys(payload[key]).forEach(objKey => {
-          instance[key][objKey] = this.build(entityName, payload[key][objKey], 1);
-        });
-      }
+      instance[key] = this._buildData(field, mapKey, payload[key]);
       return false;      
     });
     return instance;
+  }
+
+  parse(className, payload, mapKey, depth = 0) {
+    let mapped = {};
+    if (mapKey) {
+      if (!this._classes[className]) {
+        console.error(`Class with name ${className} does not exist`);
+        return;
+      }
+
+      const fields = this._classes[className].scheme;
+      Object.keys(fields).forEach(key => {
+        const field = fields[key];
+        if (!field.map || !field.map[mapKey]) {
+          mapped[key] = payload[key];
+          return;
+        }
+
+        mapped[key] = payload[field.map[mapKey]];
+      });
+    } else {
+      mapped = { ...payload };
+    }
+    return this.build(className, mapped, mapKey, depth);
+  }
+
+  getAdditional(className, fieldName, payload, mapKey) {
+    if (!this._classes[className]) {
+      console.error(`Class with name ${className} does not exist`);
+      return;
+    }
+    if (!this._classes[className].scheme[fieldName]) {
+      console.error(`Field with name ${fieldName} of class ${className} does not exist`);
+      return;
+    }
+    const field = this._classes[className].scheme[fieldName];
+    return this._buildData(field, mapKey, payload);
   }
 }
 
