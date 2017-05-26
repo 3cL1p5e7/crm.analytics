@@ -24,22 +24,22 @@
     }
   }
 
-  .calendar-fade-enter-active {
+  .calendar-fade-enter {
     opacity: 0;
   }
   
-  .calendar-fade-enter {
+  .calendar-fade-enter.calendar-fade-enter-active {
     will-change: opacity;
-    opacity: 1!important;
+    opacity: 1;
     transition: opacity .3s ease;
   }
 
-  .calendar-fade-leave-active {
+  .calendar-fade-leave {
     opacity: 1;
   }
-  .calendar-fade-leave {
+  .calendar-fade-leave.calendar-fade-leave-active {
     will-change: opacity;
-    opacity: 0!important;
+    opacity: 0;
     transition: opacity .3s ease;
   }
 </style>
@@ -51,7 +51,8 @@ import PropTypes from 'prop-types';
 
 import CalendarLayout from './calendar.layout.jsx';
 import CalendarList from './calendar.list.jsx';
-import Transition from 'plugins/transition.jsx';
+
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import * as actions from './actions';
 
@@ -81,16 +82,27 @@ class Calendar extends Component {
       }
     };
   }
+  getItem() {
+    switch (this.props.active) {
+      case 'list':
+        return <CalendarList key="list" className="booster" />;
+      case 'layout':
+        return <CalendarLayout key="layout" className="booster" />;
+    }
+  }
   render() {
+    const item = this.getItem();
     return (
       <div className={`calendar ${this.props.className || ''}`}>
-        <Transition duration={300}
-                    switch={this.props.active}
-                    className="calendar__wrapper"
-                    name="calendar-fade">
-          <CalendarList key="list" case="list" className="booster" />
-          <CalendarLayout key="layout" case="layout" className="booster" />
-        </Transition>
+        <CSSTransitionGroup className='calendar__wrapper'
+                            component="div"
+                            transitionName="calendar-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={300}
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={300}>
+          { item }
+        </CSSTransitionGroup>
       </div>
     );
   }

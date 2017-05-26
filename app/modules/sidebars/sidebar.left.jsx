@@ -17,8 +17,6 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import Transition from 'plugins/transition.jsx';
-
 import * as mainActions from 'modules/main/actions';
 
 class SidebarLeft extends Component {

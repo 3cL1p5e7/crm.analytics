@@ -24,8 +24,6 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import Transition from 'plugins/transition.jsx';
-
 class CalendarSubheader extends Component {
   constructor(props) {
     super(props);

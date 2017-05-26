@@ -64,6 +64,7 @@
       }
 
       &--confirm {
+        position: absolute;
         cursor: pointer;
         font-size: 20px;
         color: $modules-header-text-color;
@@ -75,28 +76,24 @@
     }
   }
 
-  .sign-fade-enter-active {
+  .sign-fade-enter {
     opacity: 0;
   }
-  .sign-fade-enter {
+  .sign-fade-enter.sign-fade-enter-active {
     opacity: 1;
     transition: opacity .3s ease;
   }
 
-  .sign-fade-leave-active {
+  .sign-fade-leave {
     opacity: 1;
   }
-  .sign-fade-leave {
-    opacity: 0!important;
+  .sign-fade-leave.sign-fade-leave-active {
+    opacity: 0;
     transition: opacity .3s ease;
-  }
-  .test {
-    display: none;
   }
 </style>
 
 import React, { Component } from 'react';
-// import { DOMProperty } from 'react/lib/ReactInjection'
 import { attachRouterRedux } from 'store/utils';
 import PropTypes from 'prop-types';
 
@@ -104,7 +101,8 @@ import * as actions from '../actions';
 
 import { ProfileSignin, ProfileSignup, ProfileForgot } from './';
 import { VkControl, FbControl, GoogleControl } from 'uikit/controls';
-import Transition from 'plugins/transition.jsx';
+
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { changeParam } from 'store/utils';
 import auth from 'plugins/auth.js';
@@ -122,7 +120,32 @@ class ProfileSign extends Component {
     };
   }
   static mapActions = { ...actions }
+  buttons() {
+    switch (this.props.activeForm) {
+      case 'in':
+        return <SubmitButton className="profile-sign__footer--confirm"
+          text="Sign in" key="signin" />;
+      case 'up':
+        return <SubmitButton className="profile-sign__footer--confirm"
+          text="Sign up" key="signup"/>;
+      case 'forgot':
+        return <SubmitButton className="profile-sign__footer--confirm"
+          text="Submit" key="forgot" />;
+    }
+  }
+  form() {
+    switch (this.props.activeForm) {
+      case 'in':
+        return <ProfileSignin key="signin" />
+      case 'up':
+        return <ProfileSignup key="signup" />
+      case 'forgot':
+        return <ProfileForgot key="signin" />
+    }
+  }
   render() {
+    const buttons = this.buttons();
+    const form = this.form();
     return (
       <div className={`profile-sign ${this.props.className || ''}`}>
         <div className="profile-sign__header">
@@ -136,29 +159,26 @@ class ProfileSign extends Component {
             `profile-sign__switcher--item ${this.props.activeForm === 'up' ? 'profile-sign__switcher-active' : ''}`
           } onClick={ this.switch('up') }>Sign up</div>
         </div>
-        <Transition duration={300}
-                    switch={this.props.activeForm}
-                    className="sign-wrapper"
-                    mode="out-in"
-                    name="sign-fade">
-          <ProfileSignin key="signin" case="in"/>
-          <ProfileSignup key="signup" case="up"/>
-          <ProfileForgot key="forgot" case="forgot"/>
-        </Transition>
+        <CSSTransitionGroup className="sign-wrapper"
+                            component="div"
+                            transitionName="sign-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={300}
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={300}>
+          {form}
+        </CSSTransitionGroup>
         <div className="profile-sign__footer">
           <div className="profile-sign__footer-main-row">
-            <Transition duration={300}
-                        switch={this.props.activeForm}
-                        className="sign-wrapper"
-                        mode="out-in"
-                        name="sign-fade">
-              <SubmitButton className="profile-sign__footer--confirm"
-                            text="Sign in" key="signin" case="in"/>
-              <SubmitButton className="profile-sign__footer--confirm"
-                            text="Sign up" key="signup" case="up"/>
-              <SubmitButton className="profile-sign__footer--confirm"
-                            text="Submit" key="forgot" case="forgot"/>
-            </Transition>
+              <CSSTransitionGroup className="sign-wrapper"
+                                  component="div"
+                                  transitionName="sign-fade" 
+                                  transitionAppear={true} 
+                                  transitionAppearTimeout={300} 
+                                  transitionEnterTimeout={300} 
+                                  transitionLeaveTimeout={300}>
+                {buttons}
+              </CSSTransitionGroup>
           </div>
           <div className="profile-sign__footer-social-row">
             <VkControl className="profile-sign__footer-social-row--vk" onClick={this.social('vk')}/>

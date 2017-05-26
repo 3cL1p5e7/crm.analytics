@@ -14,7 +14,8 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import Transition from 'plugins/transition.jsx';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+
 import { CalendarSubheader } from 'modules/calendar/extensions';
 import { HomeSubheader } from 'modules/home/extensions';
 

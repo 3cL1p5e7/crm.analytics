@@ -82,78 +82,71 @@
       &-left {
         left: 0;
 
-        .sidebar-fade-enter-active {
+        .sidebar-fade-enter {
           transform: translate3d(-60%, 0, 0);
-          opacity: 0;
+          opacity: 0.01;
+          transition: opacity .5s, transform .4s ease;
         }
-        .sidebar-fade-leave {
+        .sidebar-fade-leave.sidebar-fade-leave-active {
           transform: translate3d(-60%, 0, 0);
-          opacity: 0;
+          opacity: 0.01;
         }
       }
       &-right {
         right: 0;
 
-        .sidebar-fade-enter-active {
+        .sidebar-fade-enter {
           transform: translate3d(60%, 0, 0);
-          opacity: 0;
+          opacity: 0.01;
+          transition: opacity .5s, transform .4s ease;
         }
-        .sidebar-fade-leave {
+        .sidebar-fade-leave.sidebar-fade-leave-active {
           transform: translate3d(60%, 0, 0);
-          opacity: 0;
+          opacity: 0.01;
         }
       }
 
     }
   }
 
-  .sidebar-fade-enter {
+  .sidebar-fade-enter.sidebar-fade-enter-active {
     will-change: transform;
-    opacity: 1!important;
-    transform: translate3d(0, 0, 0)!important;
-    transition: transform .3s, opacity .3s ease;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
-  .sidebar-fade-leave-active {
+
+  .sidebar-fade-leave {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-  .sidebar-fade-leave {
-    will-change: transform;
-    transition: transform .3s, opacity .3s ease;
-  }
 
 
-
-  .to-the-left .modules-fade-enter-active {
+  .to-the-left .modules-fade-enter {
     transform: translate3d(30%, 0, 0);
-    opacity: 0;
+    opacity: 0.01;
   }
-  .to-the-right .modules-fade-enter-active {
+  .to-the-right .modules-fade-enter {
     transform: translate3d(-30%, 0, 0);
-    opacity: 0;
+    opacity: 0.01;
   }
   
-  .modules-fade-enter {
+  .modules-fade-enter.modules-fade-enter-active {
     will-change: transform;
-    opacity: 1!important;
-    transform: translate3d(0, 0, 0)!important;
-    transition: transform .4s, opacity .4s ease;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
-  .modules-fade-leave-active {
+  .modules-fade-leave {
+    will-change: transform;
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-  .modules-fade-leave {
-    will-change: transform;
-    transition: transform .4s, opacity .4s ease;
-  }
 
-  .to-the-left .modules-fade-leave {
+  .to-the-left .modules-fade-leave-active.modules-fade-leave {
     transform: translate3d(-30%, 0, 0);
     opacity: 0;
   }
-  .to-the-right .modules-fade-leave {
+  .to-the-right .modules-fade-leave-active.modules-fade-leave {
     transform: translate3d(30%, 0, 0);
     opacity: 0;
   }
@@ -178,7 +171,7 @@ import Profile from 'modules/profile/profile.jsx';
 import SidebarLeft from 'modules/sidebars/sidebar.left.jsx';
 import SidebarRight from 'modules/sidebars/sidebar.right.jsx';
 
-import Transition from 'plugins/transition.jsx';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import * as actions from './actions';
 
@@ -222,7 +215,23 @@ class Main extends Component {
       }
     };
   }
+  activeComponent() {
+    switch (this.props.active) {
+      case 'home':
+        return <Home key="home" className="booster" />;
+      case 'calendar':
+        return <Calendar key="calendar" className="booster" />;
+      case 'settings':
+        return <Settings key="settings" className="booster" />;
+    }
+  }
   render() {
+    const activeComponent = this.activeComponent();
+    const leftSidebar = this.props.activeSidebar === 'left' ?
+      <SidebarLeft key="left" /> : null;
+    const rightSidebar = this.props.activeSidebar === 'right' ?
+      <SidebarRight key="right" /> : null;
+
     return (
       <div className="modules-container">
         <div className="modules-container--main"
@@ -236,29 +245,36 @@ class Main extends Component {
             <Subheader active={this.props.active} />
           </div>
           <div className={`modules-container__modules ${this.swipeLeft ? 'to-the-left' : 'to-the-right'}`}>
-            <Transition duration={500}
-                        switch={this.props.active}
-                        className="modules-container__modules-wrapper"
-                        name="modules-fade">
-              <Home key="home" case="home" className="booster" />
-              <Calendar key="calendar" case="calendar" className="booster"/>
-              <Settings key="settings" case="settings" className="booster"/>
-            </Transition>
+            <CSSTransitionGroup className="modules-container__modules-wrapper"
+                                component="div"
+                                transitionName="modules-fade"
+                                transitionAppear={true}
+                                transitionAppearTimeout={500}
+                                transitionEnterTimeout={500}
+                                transitionLeaveTimeout={500}>
+              { activeComponent }
+            </CSSTransitionGroup>
           </div>
         </div>
         { this.props.activeSidebar ? <div className="substrate" onClick={ this.clearSearch }></div> : null }
-        <Transition duration={300}
-                    switch={this.props.activeSidebar}
-                    className="modules-container__sidebar modules-container__sidebar-left"
-                    name="sidebar-fade">
-          <SidebarLeft key="left" case="left"/>
-        </Transition>
-        <Transition duration={300}
-                    switch={this.props.activeSidebar}
-                    className="modules-container__sidebar modules-container__sidebar-right"
-                    name="sidebar-fade">
-          <SidebarRight key="right" case="right"/>
-        </Transition>
+        <CSSTransitionGroup className="modules-container__sidebar modules-container__sidebar-left"
+                            component="div"
+                            transitionName="sidebar-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={300}
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={300}>
+          { leftSidebar }
+        </CSSTransitionGroup>
+        <CSSTransitionGroup className="modules-container__sidebar modules-container__sidebar-right"
+                            component="div"
+                            transitionName="sidebar-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={300}
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={300}>
+          { rightSidebar }
+        </CSSTransitionGroup>
         <Profile/>
       </div>
     );

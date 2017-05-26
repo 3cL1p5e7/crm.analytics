@@ -57,19 +57,19 @@
     }
   }
 
-  .items-fade-enter-active {
+  .items-fade-enter {
     opacity: 0;
   }
-  .items-fade-enter {
+  .items-fade-enter.items-fade-enter-active {
     opacity: 1;
     transition: opacity .2s ease;
   }
 
-  .items-fade-leave-active {
+  .items-fade-leave {
     opacity: 1;
   }
-  .items-fade-leave {
-    opacity: 0!important;
+  .items-fade-leave.items-fade-leave-active {
+    opacity: 0;
     transition: opacity .2s ease;
   }
 </style>
@@ -79,7 +79,8 @@ import { attachRouterRedux } from 'store/utils';
 import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
-import Transition from 'plugins/transition.jsx';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+
 import { HomeWidget } from 'modules/home/extensions';
 import { CalendarWidget } from 'modules/calendar/extensions';
 import { SettingsWidget } from 'modules/settings/extensions';
@@ -99,32 +100,47 @@ class Header extends Component {
     };
   }
   render() {
+    const home = this.props.active === 'home' ?
+      <HomeWidget key="home" className="widget" /> :
+      <div className="links-wrapper-item" key="item">home</div>;
+    const calendar = this.props.active === 'calendar' ?
+      <CalendarWidget key="calendar" className="widget" /> :
+      <div className="links-wrapper-item" key="item">calendar</div>;
+    const settings = this.props.active === 'settings' ?
+      <SettingsWidget key="settings" className="widget" /> :
+      <div className="links-wrapper-item" key="item">settings</div>;
     return (
       <div className="links">
-        <Transition duration={300}
-          switch={this.props.active}
-          className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
-          name="items-fade"
-          onClick={this.goToModule(`home/${this.props.activeHome}`)}>
-          <HomeWidget key="home" case="home" className="widget" />
-          <div className="links-wrapper-item" key="item">home</div>
-        </Transition>
-        <Transition duration={300}
-          switch={this.props.active}
-          className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '')}
-          name="items-fade"
-          onClick={this.goToModule(`calendar/${this.props.activeCalendar}`)}>
-          <CalendarWidget key="calendar" case="calendar" className="widget" />
-          <div className="links-wrapper-item" key="item">calendar</div>
-        </Transition>
-        <Transition duration={300}
-          switch={this.props.active}
-          className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
-          name="items-fade"
-          onClick={this.goToModule('settings')}>
-          <SettingsWidget key="settings" case="settings" className="widget" />
-          <div className="links-wrapper-item" key="item">settings</div>
-        </Transition>
+        <CSSTransitionGroup className={'links-wrapper ' + ((this.props.active || '').includes('home') ? 'active' : '')}
+                            component="div"
+                            transitionName="items-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={200}
+                            transitionEnterTimeout={200}
+                            transitionLeaveTimeout={200}
+                            onClick={this.goToModule(`home/${this.props.activeHome}`)}>
+          {home}
+        </CSSTransitionGroup>
+        <CSSTransitionGroup className={'links-wrapper ' + ((this.props.active || '').includes('calendar') ? 'active' : '')}
+                            component="div"
+                            transitionName="items-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={200}
+                            transitionEnterTimeout={200}
+                            transitionLeaveTimeout={200}
+                            onClick={this.goToModule(`calendar/${this.props.activeHome}`)}>
+          {calendar}
+        </CSSTransitionGroup>
+        <CSSTransitionGroup className={'links-wrapper ' + ((this.props.active || '').includes('settings') ? 'active' : '')}
+                            component="div"
+                            transitionName="items-fade"
+                            transitionAppear={true}
+                            transitionAppearTimeout={200}
+                            transitionEnterTimeout={200}
+                            transitionLeaveTimeout={200}
+                            onClick={this.goToModule(`settings/${this.props.activeHome}`)}>
+          {settings}
+        </CSSTransitionGroup>
         <div className="links-wrapper">
           <ProfileWidget className="links-wrapper-item widget" />
         </div>
