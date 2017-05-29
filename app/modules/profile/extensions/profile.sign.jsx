@@ -49,6 +49,13 @@
         justify-content: center;
 
         margin-bottom: 8px;
+        height: 35px;
+
+        .sign-wrapper {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+        }
       }
       &-social-row {
         display: flex;
@@ -100,8 +107,14 @@ import PropTypes from 'prop-types';
 import * as actions from '../actions';
 
 import { ProfileSignin, ProfileSignup, ProfileForgot } from './';
-import { VkControl, FbControl, GoogleControl } from 'uikit/controls';
+import {
+  VkControl,
+  FbControl,
+  GoogleControl,
+  SubmitButton
+} from 'uikit/controls';
 
+import Transition from 'plugins/transition.jsx';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { changeParam } from 'store/utils';
@@ -149,7 +162,7 @@ class ProfileSign extends Component {
     return (
       <div className={`profile-sign ${this.props.className || ''}`}>
         <div className="profile-sign__header">
-          <div className="profile-sign__header--label">calendar</div>
+          <div className="profile-sign__header--label">Commune</div>
         </div>
         <div className="profile-sign__switcher">
           <div className={
@@ -159,15 +172,15 @@ class ProfileSign extends Component {
             `profile-sign__switcher--item ${this.props.activeForm === 'up' ? 'profile-sign__switcher-active' : ''}`
           } onClick={ this.switch('up') }>Sign up</div>
         </div>
-        <CSSTransitionGroup className="sign-wrapper"
-                            component="div"
-                            transitionName="sign-fade"
-                            transitionAppear={true}
-                            transitionAppearTimeout={300}
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={300}>
-          {form}
-        </CSSTransitionGroup>
+        <Transition duration={300}
+                    switch={this.props.activeForm}
+                    mode="out-in"
+                    name="sign-fade">
+           <ProfileSignin key="signin" case="in" />
+           <ProfileSignup key="signup" case="up" />
+           <ProfileForgot key="forgot" case="forgot" />
+        </Transition>
+
         <div className="profile-sign__footer">
           <div className="profile-sign__footer-main-row">
               <CSSTransitionGroup className="sign-wrapper"
@@ -199,6 +212,8 @@ class ProfileSign extends Component {
       auth.auth(name).then(() => {
         return auth.provider.info();
       }).then(res => {
+        this.context.router.history.clear()
+
         console.log('profile', res);
         this.props.login(res, name);
         auth.provider.events().then(events => {
@@ -209,7 +224,6 @@ class ProfileSign extends Component {
       }).then(res => {
         console.log('users', res);
         this.props.setFriends(res, name);
-        this.context.router.history.clear()
         console.log(this.props.user);
       }).catch(err => {
         console.log(this.props.user);
@@ -222,19 +236,6 @@ class ProfileSign extends Component {
 
 ProfileSign.contextTypes = {
   router: PropTypes.object.isRequired
-}
-
-class SubmitButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div className={this.props.className}>
-        { this.props.text }
-      </div>
-    );
-  }
 }
 
 export default attachRouterRedux(ProfileSign);

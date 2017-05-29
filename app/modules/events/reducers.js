@@ -22,7 +22,7 @@ const reducers = {
       events: { ...state.events, [event.id]: event }
     };
   },
-  [REMOVE_EVENT]: (state, { id, remover }) => {
+  [REMOVE_EVENT]: (state, { id }) => {
     return {
       events: omit(state.events, id)
     };

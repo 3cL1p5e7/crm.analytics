@@ -1,19 +1,16 @@
 import createHashHistory from 'history/createHashHistory';
-import { matchPath } from 'react-router'
-import { getParamByName, changeParam } from 'store/utils'
+import { matchPath } from 'react-router';
+import { getParamByName, changeParam } from 'store/utils';
 import store from 'store';
 
 class Stack {
-  stac = null;
-  max = 10;
-  default = null;
-  _deacts = {};
-
   constructor(max, def) {
     this.stac = new Array();
     if (max && typeof max === 'number')
       this.max = Math.round(max);
     this.default = def;
+    this.max = 10;
+    this._deacts = {};
   }
 
   get last() {
@@ -41,14 +38,12 @@ class Stack {
 }
 
 class Routes {
-  _routes = {}
-  _params = {}
-  _history = null
-  stack = null;
-  _default = { routes: [], 'params': [] };
-  _deacts = {}
-
   constructor(history) {
+    this._routes = {};
+    this._params = {};
+    this._default = { routes: [], 'params': [] };
+    this._deacts = {};
+
     this._history = history;
     this._history.pushSearch = function (name, value) {
       this.push({
@@ -109,7 +104,7 @@ class Routes {
     });
     if (!match)
       return { isMatch: false };
-    this._execute(handlers, match)
+    this._execute(handlers, match);
     return { ...match, isMatch: true };
   }
   addComponentRoutes(component, router) {
@@ -229,7 +224,7 @@ class Routes {
     matched = matched || activators.length > 0;
     if (!matched) this._history.goBack();
   }
-};
+}
 const history = createHashHistory();
 const routes = new Routes(history);
 history.listen(location => routes.dispatch(location));

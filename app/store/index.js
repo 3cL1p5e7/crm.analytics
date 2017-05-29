@@ -12,6 +12,7 @@ const store = createStore(combineReducers({
   main,
   calendar,
   profile,
-  events
-}))
+  events,
+  settings
+}));
 export default store;

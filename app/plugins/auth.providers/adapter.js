@@ -1,15 +1,13 @@
 import { getParamByName } from 'store/utils';
 
 class Adapter {
-  _options = {
-    escape: /{([\s\S]+?)}/g
+  static get _tokenKey() {
+    return 'access_token';
   }
-  _clientId = null;
-  _redirectUrl = `${window.location.origin}/auth`;
-  _tokenKey = 'access_token';
-  _token = null;
-
   constructor(clientId) {
+    this._redirectUrl = `${window.location.origin}/auth`;
+    this._token = null;
+
     if (!clientId)
       throw 'Client ID is not defined';
     this._clientId = clientId;
@@ -40,9 +38,9 @@ class Adapter {
       return acc;
     }, []);
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       window.parentHandler = (href) => {
-        this._token = getParamByName(this._tokenKey, href);
+        this._token = getParamByName(Adapter._tokenKey, href);
         if (!this._token)
           reject('No received token');
         resolve();
@@ -59,6 +57,11 @@ class Adapter {
   }
 
   friends() {
+    return new Promise((resolve, reject) => {
+      reject('Method did not implemented');
+    });
+  }
+  events() {
     return new Promise((resolve, reject) => {
       reject('Method did not implemented');
     });

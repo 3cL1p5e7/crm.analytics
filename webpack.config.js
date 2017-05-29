@@ -10,11 +10,9 @@ var prod = process.env.NODE_ENV === 'production';
 module.exports = {
   context: join(__dirname, 'app'),
   entry: {
-    vendor: ["react", "react-dom", "react-hot-loader"
-      // "babel", "babel-core"
-    ],
+    vendor: ["react", "react-dom", "react-hot-loader"],
     app: [
-      './app.js'
+      './app.jsx'
     ]
   },
   output: {

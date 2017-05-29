@@ -1,14 +1,18 @@
 import Adapter from './adapter.js';
 
 class Facebook extends Adapter {
-  static _name = 'fb';
 
-  _scopes = [
-    'account',
-    'status',
-    'friends',
-    'offline'
-  ];
+  static get _name () {
+    return 'fb';
+  }
+  static get _scopes () {
+    return [
+      'account',
+      'status',
+      'friends',
+      'offline'
+    ];
+  }
 
   constructor(clientId) {
     super(clientId);
@@ -21,7 +25,7 @@ class Facebook extends Adapter {
            `&scope=${this.scope}`;
   }
   get scope() {
-    return this._scopes.join(',');
+    return Facebook._scopes.join(',');
   }
 }
 

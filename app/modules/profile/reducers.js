@@ -20,7 +20,7 @@ const reducers = {
       user
     };
   },
-  [LOG_OFF]: (state) => {
+  [LOG_OFF]: () => {
     return {
       logged: false,
       user: {}

@@ -14,7 +14,7 @@ export const attachReducers = (reducers, defaultState) => {
     if (reducers[action.type])
       return { ...state, ...reducers[action.type](state, action) };
     return state;
-  }
+  };
 };
 
 export const omit = (obj, omitKey) => {
@@ -24,20 +24,21 @@ export const omit = (obj, omitKey) => {
     }
     return result;
   }, {});
-}
+};
 
 export const getParamByName = (name, url) => {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&#]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+  if (!url)
+    url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp(`[?&#]${name}(=([^&#]*)|&|#|$)`),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
 
 export const changeParam = (search, name, value) => {
   const parsed = queryString.parse(search);
   parsed[name] = value;
   return queryString.stringify(parsed);
-}
+};

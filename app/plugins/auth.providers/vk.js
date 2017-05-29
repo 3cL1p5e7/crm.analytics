@@ -2,29 +2,33 @@ import jsonp from 'jsonp';
 import Adapter from './adapter.js';
 
 class Vk extends Adapter {
-  static _name = 'vk';
-
-  _scopes = [
-    'account',
-    'status',
-    'friends',
-    'offline'
-  ];
-  
-  _userOptions = {
-    fields: [
-      'bdate',
-      'city',
-      'connections',
-      'contacts',
-      'country',
-      'nickname',
-      'online',
-      'photo_100',
-      'photo_200_orig',
-      'sex',
-      'timezone'
-    ]
+  static get _name() {
+    return 'vk';
+  }
+  static get _scopes() {
+    return [
+      'account',
+      'status',
+      'friends',
+      'offline'
+    ];
+  }
+  static get _userOptions() {
+    return {
+      fields: [
+        'bdate',
+        'city',
+        'connections',
+        'contacts',
+        'country',
+        'nickname',
+        'online',
+        'photo_100',
+        'photo_200_orig',
+        'sex',
+        'timezone'
+      ]
+    };
   }
 
   constructor(clientId) {
@@ -40,15 +44,15 @@ class Vk extends Adapter {
   get infoUrl() {
     return `https://api.vk.com/method/users.get?v=5.64` +
            `&access_token=${this._token}` +
-           `&fields=${this._userOptions.fields.join(',')}`;
+           `&fields=${Vk._userOptions.fields.join(',')}`;
   }
   get friendsUrl() {
     return `https://api.vk.com/method/friends.get?v=5.64` +
            `&access_token=${this._token}` +
-           `&fields=${this._userOptions.fields.join(',')},online,relation`;
+           `&fields=${Vk._userOptions.fields.join(',')},online,relation`;
   }
   get scope() {
-    return this._scopes.join(',');
+    return Vk._scopes.join(',');
   }
 
   info() {

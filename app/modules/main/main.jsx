@@ -85,7 +85,6 @@
         .sidebar-fade-enter {
           transform: translate3d(-60%, 0, 0);
           opacity: 0.01;
-          transition: opacity .5s, transform .4s ease;
         }
         .sidebar-fade-leave.sidebar-fade-leave-active {
           transform: translate3d(-60%, 0, 0);
@@ -98,23 +97,22 @@
         .sidebar-fade-enter {
           transform: translate3d(60%, 0, 0);
           opacity: 0.01;
-          transition: opacity .5s, transform .4s ease;
         }
         .sidebar-fade-leave.sidebar-fade-leave-active {
+          transition: opacity .5s, transform .4s ease;
           transform: translate3d(60%, 0, 0);
           opacity: 0.01;
         }
       }
-
     }
   }
 
   .sidebar-fade-enter.sidebar-fade-enter-active {
+    transition: opacity .5s, transform .4s ease;
     will-change: transform;
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-
   .sidebar-fade-leave {
     transform: translate3d(0, 0, 0);
     opacity: 1;

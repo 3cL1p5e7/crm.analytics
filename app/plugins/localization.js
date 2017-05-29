@@ -7,8 +7,6 @@ const dict = {
   }
 };
 class Localization {
-  _name = 'ru';
-  _moment = null;
   constructor(name) {
     this._name = name;
     this._moment = moment;
@@ -24,6 +22,6 @@ class Localization {
   get moment() {
     return this._moment;
   }
-};
+}
 const locatization = new Localization('ru'); // en-au
 export default locatization;

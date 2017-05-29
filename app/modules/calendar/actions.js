@@ -3,21 +3,21 @@ import localization from 'plugins/localization';
 export const SET_ACTIVE_CALENDAR = 'SET_ACTIVE_CALENDAR';
 export const setActiveCalendar = (name) => {
   return { type: SET_ACTIVE_CALENDAR, name };
-}
+};
 
 export const SET_ACTIVE_DAY = 'SET_ACTIVE_DAY';
 export const setActiveDay = (date) => {
   return {
-    type: SET_ACTIVE_MONTH,
+    type: SET_ACTIVE_DAY,
     date,
     weeks: weeks(localization.moment(date))
   };
-}
+};
 
 export const SET_WEEKS = 'SET_WEEKS';
 export const setWeeks = (date) => {
   return { type: SET_WEEKS, weeks: weeks(localization.moment(date)) };
-}
+};
 
 const weeks = (moment) => {
   let count = 5;

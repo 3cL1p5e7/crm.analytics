@@ -2,22 +2,26 @@ import axios from 'axios';
 import Adapter from './adapter.js';
 
 class Google extends Adapter {
-  static _name = 'google';
-
-  _scopes = [
-    'https://www.googleapis.com/auth/calendar.readonly',
-    'profile',
-    'email',
-    'https://www.googleapis.com/auth/glass.location',
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    // 'https://www.googleapis.com/auth/contacts.readonly',
-    'https://www.googleapis.com/auth/user.birthday.read'
-  ];
-  _email = '';
+  static get _name () {
+    return 'google';
+  }
+  static get _scopes () {
+    return [
+      'https://www.googleapis.com/auth/calendar.readonly',
+      'profile',
+      'email',
+      'https://www.googleapis.com/auth/glass.location',
+      'https://www.googleapis.com/auth/plus.login',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      // 'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/user.birthday.read'
+    ];
+  }
 
   constructor(clientId) {
     super(clientId);
+
+    this._email = '';
   }
   
   get authUrl() {
@@ -44,13 +48,12 @@ class Google extends Adapter {
            `?access_token=${this._token}`;
   }
   get scope() {
-    return this._scopes.join(' ');
+    return Google._scopes.join(' ');
   }
 
   info() {
     return new Promise((resolve, reject) => {
       axios.get(this.infoUrl).then((resp) => {
-        console.log(resp);
         if (!resp)
           reject('No response');
         if (!resp.data)
@@ -66,7 +69,6 @@ class Google extends Adapter {
   calendar() {
     return new Promise((resolve, reject) => {
       axios.get(this.calendarUrl).then((resp) => {
-        console.log(resp);
         if (!resp)
           reject('No response');
         if (!resp.data)
@@ -80,7 +82,6 @@ class Google extends Adapter {
   events() {
     return new Promise((resolve, reject) => {
       axios.get(this.eventsUrl).then((resp) => {
-        console.log(resp);
         if (!resp)
           reject('No response');
         if (!resp.data)

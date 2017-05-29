@@ -1,12 +1,13 @@
 import entities from './entities';
 
 class Builder {
-  _classes = {}
-  tools = {
-    escapes: {
-      'Object': /{([\s\S]+?)}/g,
-      'Array': /\[([\s\S]+?)\]/g
-    }
+  static get _tools() {
+    return {
+      escapes: {
+        'Object': /{([\s\S]+?)}/g,
+        'Array': /\[([\s\S]+?)\]/g
+      }
+    };
   }
   constructor() {
     this._classes = entities;
@@ -19,11 +20,11 @@ class Builder {
   _getFieldInfo(field) {
     let entityName = false;
     let objectType = false;
-    Object.keys(this.tools.escapes).some(type => {
-      field.type.replace(this.tools.escapes[type], (match, dec) => {
+    Object.keys(Builder._tools.escapes).some(type => {
+      field.type.replace(Builder._tools.escapes[type], (match, dec) => {
         entityName = dec;
         objectType = type;
-      })
+      });
     });
     return { entityName, objectType };
   }
